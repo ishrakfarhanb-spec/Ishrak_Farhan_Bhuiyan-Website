@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "starting-out-with-data",
+    "title": "Starting Out With Data",
+    "date": "2025-07-10",
+    "excerpt": "Thoughts on learning analytics and building discipline.",
+    "content": [
+      "Getting started with data is less about tools and more about habits. Start with questions, then collect just enough data to answer them.",
+      "Pick one tool you enjoy and stick with it long enough to develop fluency. Consistency beats novelty." 
+    ]
+  },
+  {
+    "slug": "power-of-consistency",
+    "title": "The Power of Consistency",
+    "date": "2025-08-01",
+    "excerpt": "Small, consistent steps beat occasional sprints.",
+    "content": [
+      "Consistency compounds. Ten minutes a day of focused practice outperforms a burst of effort followed by long gaps.",
+      "Build a schedule you can keep on your worst days, not just your best ones." 
+    ]
+  },
+  {
+    "slug": "what-im-reading",
+    "title": "What I’m Reading",
+    "date": "2025-08-20",
+    "excerpt": "Recent books and key takeaways.",
+    "content": [
+      "A brief roundup of books that shaped my thinking this month — mixing biographies, decision-making, and a bit of fiction for balance.",
+      "Key takeaway: ideas stick when you write about them in your own words." 
+    ]
+  },
+  {
+    "slug": "ai-best-friend",
+    "title": "AI: The New Best Friend (Sorry, Human BFFs)",
+    "date": "2025-09-09",
+    "excerpt": "Why AI feels like a tireless, judgment-free best friend — and how that changes our day-to-day.",
+    "content": [
+      "Let’s face it: we’ve all had that moment where we wish our best friend could be available 24/7. Enter AI—your non-judgmental, sleep-deprived, and always present sidekick. It’s like your best friend, but it doesn’t judge you for texting at 3 AM or for not showing up to a Zoom meeting while secretly watching Netflix.",
+      "Not only will AI help you solve problems, but it can also predict your mood based on your Spotify playlist. It knows when you need that motivational speech or a random fun fact to get you through your day. It doesn’t ask for anything in return except maybe an occasional ‘thanks, GPT’ when it’s nailed the best response to your life dilemmas.",
+      "So, next time you're about to vent to a friend, try AI. It won’t need sleep, and unlike your human BFF, it won’t ghost you after one too many rants. You might even find yourself saying, ‘Sorry, human, but AI is now my number one.’ How’s that for progress?"
+    ]
+  }
+]
+
