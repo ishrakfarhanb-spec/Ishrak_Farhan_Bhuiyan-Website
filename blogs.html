@@ -26,13 +26,20 @@
     <main id="main" class="section">
       <div class="wrap flow">
         <h1>Blogs</h1>
-        <div id="blogs-list" class="flow"></div>
+        <div id="blogs-grid" class="grid cards-3"></div>
       </div>
     </main>
     <div data-include="follow-cta"></div>
     <div data-include="footer"></div>
     <script src="assets/js/includes.js" defer></script>
     <script src="assets/js/main.js" defer></script>
+    <div id="blog-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-dialog" role="document">
+        <button class="modal-close" aria-label="Close">×</button>
+        <div class="modal-body" id="blog-modal-content"></div>
+      </div>
+    </div>
+
     <script src="assets/js/lazyload.js" defer></script>
     <script src="assets/js/blogs.js" defer></script>
   </body>
