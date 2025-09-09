@@ -1,5 +1,9 @@
 .hero .eyebrow { margin-bottom: .25rem; }
 .hero .lede { margin-top: .5rem; }
+@media (max-width: 520px) {
+  .hero .cta-row { flex-wrap: wrap; }
+  .hero .cta-row .btn { flex: 1 1 100%; justify-content: center; }
+}
 
 /* Home CTA hover: alternate black/white while hovered */
 @keyframes bwPulse {
