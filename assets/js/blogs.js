@@ -12,6 +12,12 @@
     return e;
   }
 
+  function readingMinutes(post){
+    var words = (post.content||[]).join(' ').trim().split(/\s+/).filter(Boolean).length;
+    var mins = Math.max(1, Math.round(words / 200));
+    return mins + ' mins read';
+  }
+
   function renderLatest(posts){
     var wrap = document.getElementById('latest-blogs');
     if (!wrap) return;
@@ -45,7 +51,7 @@
     left.appendChild(actions);
 
     var right = el('div', {class:'hero-meta'});
-    right.appendChild(el('p', {class:'muted', text:new Date(p.date).toLocaleDateString()}));
+    right.appendChild(el('p', {class:'muted', text:new Date(p.date).toLocaleDateString() + ' • ' + readingMinutes(p)}));
 
     // If image present, set as hero background
     if (p.image) {
@@ -61,16 +67,27 @@
     if (!grid) return;
     posts.forEach(function(p){
       var a = el('a', {href: 'blogs.html#'+p.slug, class:'card'});
-      if (p.image) {
-        var media = el('div', {class:'card-media'});
-        var img = el('img', {src:p.image, alt:p.title});
-        media.appendChild(img);
-        a.appendChild(media);
-      }
+      var media = el('div', {class:'card-media'});
+      var imgSrc = p.image || 'assets/img/placeholder-wide.svg';
+      var img = el('img', {src: imgSrc, alt:p.title});
+      media.appendChild(img);
+      if (p.category) media.appendChild(el('span', {class:'badge chip-on-image', text:p.category}));
+      a.appendChild(media);
+
       var body = el('div', {class:'card-body'});
+      var meta = el('div', {class:'card-meta', text: new Date(p.date).toLocaleDateString() + ' • ' + readingMinutes(p)});
+      body.appendChild(meta);
       body.appendChild(el('h3', {class:'card-title', text:p.title}));
-      body.appendChild(el('p', {class:'muted', text:new Date(p.date).toLocaleDateString()}));
       body.appendChild(el('p', {class:'clamp-2', text:p.excerpt}));
+
+      // Optional author row if provided
+      if (p.author) {
+        var row = el('div', {class:'author-row'});
+        if (p.author.avatar) row.appendChild(el('img', {class:'avatar', src:p.author.avatar, alt:p.author.name||'Author'}));
+        if (p.author.name) row.appendChild(el('span', {class:'author-name', text:p.author.name}));
+        body.appendChild(row);
+      }
+
       a.appendChild(body);
       a.addEventListener('click', function(e){
         e.preventDefault();
