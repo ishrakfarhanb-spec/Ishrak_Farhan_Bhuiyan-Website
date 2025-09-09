@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projects — Ishrak Farhan</title>
+    <meta name="description" content="Portfolio projects with tags and details." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="/assets/img/Brand Logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/img/Brand Logo.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Projects — Ishrak Farhan" />
+    <meta property="og:description" content="Portfolio projects with tags and details." />
+    <meta property="og:image" content="/assets/img/og-default.png" />
+    <meta property="og:url" content="/projects.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="/assets/css/variables.css" />
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/components.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div data-include="header"></div>
+    <main id="main" class="section">
+      <div class="wrap">
+        <h1>Projects</h1>
+        <div class="filters">
+          <button class="btn btn-small" data-filter="all">All</button>
+          <button class="btn btn-small" data-filter="web">Web</button>
+          <button class="btn btn-small" data-filter="tools">Tools</button>
+        </div>
+        <div class="grid cards-3" id="projects-grid">
+          <article class="card" data-tags="tools">
+            <div class="card-media"><img data-src="/assets/img/Project-grid" alt="Excel Expense Tracker" class="lazy" width="800" height="450"/></div>
+            <div class="card-body">
+              <h3 class="card-title">Excel Expense Tracker</h3>
+              <p class="muted">Track daily expenses with categories & monthly summary.</p>
+              <a class="btn btn-primary btn-small" href="assets/tools/expense-tracker.csv" download>Download (CSV)</a>
+            </div>
+          </article>
+          <article class="card" data-tags="tools">
+            <div class="card-media"><img data-src="/assets/img/placeholder-wide.svg" alt="Monthly Budget Planner" class="lazy" width="800" height="450"/></div>
+            <div class="card-body">
+              <h3 class="card-title">Monthly Budget Planner</h3>
+              <p class="muted">Plan income vs. expenses and track variance.</p>
+              <a class="btn btn-primary btn-small" href="assets/tools/monthly-budget-planner.csv" download>Download (CSV)</a>
+            </div>
+          </article>
+          <article class="card" data-tags="tools">
+            <div class="card-media"><img data-src="/assets/img/placeholder-wide.svg" alt="Invoice Template" class="lazy" width="800" height="450"/></div>
+            <div class="card-body">
+              <h3 class="card-title">Invoice Template</h3>
+              <p class="muted">Simple invoice with itemized lines and totals.</p>
+              <a class="btn btn-primary btn-small" href="assets/tools/invoice-template.csv" download>Download (CSV)</a>
+            </div>
+          </article>
+          <article class="card" data-tags="tools">
+            <div class="card-media"><img data-src="/assets/img/placeholder-wide.svg" alt="Project Gantt Sheet" class="lazy" width="800" height="450"/></div>
+            <div class="card-body">
+              <h3 class="card-title">Project Gantt Sheet</h3>
+              <p class="muted">Milestones with start/end dates and status.</p>
+              <a class="btn btn-primary btn-small" href="assets/tools/project-gantt.csv" download>Download (CSV)</a>
+            </div>
+          </article>
+          <article class="card" data-tags="tools">
+            <div class="card-media"><img data-src="/assets/img/placeholder-wide.svg" alt="Grade Calculator" class="lazy" width="800" height="450"/></div>
+            <div class="card-body">
+              <h3 class="card-title">Grade Calculator</h3>
+              <p class="muted">Calculate weighted averages across assignments.</p>
+              <a class="btn btn-primary btn-small" href="assets/tools/grade-calculator.csv" download>Download (CSV)</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+    <div data-include="follow-cta"></div>
+    <div data-include="footer"></div>
+    <script src="/assets/js/includes.js" defer></script>
+    <script src="/assets/js/main.js" defer></script>
+    <script src="/assets/js/lazyload.js" defer></script>
+  </body>
+</html>

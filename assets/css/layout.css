@@ -1,0 +1,6 @@
+.hero { padding: 2rem 0 0; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1.25rem; align-items: stretch; }
+.hero-card { display: grid; grid-template-rows: auto 1fr; }
+.hero-title { font-weight: 800; }
+.cta-row { display: flex; gap: .75rem; margin-top: 1rem; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }

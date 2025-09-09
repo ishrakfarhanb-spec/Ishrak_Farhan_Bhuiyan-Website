@@ -1,0 +1,102 @@
+.card:hover 
+.card:hover 
+{ transform: translateY(-2px); transition: transform .2s ease; }
+
+.update + .update 
+{ border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; }
+
+/* Brand type (Bebas Neue) */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Brand logo sizing */
+.site-header .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.site-header .brand .brand-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .site-header .brand .brand-logo {
+    height: 32px;
+  }
+}
+
+.site-footer .brand-logo-sm {
+  height: 28px;
+  width: auto;
+  display: inline-block;
+}
+
+.site-header .brand-name {
+  font-family: 'Baron', 'Glacial Indifference', 'Bebas Neue', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  letter-spacing: .5px;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .site-header .brand-name { font-size: 18px; }
+}
+
+/* Brand link behavior */
+.site-header .brand,
+.site-header .brand:link,
+.site-header .brand:visited,
+.site-header .brand:hover,
+.site-header .brand:active {
+  text-decoration: none;
+}
+
+/* Footer brand styling */
+.site-footer .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  text-decoration: none;
+}
+.site-footer .footer-brand-name {
+  font-family: 'Baron', 'Glacial Indifference', 'Bebas Neue', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 400;
+}
+@media (max-width: 480px) {
+  .site-footer .footer-brand-name { font-size: 14px; }
+}
+
+/* Tighten space between footer brand and note */
+/* Footer bottom note */
+.site-footer .footer-bottom { text-align: center; margin-top: .5rem; }
+.site-footer .footer-bottom p { margin: .1rem 0; font-size: .85rem; color: var(--muted); }
+
+/* Follow CTA */
+.follow-cta { text-align: center; padding: 3rem 0; }
+.follow-cta .title { font-size: 1.5rem; margin-bottom: 1rem; }
+.social-list { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 1rem; }
+.social-list a { display: inline-block; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: .5rem; text-decoration: none; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+.social-list a:hover { text-decoration: none; }
+
+/* Social link hover colors */
+/* LinkedIn */
+.social-list a[aria-label="LinkedIn"]:hover,
+.social-list a[href*="linkedin.com"]:hover { background: #0A66C2; border-color: #0A66C2; color: #ffffff; }
+/* Facebook */
+.social-list a[aria-label="Facebook"]:hover,
+.social-list a[href*="facebook.com"]:hover { background: #1877F2; border-color: #1877F2; color: #ffffff; }
+/* GitHub */
+.social-list a[aria-label="GitHub"]:hover,
+.social-list a[href*="github.com"]:hover { background: #373737; border-color: #373737; color: #ffffff; }
+/* Instagram */
+.social-list a[aria-label="Instagram"]:hover,
+.social-list a[href*="instagram.com"]:hover { background: #8134AF; border-color: #8134AF; color: #ffffff; }
+/* Goodreads */
+.social-list a[aria-label="Goodreads"]:hover,
+.social-list a[href*="goodreads.com"]:hover { background: #ffbf00; border-color: #ffbf00; color: #ffffff; }

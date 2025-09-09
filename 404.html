@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page Not Found &mdash; 404</title>
+    <meta name="description" content="The page you requested was not found." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="/assets/img/Brand Logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/img/Brand Logo.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Page Not Found - 404" />
+    <meta property="og:description" content="The page you requested was not found." />
+    <meta property="og:image" content="/assets/img/og-default.png" />
+    <meta property="og:url" content="/404.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="/assets/css/variables.css" />
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/components.css" />
+    <meta http-equiv="refresh" content="6; url=/" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div data-include="header"></div>
+
+    <main id="main" class="section">
+      <div class="wrap flow">
+        <h1>Page not found</h1>
+        <p id="redirect-msg">We couldn't find that page. Redirecting to the homepage in <strong><span id="seconds">6</span>s</strong>…</p>
+        <noscript>
+          <p>If you're not redirected automatically, use the links below.</p>
+        </noscript>
+        <p>
+          <a class="btn btn-primary" href="/">Go home</a>
+          <button type="button" class="btn btn-ghost" onclick="history.back()">Go back</button>
+        </p>
+      </div>
+    </main>
+
+    <div data-include="follow-cta"></div>
+    <div data-include="footer"></div>
+
+    <script src="/assets/js/includes.js" defer></script>
+    <script src="/assets/js/main.js" defer></script>
+    <script src="/assets/js/lazyload.js" defer></script>
+    <script>
+      (function () {
+        var s = 6;
+        var el = document.getElementById('seconds');
+        if (!el) return;
+        var timer = setInterval(function () {
+          s -= 1;
+          if (s <= 0) {
+            clearInterval(timer);
+            return;
+          }
+          el.textContent = String(s);
+        }, 1000);
+      })();
+    </script>
+  </body>
+  </html>

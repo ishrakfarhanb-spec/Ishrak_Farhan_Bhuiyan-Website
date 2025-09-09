@@ -1,0 +1,12 @@
+Invoice #,Date,Bill To,,,
+INV-0001,2025-01-01,Client Name,,,
+,,Address Line 1,,,
+,,Address Line 2,,,
+
+Item,Qty,Unit Price,Tax %,Line Total
+Service A,1,100,0,=B7*C7*(1+D7/100)
+Product B,2,50,5,=B8*C8*(1+D8/100)
+,,,Subtotal,=SUM(E7:E8)
+,,,Tax,=
+,,,Total,=E9
+

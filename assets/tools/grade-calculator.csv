@@ -1,0 +1,8 @@
+Assignment,Weight %,Score %,Weighted Score
+Quiz 1,10,0,=B2*C2/100
+Quiz 2,10,0,=B3*C3/100
+Midterm,30,0,=B4*C4/100
+Project,20,0,=B5*C5/100
+Final,30,0,=B6*C6/100
+TOTAL,,,=SUM(D2:D6)
+

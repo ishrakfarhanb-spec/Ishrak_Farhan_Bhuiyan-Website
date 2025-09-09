@@ -1,0 +1,11 @@
+Category,Planned,Actual,Variance
+Income,0,0,=B2-C2
+Housing,0,0,=B3-C3
+Utilities,0,0,=B4-C4
+Food,0,0,=B5-C5
+Transport,0,0,=B6-C6
+Entertainment,0,0,=B7-C7
+Savings,0,0,=B8-C8
+Other,0,0,=B9-C9
+TOTAL,=SUM(B2:B9),=SUM(C2:C9),=B10-C10
+
