@@ -1,21 +1,21 @@
 /* Blogs page creative typography and layout */
 
-/* Use Inter for comfortable reading and Playfair Display for headings */
+/* Minimal typography: use system sans stack (fast, neutral) */
 body {
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
 }
 
 /* Page title */
 h1, .blogs-title {
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-weight: 700;
-  letter-spacing: .3px;
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: .2px;
   text-transform: uppercase;
 }
 
 /* Blog tiles */
 #blogs-grid .card-title {
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-family: inherit;
   font-weight: 700;
   font-size: clamp(1.05rem, 2.2vw, 1.25rem);
 }
@@ -31,8 +31,8 @@ h1, .blogs-title {
   line-height: 1.75;
 }
 .modal-body h2 {
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  font-family: inherit;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   margin: 0 0 .25rem;
 }
 .modal-body p { margin: .75rem 0; }
@@ -40,11 +40,11 @@ h1, .blogs-title {
 /* Drop cap effect for the first paragraph */
 .modal-body p:first-of-type::first-letter {
   float: left;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-size: 3rem;
+  font-family: inherit;
+  font-size: 2.4rem;
   line-height: .9;
   padding-right: .25rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 /* Respect dark theme variables */
@@ -54,7 +54,7 @@ h1, .blogs-title {
 .blog-hero { overflow: hidden; border-radius: var(--radius); }
 .blog-hero-inner { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; padding: 1.25rem; background: linear-gradient(180deg, color-mix(in srgb, var(--brand, var(--text)), transparent 94%), transparent), url('../img/placeholder-wide.svg'); background-size: cover; background-position: center; min-height: 220px; }
 @media (max-width: 800px){ .blog-hero-inner { grid-template-columns: 1fr; } }
-.blog-hero .hero-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.3rem, 3.2vw, 2rem); margin: .25rem 0; }
+.blog-hero .hero-title { font-family: inherit; font-size: clamp(1.2rem, 3vw, 1.8rem); margin: .25rem 0; }
 .badge { display: inline-block; padding: .25rem .6rem; border-radius: 999px; background: color-mix(in srgb, var(--text), transparent 80%); color: var(--text); border: 1px solid var(--border); font-size: .8rem; }
 .hero-actions { margin-top: .5rem; }
 .hero-meta { display: flex; align-items: flex-end; justify-content: flex-end; }
