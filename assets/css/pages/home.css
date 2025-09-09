@@ -5,6 +5,13 @@
   .hero .cta-row .btn { flex: 1 1 100%; justify-content: center; }
 }
 
+/* Override global H1 spacing on home hero */
+.hero .hero-title {
+  margin: 0; /* remove the global 2cm bottom gap */
+  text-transform: none; /* keep text as authored */
+}
+.hero .hero-title + .hero-title { margin-top: 0; }
+
 /* Home CTA hover: alternate black/white while hovered */
 @keyframes bwPulse {
   0% { background: #000; color: #fff; border-color: #000; }
