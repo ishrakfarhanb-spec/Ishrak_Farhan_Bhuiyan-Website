@@ -23,3 +23,6 @@ This site is deployed via GitHub Pages from the `main` branch.
 
 ### Verify
 - Visit `https://www.ishrakfarhan-b.com` after DNS propagates (5–30 minutes, up to 24h).
+
+### Apex redirect fallback
+- A lightweight JS fallback redirects `ishrakfarhan-b.com` → `www.ishrakfarhan-b.com` in `assets/js/includes.js`. This is only a fallback; prefer a registrar-level redirect for best SEO and speed.
