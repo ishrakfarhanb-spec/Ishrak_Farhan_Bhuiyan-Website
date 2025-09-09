@@ -1,15 +1,16 @@
-{
+﻿{
   "name": "Ishrak Farhan",
   "short_name": "I Site",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0a0a0a",
   "icons": [
     {
-      "src": "/assets/img/Brand Logo.png",
+      "src": "assets/img/Brand Logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
+
