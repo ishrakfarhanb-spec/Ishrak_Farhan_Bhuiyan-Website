@@ -1,28 +1,16 @@
 # Ishrak_Farhan_Bhuiyan-Website
 Designed and developed to showcase my skills, projects, and professional experience. The website is a simple yet elegant portfolio built with HTML, CSS, and JavaScript, highlighting my work in data analysis, web development, and other areas of expertise. It includes sections like About Me, Projects, Resume, and Contact.
 
-## Deployment (GitHub Pages + Custom Domain)
+## Deployment (GitHub Pages project site)
 
-This site is deployed via GitHub Pages from the `main` branch.
+This site is deployed to GitHub Pages from the `main` branch using the included GitHub Actions workflow.
 
-### Branch settings
-- Settings → Pages → Source: `Deploy from a branch`
-- Branch: `main` and Folder: `/ (root)`
+### Where it lives
+- URL: https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/
 
-### Custom domain
-- Domain: `www.ishrakfarhan-b.com`
-- Root file `CNAME` contains the domain (required by GitHub Pages).
-- `.nojekyll` is present to prevent Jekyll processing and serve files/folders starting with underscores.
+### Settings
+- Settings ? Pages ? Source: GitHub Actions
+- `.nojekyll` present to serve static files as-is.
 
-### DNS records (at registrar)
-- CNAME: host `www` → `ishrakfarhanb-spec.github.io`
-- Optional: Redirect apex `ishrakfarhan-b.com` → `https://www.ishrakfarhan-b.com`
-
-### HTTPS
-- After Pages recognizes the domain, enable "Enforce HTTPS" in Settings → Pages.
-
-### Verify
-- Visit `https://www.ishrakfarhan-b.com` after DNS propagates (5–30 minutes, up to 24h).
-
-### Apex redirect fallback
-- A lightweight JS fallback redirects `ishrakfarhan-b.com` → `www.ishrakfarhan-b.com` in `assets/js/includes.js`. This is only a fallback; prefer a registrar-level redirect for best SEO and speed.
+### Notes
+- All asset and page links use relative paths (e.g., `assets/...`, `about.html`) so the site works correctly under the project subpath.

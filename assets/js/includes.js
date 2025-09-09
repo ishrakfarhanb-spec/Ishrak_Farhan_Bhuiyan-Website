@@ -1,23 +1,9 @@
 // Simple HTML partials loader
-// Redirect apex domain to www (fallback when registrar redirect is unavailable)
 ;(function () {
-  try {
-    var apex = 'ishrakfarhan-b.com';
-    var preferred = 'www.ishrakfarhan-b.com';
-    var host = (location.hostname || '').toLowerCase();
-    if (host === apex) {
-      var dest = 'https://' + preferred + location.pathname + location.search + location.hash;
-      // Use replace to avoid creating back entries in history
-      location.replace(dest);
-      return; // stop executing rest of this file on apex
-    }
-  } catch (e) { /* no-op */ }
-
-  (function () {
   function load(includeEl) {
     var name = includeEl.getAttribute('data-include');
     if (!name) return Promise.resolve();
-    var url = '/assets/partials/' + name + '.html';
+    var url = 'assets/partials/' + name + '.html';
     return fetch(url, { credentials: 'same-origin' })
       .then(function (res) { return res.text(); })
       .then(function (html) { includeEl.outerHTML = html; })
@@ -40,5 +26,4 @@
       if (typeof window.initUI === 'function') window.initUI();
     });
   });
-  })();
 })();
