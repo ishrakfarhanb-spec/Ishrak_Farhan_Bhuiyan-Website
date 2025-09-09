@@ -30,7 +30,20 @@
     <div data-include="header"></div>
     <main id="main" class="section">
       <div class="wrap flow">
-        <h1>Blogs</h1>
+        <section id="blog-hero" class="blog-hero card" aria-label="Featured post"></section>
+        <h1 class="blogs-title">BLOGS</h1>
+        <div class="blog-toolbar">
+          <div class="chips">
+            <button class="chip is-active" type="button" data-filter="all">All</button>
+          </div>
+          <label class="sort">
+            <span>Sort by:</span>
+            <select id="blog-sort">
+              <option value="newest" selected>Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </label>
+        </div>
         <div id="blogs-grid" class="grid cards-3"></div>
       </div>
     </main>

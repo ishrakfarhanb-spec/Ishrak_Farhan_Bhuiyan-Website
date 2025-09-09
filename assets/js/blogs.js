@@ -28,6 +28,30 @@
     });
   }
 
+  function renderFeatured(posts){
+    var hero = document.getElementById('blog-hero');
+    if (!hero || !posts.length) return;
+    var p = posts[0];
+    hero.innerHTML = '';
+    var inner = el('div', {class:'blog-hero-inner'});
+    var left = el('div', {class:'hero-copy'});
+    left.appendChild(el('span', {class:'badge', text:'Featured'}));
+    left.appendChild(el('h2', {class:'hero-title', text:p.title}));
+    left.appendChild(el('p', {class:'muted', text:p.excerpt}));
+    var actions = el('div', {class:'hero-actions'});
+    var read = el('a', {href:'blogs.html#'+p.slug, class:'btn btn-primary', text:'Read'});
+    read.addEventListener('click', function(e){ e.preventDefault(); openModal(p); history.replaceState(null,'','#'+p.slug); });
+    actions.appendChild(read);
+    left.appendChild(actions);
+
+    var right = el('div', {class:'hero-meta'});
+    right.appendChild(el('p', {class:'muted', text:new Date(p.date).toLocaleDateString()}));
+
+    inner.appendChild(left);
+    inner.appendChild(right);
+    hero.appendChild(inner);
+  }
+
   function renderGrid(posts){
     var grid = document.getElementById('blogs-grid');
     if (!grid) return;
@@ -87,8 +111,20 @@
       .then(function(data){ 
         var posts = (data||[]).slice().sort(byDateDesc);
         renderLatest(posts);
+        renderFeatured(posts);
         renderGrid(posts);
         bindModalControls();
+        // Sorting
+        var sel = document.getElementById('blog-sort');
+        if (sel && !sel.dataset.bound){
+          sel.addEventListener('change', function(){
+            var sorted = posts.slice().sort(byDateDesc);
+            if (sel.value === 'oldest') sorted.reverse();
+            document.getElementById('blogs-grid').innerHTML='';
+            renderGrid(sorted);
+          });
+          sel.dataset.bound = '1';
+        }
         // Open from hash if present
         var slug = (location.hash||'').replace(/^#/,'');
         if (slug) {
