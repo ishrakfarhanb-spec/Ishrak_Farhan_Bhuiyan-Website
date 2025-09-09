@@ -47,6 +47,10 @@
     var right = el('div', {class:'hero-meta'});
     right.appendChild(el('p', {class:'muted', text:new Date(p.date).toLocaleDateString()}));
 
+    // If image present, set as hero background
+    if (p.image) {
+      hero.style.setProperty('--hero-image', 'url("'+p.image+'")');
+    }
     inner.appendChild(left);
     inner.appendChild(right);
     hero.appendChild(inner);
@@ -57,6 +61,12 @@
     if (!grid) return;
     posts.forEach(function(p){
       var a = el('a', {href: 'blogs.html#'+p.slug, class:'card'});
+      if (p.image) {
+        var media = el('div', {class:'card-media'});
+        var img = el('img', {src:p.image, alt:p.title});
+        media.appendChild(img);
+        a.appendChild(media);
+      }
       var body = el('div', {class:'card-body'});
       body.appendChild(el('h3', {class:'card-title', text:p.title}));
       body.appendChild(el('p', {class:'muted', text:new Date(p.date).toLocaleDateString()}));
