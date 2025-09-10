@@ -26,6 +26,17 @@
     </article>`;
   }
 
+  function sortByDateDesc(list){
+    return (Array.isArray(list) ? [...list] : []).sort((a,b)=>{
+      const da = Date.parse(a && a.date);
+      const db = Date.parse(b && b.date);
+      const va = isNaN(da) ? -Infinity : da;
+      const vb = isNaN(db) ? -Infinity : db;
+      if(vb===va) return 0;
+      return vb - va;
+    });
+  }
+
   async function init(){
     const el = document.getElementById(containerId);
     if(!el) return;
@@ -33,7 +44,7 @@
       const res = await fetch(dataUrl, { cache: 'no-cache' });
       if(!res.ok) throw new Error('Bad status '+res.status);
       const items = await res.json();
-      const latest = (Array.isArray(items) ? items : []).slice(0,3);
+      const latest = sortByDateDesc(items).slice(0,3);
       el.innerHTML = latest.map(toCard).join('');
     }catch(err){
       el.innerHTML = `<p class="muted">Could not load latest blogs. <a href="${blogBase}" target="_blank" rel="noopener">Visit the blog →</a></p>`;
@@ -43,4 +54,3 @@
 
   document.addEventListener('DOMContentLoaded', init);
 })();
-
