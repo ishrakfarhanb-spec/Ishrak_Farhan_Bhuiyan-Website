@@ -69,6 +69,11 @@
       tile.addEventListener('keydown', function(e){ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); var t=findBrandEl(); setActive(tile); if (t) { t.classList.add('highlight'); t.scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(function(){ t.classList.remove('highlight'); }, 1200); } } });
       tile.dataset.bound = 'true';
     });
+
+    // Ensure legacy links to removed `blogs/` directory point to the new hub
+    try {
+      document.querySelectorAll('a[href="blogs/"]').forEach(function(a){ a.setAttribute('href','blogs-hub.html'); });
+    } catch(e) { /* no-op */ }
   }
 
   window.initUI = initUI;
