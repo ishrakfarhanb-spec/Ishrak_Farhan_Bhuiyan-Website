@@ -27,7 +27,7 @@
     const nav = document.querySelector('.site-header .site-nav');
     const list = document.getElementById('nav-list');
     if (btn && nav && list && !btn.dataset.bound) {
-      const mq = window.matchMedia('(max-width: 800px)');
+      const mq = window.matchMedia('(max-width: 900px)');
       function closeMenu(){
         nav.classList.remove('open');
         nav.dataset.open = 'false';
@@ -47,7 +47,7 @@
       }
       btn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu(); });
       if (mq && mq.addEventListener) { mq.addEventListener('change', function(e){ if (!e.matches) closeMenu(); }); }
-      window.addEventListener('resize', function(){ if (window.innerWidth > 800) closeMenu(); });
+      window.addEventListener('resize', function(){ if (window.innerWidth > 900) closeMenu(); });
       // Close on nav link click
       list.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
       btn.dataset.bound = 'true';
