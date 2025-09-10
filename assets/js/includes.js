@@ -3,9 +3,15 @@
   function load(includeEl) {
     var name = includeEl.getAttribute('data-include');
     if (!name) return Promise.resolve();
-    var url = 'assets/partials/' + name + '.html';
-    return fetch(url, { credentials: 'same-origin' })
-      .then(function (res) { return res.text(); })
+    var primary = 'assets/partials/' + name + '.html';
+    var fallback = '../assets/partials/' + name + '.html';
+    function fetchText(url){
+      return fetch(url, { credentials: 'same-origin' }).then(function(res){
+        if (!res.ok) throw new Error('HTTP '+res.status);
+        return res.text();
+      });
+    }
+    return fetchText(primary).catch(function(){ return fetchText(fallback); })
       .then(function (html) { includeEl.outerHTML = html; })
       .catch(function () { /* fail silent */ });
   }

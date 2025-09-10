@@ -27,7 +27,7 @@
           el('h3', {class:'card-title', text:p.title}),
           el('p', {class:'muted', text:new Date(p.date).toLocaleDateString()}),
           el('p', {text:p.excerpt}),
-          el('a', {class:'btn btn-link', href:'blogs.html#'+p.slug, text:'Read'})
+          el('a', {class:'btn btn-link', href:'blogs/#'+p.slug, text:'Read'})
         ])
       ]);
       wrap.appendChild(card);
@@ -45,7 +45,7 @@
     left.appendChild(el('h2', {class:'hero-title', text:p.title}));
     left.appendChild(el('p', {class:'muted', text:p.excerpt}));
     var actions = el('div', {class:'hero-actions'});
-    var read = el('a', {href:'blogs.html#'+p.slug, class:'btn btn-primary', text:'Read'});
+    var read = el('a', {href:'blogs/#'+p.slug, class:'btn btn-primary', text:'Read'});
     read.addEventListener('click', function(e){ e.preventDefault(); openModal(p); history.replaceState(null,'','#'+p.slug); });
     actions.appendChild(read);
     left.appendChild(actions);
@@ -66,7 +66,7 @@
     var grid = document.getElementById('blogs-grid');
     if (!grid) return;
     posts.forEach(function(p){
-      var a = el('a', {href: 'blogs.html#'+p.slug, class:'card'});
+      var a = el('a', {href: 'blogs/#'+p.slug, class:'card'});
       var media = el('div', {class:'card-media'});
       var imgSrc = p.image || 'assets/img/placeholder-wide.svg';
       var img = el('img', {src: imgSrc, alt:p.title});
@@ -165,3 +165,4 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load, {once:true});
   else load();
 })();
+
