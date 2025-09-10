@@ -22,3 +22,29 @@
 .hero .cta-row .btn:hover {
   animation: bwPulse 0.8s steps(1, end) infinite;
 }
+
+/* Portrait background variant for home hero */
+.hero.hero--portrait {
+  /* Provide the image via inline style or default here */
+  background-image: var(--hero-image, url('assets/img/home-portrait.jpg'));
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+  min-height: 70vh;
+}
+
+.hero.hero--portrait .hero-card { display: none; }
+
+/* Keep content away from the right side on large screens */
+@media (min-width: 901px) {
+  .hero.hero--portrait .hero-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* On small screens, keep image to the right/bottom to avoid overlap */
+@media (max-width: 900px) {
+  .hero.hero--portrait {
+    background-position: right bottom;
+    background-size: 70vw auto;
+    padding-bottom: 28vh; /* reserve space under text */
+  }
+}
