@@ -90,10 +90,10 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 .form-note code { background: var(--border); padding: .15rem .35rem; border-radius: 4px; }
 .filters { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
 
-/* Theme toggle: fixed top-right */
+/* Theme toggle: fixed bottom-right */
 .theme-toggle {
   position: fixed;
-  top: 12px;
+  bottom: 12px;
   right: 12px;
   z-index: 200;
   background: var(--card);
