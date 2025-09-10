@@ -6,32 +6,60 @@
 
     const toggle = document.getElementById('theme-toggle');
     if (toggle && !toggle.dataset.bound) {
+      const setLabel = function(){
+        toggle.textContent = 'Toggle Theme';
+        toggle.setAttribute('aria-label', 'Toggle Theme');
+        toggle.setAttribute('title', 'Toggle Theme');
+        const cur = root.getAttribute('data-theme') === 'dark' ? 'true' : 'false';
+        toggle.setAttribute('aria-pressed', cur);
+      };
+      setLabel();
       toggle.addEventListener('click', function () {
         const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         root.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
+        setLabel();
       });
       toggle.dataset.bound = 'true';
     }
 
     const btn = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.site-header .site-nav');
     const list = document.getElementById('nav-list');
-    if (btn && list && !btn.dataset.bound) {
-      btn.addEventListener('click', function () {
+    if (btn && nav && list && !btn.dataset.bound) {
+      const mq = window.matchMedia('(max-width: 800px)');
+      function closeMenu(){
+        nav.classList.remove('open');
+        nav.dataset.open = 'false';
+        btn.setAttribute('aria-expanded', 'false');
+        document.removeEventListener('click', onDocClick);
+      }
+      function onDocClick(e){ if (!nav.contains(e.target)) closeMenu(); }
+      function toggleMenu(){
         const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        list.classList.toggle('open');
-      });
+        if (expanded) { closeMenu(); }
+        else {
+          nav.classList.add('open');
+          nav.dataset.open = 'true';
+          btn.setAttribute('aria-expanded', 'true');
+          setTimeout(function(){ document.addEventListener('click', onDocClick); }, 0);
+        }
+      }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu(); });
+      if (mq && mq.addEventListener) { mq.addEventListener('change', function(e){ if (!e.matches) closeMenu(); }); }
+      window.addEventListener('resize', function(){ if (window.innerWidth > 800) closeMenu(); });
+      // Close on nav link click
+      list.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
       btn.dataset.bound = 'true';
     }
 
     const path = window.location.pathname.replace(/\/index\.html$/, '/');
     const navLinks = document.querySelectorAll('.site-nav a');
-    navLinks.forEach(function (a) { a.classList.remove('active'); });
+    navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
     navLinks.forEach(function (a) {
       if (!a.getAttribute('href')) return;
       const href = new URL(a.href, location.origin).pathname;
-      if (href === path) a.classList.add('active');
+      if (href === path) a.setAttribute('aria-current', 'page');
     });
 
     const grid = document.getElementById('projects-grid');
