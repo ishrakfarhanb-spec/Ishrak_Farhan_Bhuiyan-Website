@@ -1,4 +1,4 @@
-;(function () {
+﻿;(function () {
   function initUI() {
     const root = document.documentElement;
     const saved = localStorage.getItem('theme');
@@ -49,7 +49,7 @@
       });
     }
 
-    // Interactive tiles → highlight corresponding right-side info card
+    // Interactive tiles â†’ highlight corresponding right-side info card
     document.querySelectorAll('.xp-split .tile').forEach(function (tile) {
       if (tile.dataset.bound) return;
       function findBrandEl() {
@@ -70,10 +70,7 @@
       tile.dataset.bound = 'true';
     });
 
-    // Ensure legacy links to removed `blogs/` directory point to the new hub
-    try {
-      document.querySelectorAll('a[href="blogs/"]').forEach(function(a){ a.setAttribute('href','blogs-hub.html'); });
-    } catch(e) { /* no-op */ }
+    
   }
 
   window.initUI = initUI;
@@ -111,3 +108,5 @@
   ready(initUI);
   window.addEventListener('partials:ready', initUI);
 })();
+
+
