@@ -7,10 +7,11 @@
   --border: #e5e7eb;
   --primary: #111827;
   --primary-contrast: #ffffff;
-  --brand: #0f172a;
+  /* Align brand and wrap with Blogs site */
+  --brand: #111827;
   --radius: 16px;
   --shadow: 0 8px 24px rgba(0,0,0,.08);
-  --wrap: 1120px;
+  --wrap: min(1200px, 94vw);
 }
 
 [data-theme="dark"] 
@@ -22,6 +23,7 @@
   --border: #1f2937;
   --primary: #f9fafb;
   --primary-contrast: #0a0a0a;
-  --brand: #e5e7eb;
+  /* Use Blogs' dark brand for consistent header/footer accents */
+  --brand: #2563eb;
   --shadow: 0 12px 36px rgba(0,0,0,.6);
 }
