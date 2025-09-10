@@ -4,24 +4,7 @@
     const saved = localStorage.getItem('theme');
     if (saved) root.setAttribute('data-theme', saved);
 
-    const toggle = document.getElementById('theme-toggle');
-    if (toggle && !toggle.dataset.bound) {
-      const setLabel = function(){
-        toggle.textContent = 'Toggle Theme';
-        toggle.setAttribute('aria-label', 'Toggle Theme');
-        toggle.setAttribute('title', 'Toggle Theme');
-        const cur = root.getAttribute('data-theme') === 'dark' ? 'true' : 'false';
-        toggle.setAttribute('aria-pressed', cur);
-      };
-      setLabel();
-      toggle.addEventListener('click', function () {
-        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-        setLabel();
-      });
-      toggle.dataset.bound = 'true';
-    }
+    // Theme toggle handled by assets/js/theme.js to match Blogs site
 
     const btn = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.site-header .site-nav');
