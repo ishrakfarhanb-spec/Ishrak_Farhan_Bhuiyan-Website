@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blogs Hub | Tools & Craft Style</title>
+    <meta name="description" content="Magazine-style blog hub with sidebar and two-column feed." />
+    <link rel="icon" href="assets/img/Brand Logo.png" type="image/png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Standalone styles: intentionally not using site-wide CSS -->
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #0a0a0a;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --hover: #111827;
+        --brand: #111827;
+        --radius: 12px;
+        --wrap: min(1200px, 92vw);
+      }
+      html, body { height: 100%; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: var(--bg);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.55;
+      }
+
+      /* Top nav */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255,255,255,0.85);
+        -webkit-backdrop-filter: saturate(180%) blur(10px);
+        backdrop-filter: saturate(180%) blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+      .topbar-inner { max-width: var(--wrap); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+      .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+      .brand .logo { width: 28px; height: 28px; border-radius: 8px; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+      .brand span { font-weight: 700; letter-spacing: 0.2px; }
+      .nav { display: flex; gap: 22px; align-items: center; }
+      .nav a { color: var(--text); text-decoration: none; font-size: 14px; }
+      .cta { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 14px; }
+      .cta.primary { background: #111827; color: #fff; border-color: #111827; }
+
+      /* Layout: sidebar + feed */
+      .shell { max-width: var(--wrap); margin: 0 auto; padding: 32px 0 64px; display: grid; grid-template-columns: 260px 1fr; gap: 32px; }
+
+      aside.sidebar { position: relative; }
+      .sticky { position: sticky; top: 76px; }
+      .sidebar h1 { font-size: 44px; line-height: 1.05; margin: 12px 0 4px; font-weight: 800; letter-spacing: -0.02em; }
+      .sidebar .ampersand { font-family: Georgia, "Times New Roman", serif; font-style: italic; opacity: 0.9; }
+      .sidebar .sub { color: var(--muted); font-size: 14px; margin: 8px 0 18px; }
+      .sidebar hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+      .sidebar h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 0 0 10px; }
+      .filters { display: grid; gap: 8px; }
+      .filters button { text-align: left; background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 8px 10px; color: var(--text); cursor: pointer; font-size: 14px; }
+      .filters button:hover { background: #f9fafb; }
+      .filters button.active { background: #111827; color: #fff; border-color: #111827; }
+
+      /* Feed grid */
+      .feed { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+      .card { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: #fff; }
+      .card-media { aspect-ratio: 16 / 9; overflow: hidden; background: #f3f4f6; }
+      .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .card-body { padding: 16px; display: grid; gap: 6px; }
+      .eyebrow { font-size: 12px; color: var(--muted); text-transform: none; }
+      .card-title { font-size: 22px; line-height: 1.25; margin: 0; }
+      .card-desc { color: #374151; font-size: 15px; margin: 0 0 6px; }
+      .byline { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; }
+      .avatar { width: 28px; height: 28px; border-radius: 999px; background: #e5e7eb; display: inline-block; }
+      .card:hover .card-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+      /* Utilities */
+      .muted { color: var(--muted); }
+
+      /* Responsive */
+      @media (max-width: 1000px) {
+        .shell { grid-template-columns: 1fr; }
+        .feed { grid-template-columns: 1fr; }
+        .sticky { position: static; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar" role="banner">
+      <div class="topbar-inner">
+        <a class="brand" href="#">
+          <div class="logo" aria-hidden="true">B</div>
+          <span>Blogs Hub</span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#" aria-label="Request a demo">Demo</a>
+          <a href="#" aria-label="Log in">Log in</a>
+          <a class="cta primary" href="#" aria-label="Get started">Get Started</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell" id="main">
+      <aside class="sidebar" aria-labelledby="sidebar-title">
+        <div class="sticky">
+          <h1 id="sidebar-title">Tools <span class="ampersand">&</span> Craft</h1>
+          <p class="sub">Thoughts on the future of work, from people and teams creating it.</p>
+          <hr />
+          <h3>Latest</h3>
+          <div class="filters" role="tablist" aria-label="Categories">
+            <button class="active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button data-filter="hq" role="tab" aria-selected="false">Notion HQ</button>
+            <button data-filter="teams" role="tab" aria-selected="false">For Teams</button>
+            <button data-filter="tech" role="tab" aria-selected="false">Tech</button>
+            <button data-filter="inspiration" role="tab" aria-selected="false">Inspiration</button>
+            <button data-filter="pioneers" role="tab" aria-selected="false">Pioneers</button>
+            <button data-filter="first-block" role="tab" aria-selected="false">First Block</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="feed" aria-live="polite">
+        <!-- Example cards; replace with real posts later -->
+        <article class="card" data-tags="hq inspiration">
+          <div class="card-media">
+            <img src="assets/img/placeholder-wide.svg" alt="Vintage tech assortment" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow">Notion HQ</span>
+            <h2 class="card-title">AI is the new plastic</h2>
+            <p class="card-desc">From kitchens to cars, AI is quietly infusing everyday tools — reshaping craft and workflows in the process.</p>
+            <div class="byline"><span class="avatar" aria-hidden="true"></span> <span>Linus Lee · Editor at Large</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-tags="teams hq">
+          <div class="card-media">
+            <img src="assets/img/placeholder-wide.svg" alt="Illustration of teammates collaborating" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow">For Teams</span>
+            <h2 class="card-title">Harvard Business Review: How AI reshapes knowledge management</h2>
+            <p class="card-desc">What changes when every teammate has an assistant that never sleeps?</p>
+            <div class="byline"><span class="avatar" aria-hidden="true"></span> <span>F. Khosrowshahi · CTO</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-tags="tech">
+          <div class="card-media">
+            <img src="assets/img/placeholder-wide.svg" alt="Circuit board macro" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow">Tech</span>
+            <h2 class="card-title">Why small tools compound</h2>
+            <p class="card-desc">Tiny scripts, outsized leverage: the quiet economics of developer ergonomics.</p>
+            <div class="byline"><span class="avatar" aria-hidden="true"></span> <span>Casey · Staff Engineer</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-tags="inspiration">
+          <div class="card-media">
+            <img src="assets/img/placeholder-wide.svg" alt="Notebook and pen on desk" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow">Inspiration</span>
+            <h2 class="card-title">A system for focused notes</h2>
+            <p class="card-desc">How a lightweight structure turns scattered ideas into drafts you can ship.</p>
+            <div class="byline"><span class="avatar" aria-hidden="true"></span> <span>Amal · Writer</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-tags="pioneers">
+          <div class="card-media">
+            <img src="assets/img/placeholder-wide.svg" alt="Portrait sketch" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow">Pioneers</span>
+            <h2 class="card-title">The craft of clear thinking</h2>
+            <p class="card-desc">Lessons from builders who kept their tools sharp and opinions flexible.</p>
+            <div class="byline"><span class="avatar" aria-hidden="true"></span> <span>Maya · Editor</span></div>
+          </div>
+        </article>
+
+        <article class="card" data-tags="first-block tech">
+          <div class="card-media">
+            <img src="assets/img/placeholder-wide.svg" alt="Blocks and diagrams" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow">First Block</span>
+            <h2 class="card-title">Start with a block, not a blueprint</h2>
+            <p class="card-desc">Why shipping the first unit is the best way to design the tenth.</p>
+            <div class="byline"><span class="avatar" aria-hidden="true"></span> <span>Ravi · PM</span></div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      // Simple category filtering for the sidebar buttons
+      const buttons = document.querySelectorAll('.filters button');
+      const cards = document.querySelectorAll('.card');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected','true');
+          const key = btn.dataset.filter;
+          cards.forEach(card => {
+            const visible = key === 'all' || card.dataset.tags.split(/\s+/).includes(key);
+            card.style.display = visible ? '' : 'none';
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
