@@ -25,8 +25,11 @@
 
 /* Portrait background variant for home hero */
 .hero.hero--portrait {
-  /* Provide the image via inline style or default here */
-  background-image: var(--hero-image, url('assets/img/home-portrait.jpg'));
+  /* Prefer WebP if available, fall back to JPG; allow override via --hero-image */
+  background-image: var(--hero-image, image-set(
+      url('assets/img/home-portrait.webp') type('image/webp') 1x,
+      url('assets/img/home-portrait.jpg') type('image/jpeg') 1x
+  ));
   background-repeat: no-repeat;
   background-position: right center;
   background-size: contain;
