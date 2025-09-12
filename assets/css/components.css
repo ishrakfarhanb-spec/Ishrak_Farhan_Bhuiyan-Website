@@ -150,15 +150,37 @@
   height: 36px;
   border: none;
   background: transparent;
-  align-items: center;
-  /* Stack bars vertically on mobile when display becomes inline-flex */
+  display: none; /* shown on mobile via media query below */
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 8px; /* space between bars */
-  padding: 6px 4px;
+  /* explicit line width to match site */
+  --burger-bar-width: 36px;
+  padding: 0; /* let bars control their own width */
   cursor: pointer;
 }
-.nav-toggle span { display: block; width: 100%; height: 4px; background: currentColor; border-radius: 999px; align-self: stretch; }
+/* Use blog-style clean bars */
+.nav-toggle span:not(.sr-only) {
+  position: static; /* override base.css absolute positioning */
+  display: block;
+  width: var(--burger-bar-width);
+  height: 4px;
+  background: currentColor;
+  border-radius: 999px;
+}
+/* Ensure the accessible label stays visually hidden */
+.nav-toggle .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
 .nav-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 /* Mobile dropdown */

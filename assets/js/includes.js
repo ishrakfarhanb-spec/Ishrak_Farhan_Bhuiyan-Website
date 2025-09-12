@@ -28,6 +28,8 @@
     var includes = Array.prototype.slice.call(document.querySelectorAll('[data-include]'));
     if (includes.length === 0) return;
     Promise.all(includes.map(load)).then(function () {
+      // Mark readiness and notify listeners; some scripts may attach later.
+      window.__partialsReady = true;
       window.dispatchEvent(new Event('partials:ready'));
       if (typeof window.initUI === 'function') window.initUI();
     });

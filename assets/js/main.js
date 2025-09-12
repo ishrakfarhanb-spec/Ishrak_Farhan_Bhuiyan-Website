@@ -118,6 +118,8 @@
 
   ready(initUI);
   window.addEventListener('partials:ready', initUI);
+  // If partials already loaded before this script, initialize now
+  if (window.__partialsReady) initUI();
 })();
 
 

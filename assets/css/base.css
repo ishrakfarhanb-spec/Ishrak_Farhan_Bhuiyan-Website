@@ -23,7 +23,7 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 .btn { display: inline-flex; align-items: center; gap: .5rem; border-radius: 999px; border: 1px solid var(--border); padding: .6rem 1rem; text-decoration: none; }
 .btn:hover { text-decoration: none; transform: translateY(-1px); }
 .btn:active { transform: translateY(0); }
-.btn-primary { background: var(--primary); color: var(--primary-contrast); border-color: transparent; }
+.btn-primary { background: var(--brand); color: #fff; border-color: var(--brand); }
 .btn-ghost { background: transparent; color: var(--text); }
 .btn-link { padding: 0; border: 0; text-decoration: underline; border-radius: 0; }
 .btn-small { padding: .4rem .8rem; font-size: .875rem; }
