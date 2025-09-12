@@ -151,6 +151,8 @@
   border: none;
   background: transparent;
   align-items: center;
+  /* Stack bars vertically on mobile when display becomes inline-flex */
+  flex-direction: column;
   justify-content: center;
   gap: 8px; /* space between bars */
   padding: 6px 4px;
