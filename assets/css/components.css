@@ -124,7 +124,7 @@
 .social-list a[href*="goodreads.com"]:hover { background: #ffbf00; border-color: #ffbf00; color: #ffffff; }
 
 /* Match Blogs site header/footer layout */
-.site-header { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.9); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(8px); }
+.site-header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg), transparent 10%); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(8px); }
 .header-inner { max-width: var(--wrap); margin: 0 auto; padding: 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: auto; }
 .site-nav { display: flex; align-items: center; }
 .site-nav #nav-list { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
@@ -191,7 +191,11 @@
 .site-nav[data-open="true"] #nav-list li a { padding: 8px 10px; border-radius: 8px; }
 .site-nav.open #nav-list li a:hover,
 .site-nav[data-open="true"] #nav-list li a:hover { background: #f3f4f6; }
-.site-footer { border-top: 1px solid var(--border); margin-top: 40px; background: #fff; }
+.site-footer { border-top: 1px solid var(--border); margin-top: 40px; background: var(--bg); }
+
+/* Ensure strong contrast in explicit dark mode */
+:root[data-theme="dark"] .site-header { background: color-mix(in srgb, var(--bg), transparent 10%); }
+:root[data-theme="dark"] .site-footer { background: var(--bg); }
 .footer-grid, .footer-bottom { max-width: var(--wrap); margin: 0 auto; padding: 20px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .footer-grid { align-items: start; }
 .footer-grid > div:first-child { display: flex; flex-direction: column; justify-content: center; }
