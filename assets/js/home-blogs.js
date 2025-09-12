@@ -2,7 +2,8 @@
 (function () {
   const containerId = 'latest-blogs';
   const blogBase = 'https://ishrakfarhanb-spec.github.io/Blogs/';
-  const dataUrl = blogBase + 'assets/data/blogs.json';
+  // Add a cache-busting query to avoid stale GitHub Pages/CDN caches
+  const dataUrl = blogBase + 'assets/data/blogs.json?ts=' + Date.now();
 
   function esc(s) {
     return String(s || '').replace(/[&<>"']/g, function (c) {
@@ -49,7 +50,7 @@
     const el = document.getElementById(containerId);
     if (!el) return;
     try {
-      const res = await fetch(dataUrl, { cache: 'no-cache' });
+      const res = await fetch(dataUrl, { cache: 'no-store' });
       if (!res.ok) throw new Error('Bad status ' + res.status);
       const items = await res.json();
       const latest = sortByDateDesc(items).slice(0, 3);
@@ -62,4 +63,3 @@
 
   document.addEventListener('DOMContentLoaded', init);
 })();
-
