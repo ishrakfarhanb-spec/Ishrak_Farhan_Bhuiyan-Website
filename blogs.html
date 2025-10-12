@@ -1,11 +1,69 @@
-<!doctype html>
-<html>
+﻿<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Blog</title>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blogs | Ishrak Farhan</title>
+    <meta name="description" content="Collected essays, reflections, and notes from Ishrak Farhan Bhuiyan." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" href="assets/img/Brand Logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/img/Brand Logo.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blogs | Ishrak Farhan" />
+    <meta property="og:description" content="Collected essays, reflections, and notes from Ishrak Farhan Bhuiyan." />
+    <meta property="og:image" content="assets/img/Website Home page 1.png" />
+    <meta property="og:url" content="blogs.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages/blogs.css" />
   </head>
-  <body>
-    <p>This site’s blog is hosted separately. Please provide the external blog URL so we can redirect this page and update the menu link.</p>
+  <body class="blogs-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div data-include="header"></div>
+
+    <main id="main" class="section">
+      <div class="wrap flow">
+        <section class="blog-hero" id="blog-hero" aria-live="polite"></section>
+
+        <div class="blog-toolbar" id="blog-toolbar" aria-label="Blog filters and sorting">
+          <div class="chips" id="blog-filters" role="tablist" aria-label="Filter by topic"></div>
+          <label class="sort" for="blog-sort">
+            <span>Sort by</span>
+            <select id="blog-sort" name="blog-sort">
+              <option value="newest" selected>Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid cards-3" id="blogs-grid" aria-live="polite"></div>
+      </div>
+    </main>
+
+    <div data-include="follow-cta"></div>
+    <div data-include="footer"></div>
+
+    <dialog id="blog-modal" class="modal" aria-modal="true">
+      <article class="modal-content">
+        <button type="button" class="btn btn-link modal-close" aria-label="Close article">&times;</button>
+        <header class="modal-head">
+          <p class="muted" id="modal-meta"></p>
+          <h2 id="modal-title"></h2>
+          <p class="muted" id="modal-subtitle"></p>
+        </header>
+        <div class="modal-body" id="modal-body"></div>
+      </article>
+    </dialog>
+
+    <script src="assets/js/includes.js" defer></script>
+    <script src="assets/js/theme.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/blogs-data.js" defer></script>
+    <script src="assets/js/blogs-page.js" defer></script>
+    <script src="assets/js/lazyload.js" defer></script>
   </body>
 </html>
