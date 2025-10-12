@@ -47,7 +47,13 @@
     meta.textContent = parts.join(" \u2022 ");
     article.appendChild(meta);
 
-    if (item.summary) {
+    if (Array.isArray(item.body) && item.body.length) {
+      item.body.forEach(function (paragraph) {
+        const p = document.createElement("p");
+        p.textContent = paragraph;
+        article.appendChild(p);
+      });
+    } else if (item.summary) {
       const summary = document.createElement("p");
       summary.textContent = item.summary;
       article.appendChild(summary);

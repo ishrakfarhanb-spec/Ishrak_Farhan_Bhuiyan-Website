@@ -51,7 +51,10 @@
 
   function createNewsCard(item) {
     const article = document.createElement("article");
-    article.className = "card";
+    article.className = "card news-card";
+    const destination = item.url || "news.html";
+    article.setAttribute("role", "link");
+    article.setAttribute("tabindex", "0");
 
     const media = document.createElement("div");
     media.className = "card-media";
@@ -100,6 +103,21 @@
 
     article.appendChild(media);
     article.appendChild(body);
+    article.addEventListener("click", function (event) {
+      if (event.target.closest("a, button")) {
+        return;
+      }
+      window.location.href = destination;
+    });
+    article.addEventListener("keydown", function (event) {
+      if (event.target !== article) {
+        return;
+      }
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        window.location.href = destination;
+      }
+    });
     return article;
   }
 })();
