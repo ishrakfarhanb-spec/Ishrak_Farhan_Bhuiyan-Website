@@ -1,4 +1,9 @@
 ﻿;(function () {
+  var utils = window.siteUtils || {};
+  var escapeHtml = utils.escapeHtml || fallbackEscapeHtml;
+  var formatDate = utils.formatDate || fallbackFormatDate;
+  var toTimestamp = utils.toTimestamp || fallbackToTimestamp;
+
   var posts = Array.isArray(window.siteBlogs) ? window.siteBlogs.slice() : [];
   if (!posts.length) {
     var emptyGrid = document.getElementById('blogs-grid');
@@ -44,7 +49,7 @@
       '<div class="blog-hero-inner">',
       '  <div>',
       item.heroBadge ? '    <span class="badge">' + escapeHtml(item.heroBadge) + '</span>' : '',
-      '    <h1 class="hero-title">' + escapeHtml(item.title) + '</h1>',
+      '    <h2 class="hero-title">' + escapeHtml(item.title) + '</h2>',
       '    <p class="muted">' + escapeHtml(item.summary || '') + '</p>',
       '    <div class="hero-actions">',
       '      <button class="btn btn-primary" type="button" data-blog-open="' + escapeHtml(item.id) + '">Read story</button>',
@@ -182,18 +187,18 @@
     return { open: open, close: close };
   }
 
-  function toTimestamp(value) {
+  function fallbackToTimestamp(value) {
     var time = Date.parse(value || '');
     return isNaN(time) ? 0 : time;
   }
 
-  function formatDate(value) {
+  function fallbackFormatDate(value) {
     var time = Date.parse(value || '');
     if (isNaN(time)) return '';
     return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(time);
   }
 
-  function escapeHtml(str) {
+  function fallbackEscapeHtml(str) {
     return String(str || '').replace(/[&<>"']/g, function (char) {
       return ({
         '&': '&amp;',

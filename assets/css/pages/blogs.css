@@ -1,12 +1,19 @@
 /* Blogs page creative typography and layout */
 
-/* Minimal typography: use system sans stack (fast, neutral) */
-body {
+/* Minimal typography scoped to blogs page */
+.blogs-page {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
 }
 
+.blogs-page main > .wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 /* Page title */
-h1, .blogs-title {
+.blogs-page h1,
+.blogs-page .blogs-title {
   font-family: inherit;
   font-weight: 800;
   letter-spacing: .2px;
@@ -24,13 +31,8 @@ h1, .blogs-title {
 /* Optional preview images in cards */
 #blogs-grid .card-media img { width: 100%; height: 180px; object-fit: cover; display: block; border-bottom: 1px solid var(--border); }
 
-/* Force 3-up layout on Blogs with wider tiles */
-.blogs-page .wrap { max-width: 1280px; }
-#blogs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
-@media (max-width: 1100px) { #blogs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px) { #blogs-grid { grid-template-columns: 1fr; } }
-
-/* Taller previews to match wider tiles */
+/* Card layout tweaks */
+#blogs-grid { gap: 1rem; }
 #blogs-grid .card-media img { height: 220px; }
 
 /* Modal reading experience */

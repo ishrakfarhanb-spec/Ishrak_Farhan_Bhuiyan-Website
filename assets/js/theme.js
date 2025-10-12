@@ -1,39 +1,55 @@
 // Simple theme toggle: toggles data-theme on <html> and persists to localStorage
 (function(){
+  var LABEL = 'Toggle Theme';
+  var SELECTOR = '#theme-toggle, [data-theme-toggle]';
+
   function apply(theme){
     document.documentElement.setAttribute('data-theme', theme);
     try { localStorage.setItem('theme', theme); } catch(e){}
-    var btn = document.getElementById('theme-toggle');
-    if(btn){
-      btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-      // Keep a single, consistent label
-      btn.textContent = 'Toggle Theme';
-      btn.setAttribute('aria-label', 'Toggle Theme');
-      btn.setAttribute('title', 'Toggle Theme');
-    }
+    syncButtons(theme);
   }
 
   function current(){
     var t = document.documentElement.getAttribute('data-theme');
-    if(!t){ try { t = localStorage.getItem('theme') || 'light'; } catch(e){ t='light'; } }
+    if(!t){
+      try { t = localStorage.getItem('theme') || 'light'; }
+      catch(e){ t = 'light'; }
+    }
     return t === 'dark' ? 'dark' : 'light';
   }
 
-  function toggle(){ apply(current() === 'dark' ? 'light' : 'dark'); }
+  function toggle(){
+    apply(current() === 'dark' ? 'light' : 'dark');
+  }
 
-  document.addEventListener('DOMContentLoaded', function(){
-    // Initialize from storage
-    var saved = 'light';
-    try { saved = localStorage.getItem('theme') || 'light'; } catch(e){}
-    apply(saved);
-    var btn = document.getElementById('theme-toggle');
-    if(btn){
-      // Ensure consistent button label
-      btn.textContent = 'Toggle Theme';
-      btn.setAttribute('aria-label', 'Toggle Theme');
-      btn.setAttribute('title', 'Toggle Theme');
-      btn.addEventListener('click', toggle);
-    }
+  function syncButtons(theme){
+    var buttons = document.querySelectorAll(SELECTOR);
+    if(!buttons.length) return;
+    buttons.forEach(function(btn){
+      btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      btn.textContent = LABEL;
+      btn.setAttribute('aria-label', LABEL);
+      btn.setAttribute('title', LABEL);
+      if(!btn.getAttribute('type')) btn.setAttribute('type', 'button');
+      if(!btn.dataset.themeBound){
+        btn.addEventListener('click', toggle);
+        btn.dataset.themeBound = 'true';
+      }
+    });
+  }
+
+  function init(){
+    apply(current());
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  window.addEventListener('partials:ready', init);
+  if(window.__partialsReady) init();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e){
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch(err){ stored = null; }
+    if(stored) return;
+    apply(e.matches ? 'dark' : 'light');
   });
 })();
 

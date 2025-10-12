@@ -1,4 +1,36 @@
 ﻿;(function () {
+  var siteUtils = window.siteUtils || (window.siteUtils = {});
+  if (!siteUtils.escapeHtml) {
+    siteUtils.escapeHtml = function (value) {
+      return String(value || '').replace(/[&<>"']/g, function (char) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[char];
+      });
+    };
+  }
+  if (!siteUtils.formatDate) {
+    siteUtils.formatDate = function (value) {
+      var timestamp = Date.parse(value || '');
+      if (isNaN(timestamp)) return '';
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      }).format(timestamp);
+    };
+  }
+  if (!siteUtils.toTimestamp) {
+    siteUtils.toTimestamp = function (value) {
+      var timestamp = Date.parse(value || '');
+      return isNaN(timestamp) ? 0 : timestamp;
+    };
+  }
+
   function initUI() {
     const root = document.documentElement;
     const saved = localStorage.getItem('theme');
