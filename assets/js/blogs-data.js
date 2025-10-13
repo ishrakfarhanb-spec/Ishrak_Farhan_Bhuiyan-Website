@@ -1,3 +1,4 @@
+// Edit this file with tools/blog-editor.html for a guided form.
 window.siteBlogs = [
   {
     id: "cozy-minimalism",

@@ -52,6 +52,7 @@
   function createNewsCard(item) {
     const article = document.createElement("article");
     article.className = "card news-card";
+    article.setAttribute("data-animate-item", "");
     const destination = item.url || "news.html";
     article.setAttribute("role", "link");
     article.setAttribute("tabindex", "0");
@@ -96,9 +97,9 @@
     }
 
     const link = document.createElement("a");
-    link.className = "btn btn-link";
+    link.className = "btn btn-link btn-link-arrow";
     link.setAttribute("href", item.url || "news.html");
-    link.innerHTML = "Read more &rarr;";
+    link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">→</span>';
     body.appendChild(link);
 
     article.appendChild(media);

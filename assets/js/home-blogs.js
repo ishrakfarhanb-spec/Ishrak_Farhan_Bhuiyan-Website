@@ -29,6 +29,7 @@
   function createCard(post) {
     var article = document.createElement('article');
     article.className = 'card';
+    article.setAttribute('data-animate-item', '');
 
     var media = document.createElement('div');
     media.className = 'card-media';
@@ -70,10 +71,10 @@
     }
 
     var link = document.createElement('a');
-    link.className = 'btn btn-link';
+    link.className = 'btn btn-link btn-link-arrow';
     link.href = 'blogs.html';
     if (post.id) link.dataset.blogLink = post.id;
-    link.textContent = 'Read more';
+    link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">→</span>';
     link.addEventListener('click', function () {
       if (post.id) {
         sessionStorage.setItem('blogs:open', post.id);

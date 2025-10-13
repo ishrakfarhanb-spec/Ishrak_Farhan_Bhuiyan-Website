@@ -118,6 +118,9 @@
     });
 
     
+    if (typeof window.refreshLazyImages === 'function') {
+      window.refreshLazyImages();
+    }
   }
 
   window.initUI = initUI;

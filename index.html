@@ -74,29 +74,29 @@
             <h2>Latest</h2>
             <a class="more" href="news.html">View all ?</a>
           </div>
-          <div class="grid cards-3" id="latest-news-cards" data-news-latest></div>
+          <div class="grid cards-3" id="latest-news-cards" data-news-latest data-animate></div>
           <noscript>
             <p class="muted">Enable JavaScript to see the latest updates from the news feed.</p>
           </noscript>
         </div>
       </section>
-      <section class="section">
+      <section class="section section-panel">
         <div class="wrap">
           <div class="section-head">
             <h2>Latest Blogs</h2>
             <a class="more" href="blogs.html">View all ?</a>
           </div>
-          <div class="grid cards-3" id="latest-blogs"></div>
+          <div class="grid cards-3" id="latest-blogs" data-animate></div>
         </div>
       </section>
-      <section class="section alt">
+      <section class="section section-panel">
         <div class="wrap">
           <div class="section-head">
             <h2>Featured Projects</h2>
             <a class="more" href="projects.html">See all ?</a>
           </div>
-          <div class="grid cards-3">
-            <article class="card" data-tags="tools">
+          <div class="grid cards-3" data-animate>
+            <article class="card" data-tags="tools" data-animate-item>
               <div class="card-media"><img data-src="assets/img/Excel.png" alt="Excel Expense Tracker preview" class="lazy" width="600" height="400" /></div>
               <div class="card-body">
                 <h3 class="card-title">Excel Expense Tracker</h3>
@@ -104,7 +104,7 @@
                 <a class="btn btn-primary btn-small" href="assets/tools/expense-tracker.csv" download>Download (CSV)</a>
               </div>
             </article>
-            <article class="card" data-tags="tools">
+            <article class="card" data-tags="tools" data-animate-item>
               <div class="card-media"><img data-src="assets/img/Excel.png" alt="Monthly Budget Planner preview" class="lazy" width="600" height="400" /></div>
               <div class="card-body">
                 <h3 class="card-title">Monthly Budget Planner</h3>
@@ -112,7 +112,7 @@
                 <a class="btn btn-primary btn-small" href="assets/tools/monthly-budget-planner.csv" download>Download (CSV)</a>
               </div>
             </article>
-            <article class="card" data-tags="tools">
+            <article class="card" data-tags="tools" data-animate-item>
               <div class="card-media"><img data-src="assets/img/Excel.png" alt="Invoice Template preview" class="lazy" width="600" height="400" /></div>
               <div class="card-body">
                 <h3 class="card-title">Invoice Template</h3>
@@ -121,6 +121,63 @@
               </div>
             </article>
             
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="wrap">
+          <div class="section-head" style="justify-content: center; text-align: center;">
+            <h2 style="margin: 0;">AFFILIATIONS</h2>
+          </div>
+          <div class="about-logo-strip">
+            <div class="about-logo-track">
+              <div class="about-logo-segment">
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/DU.jpeg" alt="University of Dhaka logo" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/IFOA.jpeg" alt="Institute and Faculty of Actuaries logo" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/ICAB.jpg" alt="Institute of Chartered Accountants of Bangladesh logo" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/unilever.png" alt="Unilever Bangladesh logo" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/zatiq.png" alt="Zatiq logo" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/vob.png" alt="Voice of Business logo" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/spartans.png" alt="Spartans Communication Club logo" class="lazy" width="120" height="120" />
+                </figure>
+              </div>
+              <div class="about-logo-segment" aria-hidden="true">
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/DU.jpeg" alt="" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/IFOA.jpeg" alt="" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/ICAB.jpg" alt="" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/unilever.png" alt="" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/zatiq.png" alt="" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/vob.png" alt="" class="lazy" width="120" height="120" />
+                </figure>
+                <figure class="about-logo card">
+                  <img data-src="assets/img/Logos/spartans.png" alt="" class="lazy" width="120" height="120" />
+                </figure>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -170,6 +227,7 @@
     <script src="assets/js/blogs-data.js" defer></script>
     <script src="assets/js/home-news.js" defer></script>
     <script src="assets/js/home-blogs.js" defer></script>
+    <script src="assets/js/home-animate.js" defer></script>
     <script src="assets/js/lazyload.js" defer></script>
 
   </body>

@@ -164,12 +164,50 @@
     function open(post) {
       if (!post) return;
       if (titleEl) titleEl.textContent = post.title || '';
-      if (metaEl) metaEl.textContent = [post.category, post.displayDate || formatDate(post.date)].filter(Boolean).join(' - ');
+      if (metaEl) {
+        var metaPieces = [post.category, post.displayDate || formatDate(post.date)]
+          .filter(Boolean)
+          .map(function (piece) {
+            return '<span class="meta-pill">' + escapeHtml(piece) + '</span>';
+          }).join('');
+        metaEl.innerHTML = metaPieces;
+      }
       if (subtitleEl) subtitleEl.textContent = post.author || '';
       if (bodyEl) {
         var paragraphs = Array.isArray(post.body) ? post.body : [post.summary || ''];
-        bodyEl.innerHTML = paragraphs.map(function (text) {
-          return '<p>' + escapeHtml(text) + '</p>';
+        bodyEl.innerHTML = paragraphs.map(function (entry, index) {
+          var type = 'paragraph';
+          var text = '';
+          var items = null;
+          var ordered = false;
+
+          if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
+            type = entry.type || 'paragraph';
+            text = entry.text || entry.content || '';
+            if (type === 'list') {
+              items = Array.isArray(entry.items) ? entry.items : null;
+              ordered = Boolean(entry.ordered);
+            }
+          } else {
+            text = entry;
+          }
+
+          if (type === 'list' && items) {
+            var tag = ordered ? 'ol' : 'ul';
+            var listClass = 'modal-list' + (ordered ? ' modal-list--ordered' : '');
+            var listItems = items.map(function (item) {
+              return '<li>' + escapeHtml(item) + '</li>';
+            }).join('');
+            return '<' + tag + ' class="' + listClass + '">' + listItems + '</' + tag + '>';
+          }
+
+          var safeText = escapeHtml(text);
+          if (!safeText) return '';
+          if (type === 'quote') {
+            return '<blockquote>' + safeText + '</blockquote>';
+          }
+          var cls = index === 0 ? ' class="lead"' : '';
+          return '<p' + cls + '>' + safeText + '</p>';
         }).join('');
       }
       if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', 'true');

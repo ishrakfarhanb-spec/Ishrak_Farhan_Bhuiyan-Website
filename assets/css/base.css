@@ -30,6 +30,29 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 .btn-link { padding: 0; border: 0; text-decoration: underline; border-radius: 0; }
 .btn-small { padding: .4rem .8rem; font-size: .875rem; }
 
+.btn-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-link-arrow span:first-child {
+  text-decoration: underline;
+}
+
+.btn-link-arrow .link-arrow {
+  transform: translateX(-6px);
+  transition: transform .3s ease;
+}
+
+.btn-link-arrow:hover .link-arrow,
+.btn-link-arrow:focus-visible .link-arrow {
+  transform: translateX(0);
+}
+
 
 /* Cards & layout */
 .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }

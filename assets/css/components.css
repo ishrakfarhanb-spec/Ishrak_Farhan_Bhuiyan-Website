@@ -1,4 +1,36 @@
-.card:hover { transform: translateY(-2px); transition: transform .2s ease; }
+.card {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, .16);
+  border-color: color-mix(in srgb, var(--brand), var(--border) 65%);
+}
+
+[data-animate-item] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: transform .7s cubic-bezier(.21, 1, .34, 1), opacity .7s ease;
+}
+
+[data-animate-item].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-animate-item].is-visible:nth-child(2n) {
+  transition-delay: .08s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate-item] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
 
 .update + .update 
 { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; }
@@ -99,7 +131,22 @@
 .theme-toggle-floating:focus-visible { outline: 2px solid color-mix(in srgb, #fff, transparent 70%); outline-offset: 2px; }
 
 /* Follow CTA */
-.follow-cta { text-align: center; padding: 3rem 0; }
+.follow-cta {
+  position: relative;
+  text-align: center;
+  padding: 3rem 0;
+  overflow: hidden;
+}
+
+.follow-cta::before {
+  content: '';
+  position: absolute;
+  inset: auto -30% 0 -30%;
+  height: 220px;
+  background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--brand), transparent 70%) 0%, transparent 65%);
+  opacity: .6;
+  pointer-events: none;
+}
 .follow-cta .title { font-size: 1.5rem; margin-bottom: 1rem; }
 .social-list { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 1rem; }
 .social-list a { display: inline-block; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: .5rem; text-decoration: none; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
@@ -231,11 +278,13 @@ ul.plain { list-style: none; margin: 0; padding: 0; }
   border: none;
   border-radius: var(--radius);
   padding: 0;
-  max-width: min(720px, 90vw);
+  max-width: min(820px, 92vw);
   width: 100%;
   background: var(--card);
   color: var(--text);
   box-shadow: 0 20px 48px rgba(0,0,0,.25);
+  margin: 4vh auto;
+  max-height: calc(100vh - 8vh);
 }
 .modal::backdrop {
   background: rgba(0,0,0,.45);

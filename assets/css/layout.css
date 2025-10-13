@@ -231,11 +231,26 @@
   border-radius: var(--radius);
   background: var(--card);
   border: 1px solid var(--border);
+  transition: transform .45s ease, box-shadow .45s ease, border-color .45s ease, background-color .45s ease;
 }
 .about-logo img {
   width: 100%;
   height: auto;
   object-fit: contain;
+  transition: transform .45s ease;
+}
+
+.about-logo:hover,
+.about-logo:focus-within {
+  transform: translateY(-6px) scale(1.05);
+  border-color: color-mix(in srgb, var(--brand), var(--border) 35%);
+  background: color-mix(in srgb, var(--card), var(--brand) 12%);
+  box-shadow: 0 18px 32px rgba(15, 23, 42, .2);
+}
+
+.about-logo:hover img,
+.about-logo:focus-within img {
+  transform: scale(1.05);
 }
 
 @keyframes about-logo-scroll {
