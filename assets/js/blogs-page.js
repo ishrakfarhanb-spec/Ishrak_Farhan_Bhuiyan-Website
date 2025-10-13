@@ -45,8 +45,9 @@
 
   function renderHero(item, container, modalApi) {
     if (!item) return;
+    var themeClass = document.documentElement.getAttribute('data-theme') === 'dark' ? 'theme-dark' : 'theme-light';
     container.innerHTML = [
-      '<div class="blog-hero-inner">',
+      '<div class="blog-hero-inner ' + themeClass + '">',
       '  <div>',
       item.heroBadge ? '    <span class="badge">' + escapeHtml(item.heroBadge) + '</span>' : '',
       '    <h2 class="hero-title">' + escapeHtml(item.title) + '</h2>',

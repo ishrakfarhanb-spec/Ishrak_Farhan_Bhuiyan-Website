@@ -23,39 +23,99 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div data-include="header"></div>
-    <main id="main" class="section">
-      <div class="wrap">
-        <h1>Contact</h1>
-        <section class="card" aria-labelledby="contact-details" style="margin:1rem 0;">
-          <div class="card-body">
-            <h2 id="contact-details" class="card-title">Contact Details</h2>
-            <p class="flow">
-              <strong>Phone:</strong>
-              <a href="tel:01979525874">01979525874</a><br/>
-              <strong>Email:</strong>
-              <a href="mailto:ishrakfarhan.b@gmail.com">ishrakfarhan.b@gmail.com</a>
-            </p>
+    <main id="main" class="section contact-page">
+      <div class="wrap flow contact-wrap">
+        <header class="flow contact-header">
+          <p class="eyebrow">Let’s Collaborate</p>
+          <h1>Contact</h1>
+          <p class="muted">I read every message. Choose the channel that fits, or drop a note through the feedback form.</p>
+        </header>
+
+        <section class="contact-grid">
+          <article class="card contact-card">
+            <div class="card-body flow">
+              <h2>Direct Reach</h2>
+              <ul class="plain contact-list">
+                <li>
+                  <span class="label">Phone</span>
+                  <a href="tel:+8801979525874">+880&nbsp;1979-525-874</a>
+                </li>
+                <li>
+                  <span class="label">Email</span>
+                  <a href="mailto:ishrakfarhan.b@gmail.com">ishrakfarhan.b@gmail.com</a>
+                </li>
+                <li>
+                  <span class="label">Academic Mail</span>
+                  <a href="mailto:s-27-2020217853@bni.du.ac.bd">s-27-2020217853@bni.du.ac.bd</a>
+                </li>
+                <li>
+                  <span class="label">Address</span>
+                  <span>8/3 Shantibag, Dhaka</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card contact-card">
+            <div class="card-body flow">
+              <h2>Address</h2>
+              <p class="muted">Meetings are by appointment. Use the map to plan a visit.</p>
+              <div class="map-frame">
+                <iframe
+                  title="Map to 8/3 Shantibag, Dhaka"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.0370599610173!2d90.4139964760953!3d23.779004078650023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c79ecec682d9%3A0xb85f8b9fc5f80274!2sShantibag%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1697200000000!5m2!1sen!2sbd"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <a class="btn btn-primary btn-small" href="https://maps.app.goo.gl/9pMoAJxaDfVJUiix6" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+            </div>
+          </article>
+        </section>
+
+        <section class="card contact-card" aria-labelledby="contact-feedback">
+          <div class="card-body flow">
+            <h2 id="contact-feedback">Feedback &amp; Project Brief</h2>
+            <p>Share your idea, request a collaboration, or leave feedback. I’ll respond within 48 hours.</p>
+            <form id="contact-form" class="form contact-form" method="POST" action="https://formspree.io/f/xrbaprop">
+              <input type="text" name="_gotcha" class="hp" aria-hidden="true" tabindex="-1" autocomplete="off"/>
+              <input type="hidden" name="purpose" value="Contact" />
+              <div class="form-grid">
+                <div class="form-row">
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" placeholder="Your name" required />
+                </div>
+                <div class="form-row">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="name@example.com" required />
+                </div>
+                <div class="form-row">
+                  <label for="topic">Topic</label>
+                  <select id="topic" name="topic">
+                    <option value="collaboration">Collaboration</option>
+                    <option value="speaking">Speaking / Workshop</option>
+                    <option value="media">Media / Press</option>
+                    <option value="feedback">Site Feedback</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label for="timeline">Timeline</label>
+                  <input id="timeline" name="timeline" type="text" placeholder="e.g., Launch in November" />
+                </div>
+                <div class="form-row form-row-full">
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" rows="5" placeholder="Let me know how I can help" required></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Send Message</button>
+                <p class="muted small">Powered by Formspree. By submitting, you agree to the <a href="privacy.html">privacy policy</a>.</p>
+              </div>
+            </form>
           </div>
         </section>
-        <form id="contact-form" class="form card" method="POST" action="https://formspree.io/f/xrbaprop">
-          <input type="text" name="_gotcha" class="hp" aria-hidden="true" tabindex="-1" autocomplete="off"/>
-          <input type="hidden" name="purpose" value="Contact" />
-          <div class="form-row">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" required />
-          </div>
-          <div class="form-row">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required />
-          </div>
-          <div class="form-row">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-          <div class="form-row">
-            <button class="btn btn-primary" type="submit">Send</button>
-          </div>
-        </form>
       </div>
     </main>
     <script src="assets/js/form.js" defer></script>

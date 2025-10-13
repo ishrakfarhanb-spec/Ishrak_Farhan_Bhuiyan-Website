@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap');
 
 * { box-sizing: border-box; }
 
@@ -122,8 +122,10 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 }
 
 /* Modal */
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 1000; }
-.modal.open { display: flex; }
-.modal-dialog { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); width: min(900px, 96vw); max-height: 90vh; overflow: auto; box-shadow: var(--shadow); position: relative; padding: 1.25rem; }
+.modal:not(dialog) { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 1000; }
+.modal:not(dialog).open { display: flex; }
+.modal:not(dialog) .modal-dialog { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); width: min(900px, 96vw); max-height: 90vh; overflow: auto; box-shadow: var(--shadow); position: relative; padding: 1.25rem; }
+.modal[open] { display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.modal[open] .modal-content { width: 100%; }
 .modal-close { position: absolute; right: .5rem; top: .25rem; background: transparent; border: 0; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--text); }
 .modal-body > * + * { margin-top: .75rem; }
