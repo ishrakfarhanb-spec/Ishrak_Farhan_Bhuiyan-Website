@@ -68,12 +68,16 @@
       btn.dataset.bound = 'true';
     }
 
-    const path = window.location.pathname.replace(/\/index\.html$/, '/');
+    function normalizePath(value) {
+      return value.replace(/\/index\.html$/, '/');
+    }
+
+    const path = normalizePath(window.location.pathname);
     const navLinks = document.querySelectorAll('.site-nav a');
     navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
     navLinks.forEach(function (a) {
       if (!a.getAttribute('href')) return;
-      const href = new URL(a.href, location.origin).pathname;
+      const href = normalizePath(new URL(a.href, location.origin).pathname);
       if (href === path) a.setAttribute('aria-current', 'page');
     });
 

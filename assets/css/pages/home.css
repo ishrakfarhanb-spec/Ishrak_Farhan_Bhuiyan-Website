@@ -9,6 +9,14 @@
 .hero .hero-title {
   margin: 0; /* remove the global 2cm bottom gap */
   text-transform: none; /* keep text as authored */
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 400;
+}
+
+.hero .intro-line {
+  margin: .35rem 0 0;
+  font-size: 1.05rem;
+  color: var(--muted);
 }
 .hero .hero-title + .hero-title { margin-top: 0; }
 

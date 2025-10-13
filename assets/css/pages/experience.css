@@ -131,7 +131,7 @@
 @media (max-width: 900px) { .xp-showcase { grid-template-columns: 1fr; } }
 
 .xp-panel { border: 6px solid var(--text); border-radius: 8px; padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; background: var(--card); }
-.xp-panel .xp-title { font-family: 'Bebas Neue', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; text-transform: uppercase; letter-spacing: .18em; line-height: .9; font-size: clamp(2rem, 7vw, 3.2rem); margin: 0; }
+.xp-panel .xp-title { font-family: 'Albert Sans', sans-serif; text-transform: uppercase; letter-spacing: .18em; line-height: .9; font-size: clamp(2rem, 7vw, 3.2rem); margin: 0; }
 .xp-panel .xp-subtitle { font-size: 1rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text); opacity: .9; }
 .xp-panel .xp-label { display: inline-block; margin-top: .25rem; padding: .15rem .4rem; background: #d1d5db55; color: var(--text); letter-spacing: .45em; text-transform: uppercase; font-size: .75rem; border-radius: 2px; }
 .xp-panel .xp-role { font-weight: 600; margin-top: .5rem; }

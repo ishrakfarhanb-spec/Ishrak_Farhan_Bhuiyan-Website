@@ -63,16 +63,24 @@
     var inner = container.querySelector('.blog-hero-inner');
     if (inner) {
       if (item.image) {
-        inner.style.backgroundImage = 'linear-gradient(180deg, color-mix(in srgb, var(--brand, var(--text)), transparent 94%), transparent), url(' + item.image + ')';
+        var safeUrl = String(item.image).replace(/"/g, '\\"');
+        inner.style.backgroundImage = 'linear-gradient(180deg, color-mix(in srgb, var(--brand, var(--text)), transparent 94%), transparent), url("' + safeUrl + '")';
       } else {
         inner.style.removeProperty('background-image');
       }
     }
     var trigger = container.querySelector('[data-blog-open]');
-    if (trigger && modalApi) {
-      trigger.addEventListener('click', function () {
-        modalApi.open(item);
+    if (trigger && trigger.dataset.bound !== 'true') {
+      trigger.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (modalApi) {
+          modalApi.open(item);
+        } else {
+          sessionStorage.setItem('blogs:open', item.id);
+          window.location.hash = 'blogs-grid';
+        }
       });
+      trigger.dataset.bound = 'true';
     }
   }
 
@@ -140,13 +148,7 @@
 
     if (typeof window.initUI === 'function') window.initUI();
 
-    Array.prototype.forEach.call(grid.querySelectorAll('[data-blog-card]'), function (card) {
-      card.addEventListener('click', function () {
-        var id = card.getAttribute('data-id');
-        var post = items.find(function (entry) { return entry.id === id; });
-        if (post && modalApi) modalApi.open(post);
-      });
-    });
+    bindGridInteractions(grid, modalApi);
   }
 
   function setupModal() {
@@ -185,6 +187,27 @@
     });
 
     return { open: open, close: close };
+  }
+
+  function bindGridInteractions(container, modalApi) {
+    if (!container) return;
+    if (container.dataset.blogBound === 'true') return;
+    container.addEventListener('click', function (event) {
+      var card = event.target.closest('[data-blog-card]');
+      if (!card || !container.contains(card)) return;
+      var postId = card.getAttribute('data-id');
+      if (!postId) return;
+      var post = posts.find(function (entry) { return entry.id === postId; });
+      if (!post) return;
+      event.preventDefault();
+      if (modalApi) {
+        modalApi.open(post);
+      } else {
+        sessionStorage.setItem('blogs:open', postId);
+        window.location.hash = card.id || 'blogs-grid';
+      }
+    });
+    container.dataset.blogBound = 'true';
   }
 
   function fallbackToTimestamp(value) {
