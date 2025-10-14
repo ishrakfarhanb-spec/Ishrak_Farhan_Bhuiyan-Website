@@ -26,6 +26,21 @@
   flex-wrap: wrap;
   gap: .75rem;
 }
+.experience-hero-actions .btn {
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+.experience-hero-actions .btn.btn-primary:hover,
+.experience-hero-actions .btn.btn-primary:focus-visible {
+  background: #fff;
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.experience-hero-actions .btn.btn-ghost:hover,
+.experience-hero-actions .btn.btn-ghost:focus-visible {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
 .experience-highlights {
   list-style: none;
   padding: 0;
