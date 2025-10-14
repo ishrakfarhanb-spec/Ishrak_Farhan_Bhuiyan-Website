@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: var(--bg);
+  background: transparent;
 }
 
 .hero::before,
@@ -20,7 +20,7 @@
   inset: -40% auto auto -20%;
   width: clamp(420px, 38vw, 620px);
   aspect-ratio: 4 / 3;
-  background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--brand), transparent 30%) 0%, transparent 65%);
+  background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--brand), transparent 45%) 0%, transparent 70%);
   transform: rotate(8deg) scale(1.05);
 }
 
@@ -28,8 +28,9 @@
   inset: auto -25% -45% auto;
   width: clamp(360px, 34vw, 560px);
   aspect-ratio: 1;
-  background: radial-gradient(circle at 60% 60%, color-mix(in srgb, var(--brand), transparent 45%) 0%, transparent 70%);
-  transform: rotate(-12deg) scale(0.92);
+  background: none;
+  transform: none;
+  display: none;
 }
 
 .hero .wrap,
@@ -41,8 +42,8 @@
 }
 
 .hero .hero-card {
-  box-shadow: 0 28px 48px rgba(15, 23, 42, .18);
-  border: 1px solid color-mix(in srgb, var(--brand), var(--border) 55%);
+  box-shadow: 0 22px 40px rgba(15, 23, 42, .14);
+  border: none;
 }
 .hero .eyebrow { margin-bottom: .25rem; }
 .hero .lede { margin-top: .5rem; }
@@ -97,6 +98,43 @@
   outline-offset: 3px;
 }
 
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 1.65rem);
+  font-weight: 800;
+  color: color-mix(in srgb, var(--text), var(--brand) 12%);
+}
+
+.section-head .more {
+  align-self: center;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  text-decoration: none;
+  color: color-mix(in srgb, var(--text), var(--brand) 25%);
+  position: relative;
+}
+
+.section-head .more::after {
+  content: '\2192';
+  transform: translateX(-4px);
+  transition: transform .3s ease;
+}
+
+.section-head .more:hover::after,
+.section-head .more:focus-visible::after {
+  transform: translateX(0);
+}
+
 /* Portrait background variant for home hero */
 .hero.hero--portrait {
   background-image: var(--hero-image, image-set(
@@ -130,55 +168,6 @@
   }
 }
 
-.section-panel {
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--bg), var(--border) 32%) 0%,
-    color-mix(in srgb, var(--bg), var(--border) 45%) 100%);
-  position: relative;
-}
-
-.section-panel + .section-panel {
-  border-top: 1px solid color-mix(in srgb, var(--border), transparent 40%);
-}
-
-.section-panel .wrap {
-  position: relative;
-  z-index: 1;
-}
-
-.section-panel .section-head {
-  position: relative;
-  padding-top: 1.5rem;
-  margin-bottom: 1.75rem;
-}
-
-.section-panel .section-head::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 72px;
-  height: 4px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--brand), var(--text) 30%);
-}
-
-@media (max-width: 640px) {
-  .section-panel .section-head {
-    padding-top: 1.1rem;
-  }
-  .section-panel .section-head::before {
-    width: 48px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .section-panel {
-    background: linear-gradient(180deg,
-      color-mix(in srgb, var(--bg), var(--card) 16%) 0%,
-      color-mix(in srgb, var(--bg), var(--card) 28%) 100%);
-  }
-}
 
 @keyframes heroReveal {
   from {
