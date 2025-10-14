@@ -162,7 +162,7 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 /* Utilities */
 .eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: .75rem; color: var(--muted); }
 .pill-list { display: flex; flex-wrap: wrap; gap: .5rem; }
-.pill-list li { list-style: none; border: 1px solid var(--border); padding: .35rem .6rem; border-radius: 999px; }
+.pill-list li { list-style: none; border: 1px solid var(--border); padding: .45rem .9rem; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; min-height: 36px; }
 .timeline { list-style: none; padding: 0; }
 .timeline li { padding: .35rem 0; }
 .timeline .time { display: inline-block; width: 64px; color: var(--muted); }
@@ -208,3 +208,4 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 .modal[open] .modal-content { width: 100%; }
 .modal-close { position: absolute; right: .5rem; top: .25rem; background: transparent; border: 0; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--text); }
 .modal-body > * + * { margin-top: .75rem; }
+

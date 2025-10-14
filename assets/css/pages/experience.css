@@ -121,8 +121,8 @@
   --brand-contrast: #312783;
 }
 .xp-card[data-brand="vob"] {
-  --brand: #b21a29;
-  --brand-contrast: #5c0d15;
+  --brand: #d92b2b;
+  --brand-contrast: #7c1414;
 }
 .xp-card[data-brand="spartans"] {
   --brand: #2b3137;
@@ -147,12 +147,9 @@
 .xp-logo {
   width: 52px;
   height: 52px;
-  border-radius: calc(var(--radius) * 0.35);
-  background: color-mix(in srgb, var(--card), var(--brand) 10%);
-  display: grid;
-  place-items: center;
-  padding: .4rem;
-  border: 1px solid color-mix(in srgb, var(--brand), transparent 55%);
+  border-radius: 50%;
+  background: transparent;
+  display: block;
   overflow: hidden;
 }
 .xp-logo img {
@@ -217,15 +214,20 @@
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
+  align-items: center;
 }
 .badge-soft {
   background: color-mix(in srgb, var(--brand), white 80%);
   color: var(--brand-contrast, var(--brand));
   border: 1px solid color-mix(in srgb, var(--brand), transparent 20%);
   border-radius: 999px;
-  padding: .3rem .8rem;
+  padding: .35rem .9rem;
   font-size: .8rem;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -234,3 +236,4 @@
     transition: none;
   }
 }
+
