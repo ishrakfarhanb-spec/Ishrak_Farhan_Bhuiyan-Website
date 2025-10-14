@@ -183,8 +183,8 @@
   width: clamp(150px, 22vw, 200px);
   height: clamp(150px, 22vw, 200px);
   border-radius: 50%;
-  background: var(--card);
-  border: 1px solid color-mix(in srgb, var(--border), transparent 35%);
+  background: transparent;
+  border: none;
   box-shadow: -18px 24px 40px rgba(15, 23, 42, .16);
   position: relative;
   overflow: hidden;
@@ -192,24 +192,29 @@
 
 .follow-cta__disc::before,
 .follow-cta__disc::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--border), transparent 45%);
-  inset: clamp(-18px, -3vw, -26px);
-  z-index: -1;
+  content: none;
 }
 
 .follow-cta__disc::after {
-  inset: clamp(-42px, -6vw, -52px);
-  opacity: .7;
+  content: none;
 }
 
 .follow-cta__disc img {
-  width: clamp(70px, 12vw, 120px);
-  height: clamp(70px, 12vw, 120px);
-  object-fit: contain;
-  filter: drop-shadow(-8px 12px 18px rgba(15, 23, 42, .12));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: none;
+}
+.follow-cta__disc a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.follow-cta__disc a:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--brand), #ffffff 35%);
+  outline-offset: 4px;
 }
 
 @media (max-width: 860px) {
@@ -232,8 +237,7 @@
     box-shadow: 0 22px 44px rgba(0, 0, 0, .45);
   }
   :root:not([data-theme="light"]) .follow-cta__disc {
-    background: color-mix(in srgb, var(--card), transparent 4%);
-    border-color: color-mix(in srgb, var(--border), transparent 45%);
+    background: transparent;
     box-shadow: -18px 24px 46px rgba(0, 0, 0, .4);
   }
 }

@@ -99,7 +99,7 @@
     const link = document.createElement("a");
     link.className = "btn btn-link btn-link-arrow";
     link.setAttribute("href", item.url || "news.html");
-    link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">→</span>';
+    link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">&rarr;</span>';
     body.appendChild(link);
 
     article.appendChild(media);
@@ -122,3 +122,5 @@
     return article;
   }
 })();
+
+
