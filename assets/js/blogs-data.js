@@ -28,6 +28,28 @@ window.siteBlogs = [
     ]
   },
   {
+    id: "philosophy-of-self",
+    title: "The Philosophy of the Self: A Brief Reflection",
+    kicker: "Philosophical Reflection",
+    date: "2025-04-08",
+    displayDate: "Apr 8, 2025",
+    author: "Ishrak Farhan",
+    category: "Philosophy",
+    tags: ["identity", "existentialism", "self"],
+    summary: "A concise tour from Descartes to the digital age, tracing how thinkers reinterpret what it means to be a self.",
+    image: "assets/img/Blogs/Blog 03.png",
+    imageAlt: "Abstract silhouette composed of layered mirrors",
+    heroBadge: "New",
+    body: [
+      "The concept of the self has been at the heart of philosophical inquiry for centuries, with thinkers attempting to uncover the true nature of personal identity and existence.",
+      "In Western philosophy, one of the earliest and most influential perspectives comes from Rene Descartes, who famously declared, Cogito, ergo sum -- I think, therefore I am. Descartes argued that the very act of doubting one's existence proves the existence of the self, since one must be aware of their own thinking to doubt. This foundational thought led Descartes to propose that the self is primarily a thinking subject, a mind that exists independently of the body. His work has shaped the understanding of the self as a rational, conscious entity that serves as the core of personal identity.",
+      "However, not all philosophers have agreed with Descartes' view of the self as a fixed, unchanging entity. David Hume, a Scottish philosopher, presented a radically different perspective. He argued that the self does not have a stable core but is merely a bundle of perceptions. According to Hume, what we think of as the \"self\" is simply a collection of fleeting experiences, memories, and sensations that are constantly changing. There is no underlying \"I\" behind these experiences. This view challenges the notion of a permanent, unified self, proposing instead that the sense of personal identity is an illusion created by the mind's tendency to associate these experiences together. Hume's skepticism about the self's constancy has influenced later discussions on the fluidity and fragmentation of identity.",
+      "In the 20th century, existentialist philosophers such as Jean-Paul Sartre and Simone de Beauvoir further reshaped the concept of the self. Sartre famously argued that existence precedes essence, meaning that individuals are not born with a predefined nature or essence but instead must create their identity through choices and actions. For Sartre, the self is not a given but a project that each person undertakes through their freedom and responsibility. This perspective emphasizes personal agency and the existential anxiety that arises from the realization that we are the architects of our own identity. Similarly, de Beauvoir, in her feminist existentialist framework, argued that one is not born a woman but becomes one, highlighting the social and cultural forces that shape individual identity, particularly in relation to gender. Both philosophers stressed the importance of freedom and choice in defining the self, suggesting that we are continuously becoming who we are through both conscious decisions and external influences.",
+      "In the modern digital age, the concept of the self has taken on new complexities. With the advent of social media, digital personas, and virtual identities, the boundary between the real and the projected self has become increasingly blurred. Scholars like Sherry Turkle have explored how technology affects our sense of self, arguing that while digital platforms offer unprecedented ways to express and curate our identities, they also contribute to feelings of alienation and disconnection. The self, once understood as something grounded in the physical body and personal experience, is now often fragmented across multiple virtual platforms, leading to questions about authenticity and the stability of identity in the digital era. The self in today's world is not only shaped by our interactions with others but also by the ways in which we present ourselves to the world online.",
+      "Ultimately, the philosophy of the self reveals an ongoing, dynamic process rather than a fixed concept. From Descartes' rational mind to Hume's perception-based self, and the existentialist emphasis on freedom and choice, the nature of who we are is constantly in flux. In the digital age, the self has become even more complex, influenced by both internal reflections and external virtual identities. The journey of understanding the self is an ongoing philosophical endeavor that continues to evolve with time, technology, and personal experience."
+    ]
+  },
+  {
     id: "cozy-minimalism",
     title: "The Rise of Cozy Minimalism: The Warm Revolution in Modern Living",
     kicker: "Trend Report",

@@ -24,7 +24,7 @@
 #blogs-grid {
   display: grid;
   gap: 1.35rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
 }
 
 #blogs-grid .card {
@@ -109,14 +109,12 @@
 }
 
 @media (min-width: 720px) {
-  #blogs-grid .card {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-    align-items: stretch;
+  #blogs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #blogs-grid .card-media img {
-    aspect-ratio: auto;
-    height: 100%;
+  #blogs-grid .card {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -386,7 +384,6 @@
     padding: 1.15rem;
   }
   #blogs-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.15rem;
   }
 }
@@ -432,7 +429,6 @@
     gap: .5rem;
   }
   #blogs-grid {
-    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
   #blogs-grid .card {
