@@ -9,7 +9,7 @@
   const detailTitleEl = detailEl ? detailEl.querySelector("[data-news-detail-title]") : null;
   const detailMetaEl = detailEl ? detailEl.querySelector("[data-news-detail-meta]") : null;
   const detailBodyEl = detailEl ? detailEl.querySelector("[data-news-detail-body]") : null;
-  const detailLinkEl = detailEl ? detailEl.querySelector("[data-news-detail-link]") : null;
+  const detailBackEl = detailEl ? detailEl.querySelector("[data-news-detail-back]") : null;
   const detailCloseEls = detailEl ? detailEl.querySelectorAll("[data-news-detail-close]") : [];
 
   if (!listEl || !Array.isArray(window.siteNews)) {
@@ -52,6 +52,15 @@
   if (detailEl && detailCloseEls.length) {
     detailCloseEls.forEach((el) => {
       el.addEventListener("click", closeDetail);
+    });
+  }
+
+  if (detailBackEl) {
+    detailBackEl.addEventListener("click", function () {
+      closeDetail();
+      if (listEl && typeof listEl.scrollIntoView === "function") {
+        listEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     });
   }
 
@@ -278,15 +287,6 @@
         const p = document.createElement("p");
         p.textContent = item.summary;
         detailBodyEl.appendChild(p);
-      }
-    }
-
-    if (detailLinkEl) {
-      if (item.url) {
-        detailLinkEl.href = item.url;
-        detailLinkEl.hidden = false;
-      } else {
-        detailLinkEl.hidden = true;
       }
     }
 

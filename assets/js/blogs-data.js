@@ -1,6 +1,33 @@
 // Edit this file with tools/blog-editor.html for a guided form.
 window.siteBlogs = [
   {
+    id: "achilles-awareness",
+    title: "Achilles Wasn’t Arrogant — He Was Aware",
+    kicker: "Classical Insight",
+    date: "2025-10-15",
+    displayDate: "Oct 15, 2025",
+    author: "Ishrak Farhan",
+    category: "Philosophy",
+    tags: ["mythology", "leadership", "mortality"],
+    summary: "Achilles’ legendary fury was rooted in a lucid understanding of mortality, transforming every decision into a search for meaning rather than mere glory.",
+    image: "assets/img/Blogs/Blog 02.png",
+    imageAlt: "Marble statue of Achilles lit dramatically",
+    heroBadge: "New",
+    body: [
+      "Achilles is often remembered as the man who sulked, slaughtered, and fell because of his pride — a fiery demigod whose rage burned brighter than reason. But this image, immortalized through centuries of retelling, hides the deeper truth. Achilles wasn’t arrogant. He was aware — painfully, profoundly aware — of what it meant to be human in a world ruled by gods, fate, and fragile egos. His story isn’t about unchecked pride; it’s about the unbearable consciousness of mortality.",
+      "Born of a goddess, Thetis, and a mortal king, Peleus, Achilles lived suspended between two worlds — one divine and eternal, the other fleeting and flawed. His mother wanted to save him from the doom that awaited all men, but even she couldn’t rewrite fate. Achilles knew from the start that his life would be short, that every heartbeat was a countdown. Yet he didn’t shy from it. When faced with the choice between a long, quiet life or a brief, glorious one, he chose the latter. That decision wasn’t vanity — it was vision. He didn’t crave fame; he sought meaning. He wanted to matter, not merely to exist.",
+      "His much-condemned rage during the Trojan War wasn’t the tantrum of a spoiled hero — it was the rebellion of a man whose honor was violated. When Agamemnon took Briseis, the woman Achilles loved, he didn’t just steal a prize of war; he stripped Achilles of dignity. In that act, Achilles saw the hypocrisy of the world he fought for. He realized that even in glory, men were pawns of power. So he withdrew — not from cowardice, but from principle. “What is honor worth,” he might have wondered, “if it demands obedience to corruption?” His silence was protest, his retreat a statement.",
+      "Yet beneath the armor and anger, Achilles was deeply human. His love for Patroclus revealed a gentleness that war could not erase. Their bond — whether brotherly or romantic — was the anchor to his humanity. When Patroclus fell in battle, wearing Achilles’ own armor, the hero’s grief was raw and devastating. His vengeance against Hector was not glory-seeking; it was heartbreak given form. The death that followed was inevitable — not because of the gods, but because Achilles’ heart had already broken beyond repair.",
+      "And then came the moment that redefined him — when old King Priam came to beg for his son Hector’s body. Achilles, the same man who had dragged that body across the dust, wept. He saw in Priam’s pain the reflection of his own father, the shadow of his own mortality. In that shared grief, the demigod became human again. The killer became compassionate. The legend became real.",
+      "Achilles’ story endures not because of his strength, but because of his awareness. He knew he was destined to die young, and he chose to live anyway — fully, fiercely, and without apology. His heel wasn’t his weakness; his heart was. And that’s what made him unforgettable.",
+      "As Homer wrote, “The gods envy us. They envy us because we’re mortal… Everything is more beautiful because we’re doomed.” Achilles understood that truth long before any of us did. He wasn’t arrogant — he was awake.",
+      "Author’s Note:",
+      "We often dismiss Achilles as just another tragic hero undone by pride, but look closer and you’ll see something hauntingly familiar. He was a man who knew how brief life could be — and instead of fearing that truth, he embraced it. Every choice he made, every fight he picked, every tear he shed was rooted in that awareness.",
+      "In many ways, Achilles mirrors the modern soul: ambitious yet restless, powerful yet uncertain, aware that time is running out but unwilling to live half-heartedly. He reminds us that arrogance isn’t believing you’re special — it’s believing you’ll live forever. Achilles knew he wouldn’t. And that’s what made his flame burn so brightly.",
+      "Maybe that’s why we still talk about him today — because deep down, we all want what Achilles wanted: to live a life so full, so defiant, that even death has to remember our name."
+    ]
+  },
+  {
     id: "cozy-minimalism",
     title: "The Rise of Cozy Minimalism: The Warm Revolution in Modern Living",
     kicker: "Trend Report",
