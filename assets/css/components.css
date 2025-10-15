@@ -284,8 +284,6 @@
 .site-nav a.btn-primary:active { color: #fff; }
 /* Refined hamburger toggle */
 .nav-toggle {
-  --burger-gap: 12px;
-  --burger-color: color-mix(in srgb, currentColor, transparent 30%);
   position: relative;
   width: 44px;
   height: 44px;
@@ -293,35 +291,18 @@
   background: transparent;
   color: inherit;
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   padding: 0;
   cursor: pointer;
-  transition: transform .25s cubic-bezier(.4, 0, .2, 1), opacity .25s ease;
-}
-.nav-toggle::before {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border-radius: 14px;
-  background: linear-gradient(150deg, rgba(15, 23, 42, .04), rgba(15, 23, 42, .12));
-  opacity: 0;
-  transform: scale(.9);
-  transition: transform .3s cubic-bezier(.4, 0, .2, 1), opacity .3s ease, box-shadow .35s ease;
+  transition: transform .2s ease;
 }
 .nav-toggle:hover,
 .nav-toggle:focus-visible {
   transform: translateY(-1px);
-  --burger-gap: 8px;
-  --burger-color: color-mix(in srgb, currentColor, transparent 10%);
 }
-.nav-toggle:hover::before,
-.nav-toggle:focus-visible::before {
-  opacity: 1;
-  transform: scale(1);
-  box-shadow: 0 12px 26px rgba(15, 23, 42, .14);
-}
-.nav-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand), transparent 70%); }
 .nav-toggle .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -334,31 +315,14 @@
   border: 0 !important;
 }
 .nav-toggle .burger-bar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
+  display: block;
+  width: 26px;
   height: 2px;
   border-radius: 999px;
-  background: var(--burger-color);
-  transform-origin: center;
-  transition: transform .35s cubic-bezier(.4, 0, .2, 1), background-color .25s ease;
+  background: currentColor;
 }
-.nav-toggle .bar-top {
-  transform: translate(-50%, calc(-50% - (var(--burger-gap) / 2)));
-}
-.nav-toggle .bar-btm {
-  transform: translate(-50%, calc(-50% + (var(--burger-gap) / 2)));
-}
-.nav-toggle:active { transform: translateY(0); }
 .site-nav[data-open="true"] .nav-toggle {
-  --burger-gap: 12px;
-  --burger-color: color-mix(in srgb, var(--brand), var(--text) 10%);
-}
-.site-nav[data-open="true"] .nav-toggle::before {
-  opacity: 1;
-  transform: scale(1);
-  box-shadow: 0 14px 26px rgba(15, 23, 42, .16);
+  color: color-mix(in srgb, var(--brand), #ffffff 30%);
 }
 
 /* Mobile dropdown */
@@ -458,3 +422,6 @@ ul.plain { list-style: none; margin: 0; padding: 0; }
   font-size: 1.5rem;
   line-height: 1;
 }
+
+
+

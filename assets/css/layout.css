@@ -34,7 +34,7 @@
 .hero-copy > *:nth-child(4) { animation-delay: .45s; }
 .hero-copy > *:nth-child(5) { animation-delay: .55s; }
 .hero .btn-primary {
-  animation: ctaPulse 6.5s ease-in-out 1s infinite;
+  animation: ctaPulse 8s ease-in-out 1s infinite;
 }
 
 .about-page {
@@ -369,19 +369,21 @@
 }
 
 @keyframes ctaPulse {
-  0%, 55% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(201, 24, 74, .32);
-  }
-  65% {
-    transform: scale(1.04);
-    box-shadow: 0 0 0 10px rgba(201, 24, 74, 0);
-  }
-  75% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(201, 24, 74, 0);
-  }
+  0%,
+  24%,
+  50%,
+  76%,
   100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 24, 74, .28);
+  }
+  30%,
+  82% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 12px rgba(201, 24, 74, 0);
+  }
+  38%,
+  90% {
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(201, 24, 74, 0);
   }

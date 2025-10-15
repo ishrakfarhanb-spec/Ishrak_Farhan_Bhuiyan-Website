@@ -8,7 +8,7 @@ window.siteNews = [
     date: "2025-10-11",
     displayDate: "Oct 11, 2025",
     summary: "Team Jhalmuri claimed the Brandrill 5.0 crown after a finale packed with ambitious pitches and collective brilliance.",
-    image: "assets/img/Brandrill 5.0.png",
+    image: "assets/img/News/Brandrill 5.0.png",
     imageAlt: "Brandrill 5.0 grand finale highlights",
     body: [
       "Brandrill 5.0 has officially come to an end, and what a transformative journey it has been! The Grand Finale served as the perfect crescendo \u2014 a culmination of days filled with creativity and collaborative excellence.",
@@ -24,7 +24,7 @@ window.siteNews = [
     date: "2025-03-01",
     displayDate: "Mar 1, 2025",
     summary: "Brandrill 5.0 rallies national teams to solve real-world branding challenges with bold ideas.",
-    image: "assets/img/Brandrill_Visual.png",
+    image: "assets/img/News/Brandrill_Visual.png",
     imageAlt: "Abstract hero for Project Brandrill",
     url: "news.html#news-project-brandrill-2025",
     body: [
@@ -43,7 +43,7 @@ window.siteNews = [
     date: "2025-02-25",
     displayDate: "Feb 25, 2025",
     summary: "The 14th VoB magazine captures the shifts redefining modern business, from AI to sustainability.",
-    image: "assets/img/VoB-14th-Issue.jpg",
+    image: "assets/img/News/VoB-14th-Issue.jpg",
     imageAlt: "Voice of Business 14th issue cover",
     url: "news.html#news-vob-issue-14",
     body: [
@@ -62,7 +62,7 @@ window.siteNews = [
     date: "2025-02-19",
     displayDate: "Feb 19, 2025",
     summary: "The flagship VoB job fair connects ambitious students with leading employers, mentors, and workshops.",
-    image: "assets/img/Job Fair.jpg",
+    image: "assets/img/News/Job Fair.jpg",
     imageAlt: "VoB job fair 2025 highlights",
     url: "news.html#news-job-fair-2025",
     body: [
@@ -79,7 +79,7 @@ window.siteNews = [
     date: "2024-08-14",
     displayDate: "Aug 14, 2024",
     summary: "MetLife's PASS scholarship nurtures future actuaries with funding, mentorship, and real-world exposure.",
-    image: "assets/img/Metlife.jpeg",
+    image: "assets/img/News/Metlife.jpeg",
     imageAlt: "MetLife corporate building",
     url: "news.html#news-metlife-pass-program",
     body: [

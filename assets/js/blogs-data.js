@@ -10,7 +10,7 @@ window.siteBlogs = [
     category: "Design",
     tags: ["minimalism", "home", "design"],
     summary: "Cozy Minimalism softens the minimalist playbook with warmth, texture, and intentional living for calmer, more human homes.",
-    image: "assets/img/Blog 01.png",
+    image: "assets/img/Blogs/Blog 01.png",
     imageAlt: "Soft neutral living room with minimal furniture and plants",
     heroBadge: "Featured",
     body: [

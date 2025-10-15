@@ -60,11 +60,6 @@
   background: color-mix(in srgb, var(--card), var(--brand) 6%);
 }
 
-@media (max-width: 700px) {
-  .experience-highlights {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-}
 .experience-highlights .stat {
   display: block;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
@@ -228,6 +223,72 @@
   align-items: center;
   justify-content: center;
   min-height: 32px;
+}
+
+@media (max-width: 1024px) {
+  .experience-wrap {
+    gap: 2.25rem;
+  }
+  .experience-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .xp-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .experience-hero {
+    padding: 1.25rem;
+  }
+  .experience-highlights {
+    grid-template-columns: 1fr;
+  }
+  .experience-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .experience-hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .xp-grid {
+    grid-template-columns: 1fr;
+  }
+  .xp-card {
+    padding: 1.25rem;
+  }
+  .xp-card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .75rem;
+  }
+  .xp-dates {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  .xp-points li {
+    padding-left: 1.1rem;
+  }
+  .xp-points li::before {
+    top: .5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .xp-logo {
+    width: 44px;
+    height: 44px;
+  }
+  .xp-company {
+    font-size: 1.05rem;
+  }
+  .xp-role {
+    font-size: .9rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
