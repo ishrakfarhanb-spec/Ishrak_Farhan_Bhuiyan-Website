@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="assets/css/variables.css" />
     <link rel="stylesheet" href="assets/css/base.css" />
     <link rel="stylesheet" href="assets/css/layout.css" />
-    <link rel="stylesheet" href="assets/css/components.css" />    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages/news.css" />    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3BY32ZZXY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -30,10 +31,37 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div data-include="header"></div>
-    <main id="main" class="section">
-      <div class="wrap flow">
-        <h1>News</h1>
-        <div class="news-list" data-news-list></div>
+    <main id="main" class="section news-page">
+      <div class="wrap news-wrap flow" data-animate>
+        <header class="page-head" data-animate-item>
+          <h1 class="page-title">News</h1>
+          <p class="eyebrow">Updates & highlights</p>
+        </header>
+
+        <section class="news-featured" data-news-featured data-animate-item hidden></section>
+
+        <section class="news-feed" data-animate>
+          <div class="news-list" data-news-list></div>
+          <button class="btn btn-ghost news-load-more" type="button" data-news-load-more hidden>Load more</button>
+        </section>
+
+        <div class="news-detail" data-news-detail hidden aria-hidden="true" role="dialog" aria-modal="true">
+          <div class="news-detail-backdrop" data-news-detail-close></div>
+          <article class="news-detail-panel">
+            <button class="btn btn-ghost news-detail-close" type="button" data-news-detail-close aria-label="Close story">&times;</button>
+            <div class="news-detail-media" data-news-detail-media></div>
+            <header class="news-detail-header">
+              <p class="featured-kicker" data-news-detail-kicker></p>
+              <h2 class="news-detail-title" data-news-detail-title></h2>
+              <p class="news-detail-meta" data-news-detail-meta></p>
+            </header>
+            <div class="news-detail-body" data-news-detail-body></div>
+            <footer class="news-detail-footer">
+              <a class="btn btn-link" data-news-detail-link target="_blank" rel="noopener">Open in new tab</a>
+            </footer>
+          </article>
+        </div>
+
         <noscript>
           <p class="muted">Enable JavaScript to read the latest updates.</p>
         </noscript>
@@ -45,6 +73,7 @@
     <script src="assets/js/theme.js" defer></script>
     <script src="assets/js/main.js" defer></script>
     <script src="assets/js/news-data.js" defer></script>
+    <script src="assets/js/home-animate.js" defer></script>
     <script src="assets/js/news-page.js" defer></script>
     <script src="assets/js/lazyload.js" defer></script>
   </body>

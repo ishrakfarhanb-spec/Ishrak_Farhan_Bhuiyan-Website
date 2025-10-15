@@ -1,9 +1,41 @@
-.hero { padding: 2rem 0 0; }
-.hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1.25rem; align-items: stretch; }
+.hero {
+  padding: 2rem 0 0;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 140% at 20% 20%, color-mix(in srgb, var(--brand), transparent 75%), transparent 72%),
+    linear-gradient(135deg, color-mix(in srgb, var(--brand), transparent 85%), transparent);
+  animation: heroGradientDrift 20s ease-in-out infinite alternate;
+  will-change: background-position;
+  background-attachment: fixed;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(90% 120% at 80% 20%, color-mix(in srgb, var(--accent), transparent 80%), transparent 70%);
+  opacity: .45;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1.25rem; align-items: stretch; position: relative; z-index: 1; }
 .hero-card { display: grid; grid-template-rows: auto 1fr; }
 .hero-title { font-weight: 800; }
 .cta-row { display: flex; gap: .75rem; margin-top: 1rem; }
 @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+
+.hero-copy > * {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: heroFadeUp .85s cubic-bezier(.21, 1, .34, 1) forwards;
+}
+.hero-copy > *:nth-child(1) { animation-delay: .15s; }
+.hero-copy > *:nth-child(2) { animation-delay: .25s; }
+.hero-copy > *:nth-child(3) { animation-delay: .35s; }
+.hero-copy > *:nth-child(4) { animation-delay: .45s; }
+.hero-copy > *:nth-child(5) { animation-delay: .55s; }
+.hero .btn-primary {
+  animation: ctaPulse 6.5s ease-in-out 1s infinite;
+}
 
 .about-page {
   gap: 3rem;
@@ -257,4 +289,125 @@
 @keyframes about-logo-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+.site-nav a:not(.btn) {
+  position: relative;
+  transition: color .25s ease, transform .25s ease;
+}
+.site-nav a:not(.btn)::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: currentColor;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform .25s ease;
+}
+.site-nav a:not(.btn):hover,
+.site-nav a:not(.btn):focus-visible {
+  transform: translateY(-1px);
+}
+.site-nav a:not(.btn):hover::after,
+.site-nav a:not(.btn):focus-visible::after {
+  transform: scaleX(1);
+}
+
+.grid.cards-3 .card,
+.grid.cards-2 .card,
+.section .card {
+  transition: transform .45s ease, box-shadow .45s ease;
+}
+.grid.cards-3 .card:hover,
+.grid.cards-3 .card:focus-within,
+.grid.cards-2 .card:hover,
+.grid.cards-2 .card:focus-within,
+.section .card:hover,
+.section .card:focus-within {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, .14);
+}
+
+[data-animate-item] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform .8s cubic-bezier(.21, 1, .34, 1), opacity .6s ease;
+}
+[data-animate-item].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-animate-item].is-visible:nth-child(2n) {
+  transition-delay: .1s;
+}
+[data-animate-item].is-visible:nth-child(3n) {
+  transition-delay: .18s;
+}
+
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroGradientDrift {
+  0% {
+    background-position: 0% 0%, 0% 50%;
+  }
+  50% {
+    background-position: 35% 40%, 50% 50%;
+  }
+  100% {
+    background-position: 70% 60%, 100% 50%;
+  }
+}
+
+@keyframes ctaPulse {
+  0%, 55% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 24, 74, .32);
+  }
+  65% {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 10px rgba(201, 24, 74, 0);
+  }
+  75% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 24, 74, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 24, 74, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    animation: none;
+    background-attachment: scroll;
+  }
+  .hero::after {
+    opacity: .25;
+  }
+  .hero-copy > *,
+  .hero-card,
+  [data-animate-item] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .hero .btn-primary {
+    animation: none;
+  }
+  .grid.cards-3 .card,
+  .grid.cards-2 .card,
+  .section .card {
+    transition: none;
+  }
 }

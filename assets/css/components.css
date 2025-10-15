@@ -282,34 +282,46 @@
 .site-nav a.btn-primary:visited,
 .site-nav a.btn-primary:hover,
 .site-nav a.btn-primary:active { color: #fff; }
-.nav-toggle { display: none; }
-/* Hamburger styles (rounded bars, no border) */
+/* Refined hamburger toggle */
 .nav-toggle {
+  --burger-gap: 12px;
+  --burger-color: color-mix(in srgb, currentColor, transparent 30%);
   position: relative;
   width: 44px;
-  height: 36px;
+  height: 44px;
   border: none;
   background: transparent;
-  display: none; /* shown on mobile via media query below */
-  flex-direction: column;
+  color: inherit;
+  display: none;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* space between bars */
-  /* explicit line width to match site */
-  --burger-bar-width: 36px;
-  padding: 0; /* let bars control their own width */
+  padding: 0;
   cursor: pointer;
+  transition: transform .25s cubic-bezier(.4, 0, .2, 1), opacity .25s ease;
 }
-/* Use blog-style clean bars */
-.nav-toggle span:not(.sr-only) {
-  position: static; /* override base.css absolute positioning */
-  display: block;
-  width: var(--burger-bar-width);
-  height: 4px;
-  background: currentColor;
-  border-radius: 999px;
+.nav-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 14px;
+  background: linear-gradient(150deg, rgba(15, 23, 42, .04), rgba(15, 23, 42, .12));
+  opacity: 0;
+  transform: scale(.9);
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1), opacity .3s ease, box-shadow .35s ease;
 }
-/* Ensure the accessible label stays visually hidden */
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+  transform: translateY(-1px);
+  --burger-gap: 8px;
+  --burger-color: color-mix(in srgb, currentColor, transparent 10%);
+}
+.nav-toggle:hover::before,
+.nav-toggle:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, .14);
+}
+.nav-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand), transparent 70%); }
 .nav-toggle .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -321,12 +333,54 @@
   white-space: nowrap !important;
   border: 0 !important;
 }
-.nav-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nav-toggle .burger-bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--burger-color);
+  transform-origin: center;
+  transition: transform .35s cubic-bezier(.4, 0, .2, 1), background-color .25s ease;
+}
+.nav-toggle .bar-top {
+  transform: translate(-50%, calc(-50% - (var(--burger-gap) / 2)));
+}
+.nav-toggle .bar-btm {
+  transform: translate(-50%, calc(-50% + (var(--burger-gap) / 2)));
+}
+.nav-toggle:active { transform: translateY(0); }
+.site-nav[data-open="true"] .nav-toggle {
+  --burger-gap: 12px;
+  --burger-color: color-mix(in srgb, var(--brand), var(--text) 10%);
+}
+.site-nav[data-open="true"] .nav-toggle::before {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 14px 26px rgba(15, 23, 42, .16);
+}
 
 /* Mobile dropdown */
 .site-nav { position: relative; }
 .site-nav.open #nav-list,
-.site-nav[data-open="true"] #nav-list { display: grid; position: absolute; top: calc(100% + 8px); right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 8px; gap: 2px; box-shadow: 0 8px 24px rgba(0,0,0,.12); min-width: 220px; z-index: 20; }
+.site-nav[data-open="true"] #nav-list {
+  display: grid;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  gap: 2px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  min-width: 220px;
+  z-index: 20;
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
 .site-nav.open #nav-list li a,
 .site-nav[data-open="true"] #nav-list li a { padding: 8px 10px; border-radius: 8px; }
 .site-nav.open #nav-list li a:hover,
@@ -348,7 +402,12 @@ ul.plain { list-style: none; margin: 0; padding: 0; }
 
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .site-nav #nav-list { display: none; }
+  .site-nav #nav-list {
+    display: none;
+    transform: translateX(20px);
+    opacity: 0;
+    pointer-events: none;
+  }
   .nav-toggle { display: inline-flex; }
 }
 

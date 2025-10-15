@@ -2,6 +2,22 @@
 // Ordered newest to oldest.
 window.siteNews = [
   {
+    id: "news-brandrill-finale-2025",
+    title: "Brandrill 5.0 Came to an End",
+    kicker: "Event",
+    date: "2025-10-11",
+    displayDate: "Oct 11, 2025",
+    summary: "Team Jhalmuri claimed the Brandrill 5.0 crown after a finale packed with ambitious pitches and collective brilliance.",
+    image: "assets/img/Brandrill 5.0.png",
+    imageAlt: "Brandrill 5.0 grand finale highlights",
+    body: [
+      "Brandrill 5.0 has officially come to an end, and what a transformative journey it has been! The Grand Finale served as the perfect crescendo \u2014 a culmination of days filled with creativity and collaborative excellence.",
+      "The champion title was claimed by Team Jhalmuri. Their presentation was outstanding and the branding strategy they delivered felt remarkably viable. Positioning a brand like Jibon in an already saturated mineral drinking water industry is a massive challenge on its own, yet they mapped out a solution that deservedly earned top honors. Skyfall and Smashed Burger took the stage as the 1st and 2nd runners-up respectively.",
+      "Immense appreciation goes to the dynamic Voice of Business family for orchestrating this event with such precision and synergy. I\u2019m truly proud to have been part of an initiative that united brilliant minds and showcased the power of collective intelligence.",
+      "Here\u2019s to more ventures that ignite inspiration, cultivate leadership, and build meaningful bonds."
+    ]
+  },
+  {
     id: "news-project-brandrill-2025",
     title: "Project Brandrill 2025",
     kicker: "Announcement",

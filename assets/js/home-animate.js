@@ -15,9 +15,17 @@
 
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
+      var target = entry.target;
+      var shouldReset = target.dataset.animateReset === 'true';
+
+      if (entry.isIntersecting) {
+        target.classList.add('is-visible');
+        if (!shouldReset) {
+          observer.unobserve(target);
+        }
+      } else if (shouldReset) {
+        target.classList.remove('is-visible');
+      }
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
