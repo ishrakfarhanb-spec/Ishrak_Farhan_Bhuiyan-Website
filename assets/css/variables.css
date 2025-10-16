@@ -12,6 +12,7 @@
   --radius: 16px;
   --shadow: 0 8px 24px rgba(0,0,0,.08);
   --wrap: min(1200px, 94vw);
+  --nav-accent: color-mix(in srgb, var(--brand) 75%, #6366f1 25%);
 }
 
 [data-theme="dark"] 
@@ -26,4 +27,5 @@
   /* Match Blogs blue accent */
   --brand: #2563eb;
   --shadow: 0 12px 36px rgba(0,0,0,.6);
+  --nav-accent: color-mix(in srgb, var(--brand) 60%, #a855f7 40%);
 }
