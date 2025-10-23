@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="assets/css/variables.css" />
     <link rel="stylesheet" href="assets/css/base.css" />
     <link rel="stylesheet" href="assets/css/layout.css" />
-    <link rel="stylesheet" href="assets/css/components.css" />    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages/projects.css" />
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3BY32ZZXY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -40,60 +42,150 @@
       <div class="wrap">
         <h1>Projects</h1>
         <div class="filters">
-          <button class="btn btn-small" data-filter="all">All</button>
-          <button class="btn btn-small" data-filter="web">Web</button>
-          <button class="btn btn-small" data-filter="tools">Tools</button>
+          <button class="btn btn-small is-active" data-filter="all">All</button>
+          <button class="btn btn-small" data-filter="tools">Excel</button>
+          <button class="btn btn-small" data-filter="reports">Reports</button>
         </div>
-        <div class="grid cards-3" id="projects-grid">
-          <article class="card" data-tags="Tools">
-            <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="ICRRS Rating Excel dashboard preview" class="lazy" width="800" height="450"/></div>
-            <div class="card-body">
-              <h3 class="card-title">ICRRS Rating Model</h3>
-              <p class="muted">Excel tool to score institutional credit risk with automated rating output.</p>
-              <a class="btn btn-primary btn-small" href="Excel_Projects/ICRRS%20RATING.xlsx" download>Download (XLSX)</a>
+
+        <section class="project-group section" data-project-group="tools">
+          <div class="section-head" data-animate-item data-animate-reset="true">
+            <div class="section-stack">
+              <span class="section-line" aria-hidden="true"></span>
+              <h2 class="project-group-title">Excel Projects</h2>
             </div>
-          </article>
-          <article class="card" data-tags="Tools">
-            <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Excel Expense Tracker" class="lazy" width="800" height="450"/></div>
-            <div class="card-body">
-              <h3 class="card-title">Excel Expense Tracker</h3>
-              <p class="muted">Track daily expenses with categories & monthly summary.</p>
-              <a class="btn btn-primary btn-small" href="assets/tools/expense-tracker.csv" download>Download (CSV)</a>
+          </div>
+          <div class="grid cards-3" id="projects-grid">
+            <article class="card" data-tags="tools">
+              <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="ICRRS Rating Excel dashboard preview" class="lazy" width="800" height="450"/></div>
+              <div class="card-body">
+                <h3 class="card-title">ICRRS Rating Model</h3>
+                <p class="muted">Excel tool to score institutional credit risk with automated rating output.</p>
+                <a class="btn btn-primary btn-small" href="Excel_Projects/ICRRS%20RATING.xlsx" download>Download (XLSX)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="tools">
+              <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Excel Expense Tracker" class="lazy" width="800" height="450"/></div>
+              <div class="card-body">
+                <h3 class="card-title">Excel Expense Tracker</h3>
+                <p class="muted">Track daily expenses with categories & monthly summary.</p>
+                <a class="btn btn-primary btn-small" href="assets/tools/expense-tracker.csv" download>Download (CSV)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="tools">
+              <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Monthly Budget Planner" class="lazy" width="800" height="450"/></div>
+              <div class="card-body">
+                <h3 class="card-title">Monthly Budget Planner</h3>
+                <p class="muted">Plan income vs. expenses and track variance.</p>
+                <a class="btn btn-primary btn-small" href="assets/tools/monthly-budget-planner.csv" download>Download (CSV)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="tools">
+              <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Invoice Template" class="lazy" width="800" height="450"/></div>
+              <div class="card-body">
+                <h3 class="card-title">Invoice Template</h3>
+                <p class="muted">Simple invoice with itemized lines and totals.</p>
+                <a class="btn btn-primary btn-small" href="assets/tools/invoice-template.csv" download>Download (CSV)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="tools">
+              <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Project Gantt Sheet" class="lazy" width="800" height="450"/></div>
+              <div class="card-body">
+                <h3 class="card-title">Project Gantt Sheet</h3>
+                <p class="muted">Milestones with start/end dates and status.</p>
+                <a class="btn btn-primary btn-small" href="assets/tools/project-gantt.csv" download>Download (CSV)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="tools">
+              <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Grade Calculator" class="lazy" width="800" height="450"/></div>
+              <div class="card-body">
+                <h3 class="card-title">Grade Calculator</h3>
+                <p class="muted">Calculate weighted averages across assignments.</p>
+                <a class="btn btn-primary btn-small" href="assets/tools/grade-calculator.csv" download>Download (CSV)</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="project-group section" data-project-group="reports">
+          <div class="section-head" data-animate-item data-animate-reset="true">
+            <div class="section-stack">
+              <span class="section-line" aria-hidden="true"></span>
+              <h2 class="project-group-title">Reports</h2>
             </div>
-          </article>
-          <article class="card" data-tags="Lifestyle">
-            <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Monthly Budget Planner" class="lazy" width="800" height="450"/></div>
-            <div class="card-body">
-              <h3 class="card-title">Monthly Budget Planner</h3>
-              <p class="muted">Plan income vs. expenses and track variance.</p>
-              <a class="btn btn-primary btn-small" href="assets/tools/monthly-budget-planner.csv" download>Download (CSV)</a>
-            </div>
-          </article>
-          <article class="card" data-tags="Tips & Hacks">
-            <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Invoice Template" class="lazy" width="800" height="450"/></div>
-            <div class="card-body">
-              <h3 class="card-title">Invoice Template</h3>
-              <p class="muted">Simple invoice with itemized lines and totals.</p>
-              <a class="btn btn-primary btn-small" href="assets/tools/invoice-template.csv" download>Download (CSV)</a>
-            </div>
-          </article>
-          <article class="card" data-tags="tools">
-            <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Project Gantt Sheet" class="lazy" width="800" height="450"/></div>
-            <div class="card-body">
-              <h3 class="card-title">Project Gantt Sheet</h3>
-              <p class="muted">Milestones with start/end dates and status.</p>
-              <a class="btn btn-primary btn-small" href="assets/tools/project-gantt.csv" download>Download (CSV)</a>
-            </div>
-          </article>
-          <article class="card" data-tags="tools">
-            <div class="card-media"><img data-src="assets/img/Projects/Excel.png" alt="Grade Calculator" class="lazy" width="800" height="450"/></div>
-            <div class="card-body">
-              <h3 class="card-title">Grade Calculator</h3>
-              <p class="muted">Calculate weighted averages across assignments.</p>
-              <a class="btn btn-primary btn-small" href="assets/tools/grade-calculator.csv" download>Download (CSV)</a>
-            </div>
-          </article>
-        </div>
+          </div>
+          <div class="grid cards-3" id="reports-grid">
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-101: Principles and Practices of Banking</h3>
+                <p class="muted">Course report synthesizing foundational banking concepts, regulatory context, and operational models.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-101,%20Principles%20and%20Practices%20of%20Banking.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-102: Business Communication</h3>
+                <p class="muted">Insights into persuasive messaging, corporate correspondence, and stakeholder-ready presentation design.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-102,%20Business%20Communication.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-202: Macroeconomics</h3>
+                <p class="muted">Macro indicators, fiscal policy review, and scenario planning tailored to emerging markets.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-202,%20Macroeconomics.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-204: Financial Management</h3>
+                <p class="muted">Capital budgeting, risk profiling, and liquidity planning translated into actionable recommendations.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-204,%20ID-149%20Financial%20Management.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-210: Organizational Behavior & HRM</h3>
+                <p class="muted">Cultural diagnostics, talent frameworks, and change management playbooks for resilient teams.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-210,%20Organization%20Behavior%20and%20Human%20Resource%20Management.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-302: Public Finance (Group 01)</h3>
+                <p class="muted">Revenue analysis, expenditure tracing, and policy levers for inclusive public finance.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-302,%20Public%20Finance%20GROUP%2001.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-303: Financial Markets & Institutions</h3>
+                <p class="muted">Structural overview of capital markets with risk-return insights across asset classes.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-303,%20Financial%20Markets%20and%20Institutions.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-308: International Business & Banking</h3>
+                <p class="muted">Cross-border trade dynamics, FX considerations, and compliance checkpoints for global banking.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-308,%20International%20Business%20and%20Banking.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-402: Financial Statement Analysis</h3>
+                <p class="muted">Comparative ratio study, common-size statements, and valuation signals for decision makers.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-402,%20Financial%20Statement%20Analysis.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+            <article class="card" data-tags="reports">
+              <div class="card-body">
+                <h3 class="card-title">B-405: Merchant & Investment Banking</h3>
+                <p class="muted">Deal structuring, advisory models, and capital market pathways for institutional finance.</p>
+                <a class="btn btn-primary btn-small" href="assets/All%20Reports/B-405%20Merchant%20and%20Investment%20Banking.pdf" download>Download (PDF)</a>
+              </div>
+            </article>
+          </div>
+        </section>
       </div>
     </main>
     <div data-include="follow-cta"></div>

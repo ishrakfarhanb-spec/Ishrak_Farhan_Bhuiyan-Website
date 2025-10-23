@@ -171,18 +171,39 @@
       if (href === path) a.setAttribute('aria-current', 'page');
     });
 
-    const grid = document.getElementById('projects-grid');
-    if (grid) {
-      document.querySelectorAll('.filters [data-filter]').forEach(function (fbtn) {
-        if (fbtn.dataset.bound) return;
-        fbtn.addEventListener('click', function () {
-          const f = fbtn.getAttribute('data-filter');
-          grid.querySelectorAll('.card').forEach(function (card) {
-            const tags = (card.getAttribute('data-tags') || '').split(',').map(function (s) { return s.trim(); });
-            card.style.display = (f === 'all' || tags.includes(f)) ? '' : 'none';
+    var filterButtons = document.querySelectorAll('.filters [data-filter]');
+    var projectGroups = document.querySelectorAll('[data-project-group]');
+    if (filterButtons.length && projectGroups.length) {
+      filterButtons.forEach(function (btn) {
+        if (btn.dataset.bound === 'true') return;
+        btn.dataset.bound = 'true';
+        btn.setAttribute('aria-pressed', btn.classList.contains('is-active') ? 'true' : 'false');
+
+        btn.addEventListener('click', function () {
+          var currentFilter = btn.getAttribute('data-filter');
+
+          filterButtons.forEach(function (other) {
+            var isActive = other === btn;
+            other.classList.toggle('is-active', isActive);
+            other.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+
+          projectGroups.forEach(function (group) {
+            var groupKey = group.getAttribute('data-project-group');
+            var showGroup = currentFilter === 'all' || currentFilter === groupKey;
+            group.style.display = showGroup ? '' : 'none';
+
+            if (!showGroup) return;
+
+            group.querySelectorAll('[data-tags]').forEach(function (card) {
+              var tags = (card.getAttribute('data-tags') || '')
+                .split(',')
+                .map(function (s) { return s.trim(); })
+                .filter(Boolean);
+              card.style.display = (currentFilter === 'all' || tags.includes(currentFilter)) ? '' : 'none';
+            });
           });
         });
-        fbtn.dataset.bound = 'true';
       });
     }
 

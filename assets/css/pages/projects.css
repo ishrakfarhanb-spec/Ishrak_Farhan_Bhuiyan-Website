@@ -1,0 +1,145 @@
+.project-group {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  display: grid;
+  gap: 1.5rem;
+}
+
+.project-group:first-of-type {
+  margin-top: clamp(1rem, 3vw, 2rem);
+}
+
+.project-group .section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: .75rem;
+}
+
+.project-group .section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.project-group .section-line {
+  width: 64px;
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand), var(--text) 35%);
+  margin-bottom: .35rem;
+}
+
+.project-group .project-group-title {
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: .01em;
+  line-height: 1.1;
+}
+
+.project-group .project-group-copy {
+  color: color-mix(in srgb, var(--text), #ffffff 55%);
+  max-width: 48ch;
+  line-height: 1.6;
+  margin-top: .35rem;
+  flex: 1 1 100%;
+}
+
+.project-group .section-head[data-animate-item] .section-line {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.project-group .section-head[data-animate-item] .project-group-title {
+  display: inline-block;
+  transform: translateY(12px);
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+
+.project-group .section-head[data-animate-item].is-visible .section-line {
+  animation: sectionLineWipe .9s cubic-bezier(.68, -.55, .27, 1.55) forwards;
+}
+
+.project-group .section-head[data-animate-item].is-visible .project-group-title {
+  animation: sectionTitleWipe .85s cubic-bezier(.21, 1, .34, 1) .12s forwards;
+}
+
+.project-group .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-group .card .card-media {
+  flex-shrink: 0;
+}
+
+.project-group .card .card-body {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.project-group .card .card-body > *:not(.btn) {
+  width: 100%;
+}
+
+.project-group .card .btn {
+  transition: transform .35s ease, box-shadow .35s ease, background-color .35s ease, color .35s ease;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, .12);
+  margin-top: auto;
+  align-self: flex-start;
+  min-width: 9.5rem;
+}
+
+.project-group .card .btn:hover,
+.project-group .card .btn:focus-visible {
+  transform: none;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, .12);
+}
+
+.project-group .card .btn.btn-primary:hover,
+.project-group .card .btn.btn-primary:focus-visible {
+  background: #fff;
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+.project-group .card .btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--brand), #ffffff 35%);
+  outline-offset: 3px;
+}
+
+.filters .btn.is-active {
+  background-color: color-mix(in srgb, var(--brand), var(--card) 35%);
+  color: var(--body);
+  border-color: transparent;
+}
+
+@keyframes sectionLineWipe {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes sectionTitleWipe {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (max-width: 720px) {
+  .project-group .project-group-title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+}
