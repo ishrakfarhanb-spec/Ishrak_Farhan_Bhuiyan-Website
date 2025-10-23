@@ -44,9 +44,4 @@
       mo.observe(container, { childList: true, subtree: true });
     }
   });
-
-  document.querySelectorAll('.about-logo-track').forEach(function (track) {
-    var base = 20 + Math.random() * 6;
-    track.style.animationDuration = base.toFixed(1) + 's';
-  });
 })();

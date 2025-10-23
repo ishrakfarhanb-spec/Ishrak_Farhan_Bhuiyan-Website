@@ -245,8 +245,10 @@
 .about-logo-track {
   display: flex;
   width: max-content;
-  animation: about-logo-scroll 20s linear infinite;
+  animation: about-logo-scroll var(--logo-scroll-duration, 24s) linear infinite;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 .about-logo-track:hover { animation-play-state: paused; }
 .about-logo-segment {
@@ -287,8 +289,8 @@
 }
 
 @keyframes about-logo-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .site-nav a:not(.btn) {
