@@ -309,12 +309,35 @@
 .hero .hero-card:hover,
 .hero .hero-card:focus-within {
   box-shadow: none;
-  transform: translateY(-4px);
 }
 .hero .hero-card .card-media {
   transition: transform .35s ease;
 }
 .hero .hero-card:hover .card-media,
 .hero .hero-card:focus-within .card-media {
-  transform: translateY(-6px);
+  transform: none;
+}
+
+[data-timeline-grid] {
+  position: relative;
+  perspective: 1200px;
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+
+[data-timeline-grid] .card {
+  will-change: clip-path, transform;
+}
+
+[data-tilt-card] {
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+[data-tilt-card] .card-media {
+  transform-style: preserve-3d;
+}
+
+.tilt-card--static {
+  box-shadow: var(--card-shadow, 0 18px 28px rgba(9, 11, 34, .12));
 }
