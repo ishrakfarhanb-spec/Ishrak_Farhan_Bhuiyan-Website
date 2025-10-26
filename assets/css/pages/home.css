@@ -181,8 +181,7 @@
 }
 
 [data-news-latest] .card-media {
-  aspect-ratio: 1 / 1;
-  display: grid;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
@@ -190,7 +189,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
 }
 
 /* Portrait background variant for home hero */
