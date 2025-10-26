@@ -300,6 +300,13 @@
     clip-path: none;
     animation: none;
   }
+  .hero-card--feature .hero-card__overlay {
+    position: static;
+    transform: none;
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
 }
 .hero .hero-card {
   box-shadow: none;
@@ -317,6 +324,53 @@
   transform: none;
 }
 
+.hero-card--feature {
+  overflow: hidden;
+}
+
+.hero-card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.hero-card__body {
+  padding-top: 1.1rem;
+}
+
+.hero-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: .75rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: linear-gradient(180deg, rgba(6, 8, 20, 0) 25%, rgba(6, 8, 20, .92) 80%);
+  color: #f5f7fb;
+  transform: translateY(100%);
+  transition: transform .45s cubic-bezier(.25, .95, .4, 1.15);
+  will-change: transform;
+}
+
+.hero-card__overlay p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.hero-card__overlay .btn {
+  padding-left: 0;
+  color: currentColor;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hero-card--feature:hover .hero-card__overlay,
+.hero-card--feature:focus-within .hero-card__overlay {
+  transform: translateY(0);
+}
+
 [data-timeline-grid] {
   position: relative;
   perspective: 1200px;
@@ -326,17 +380,21 @@
 [data-timeline-grid] .card {
   will-change: clip-path, transform;
 }
-
-[data-tilt-card] {
-  transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease;
-  will-change: transform;
-  transform-style: preserve-3d;
+[data-timeline-grid="projects"] .card-media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  display: grid;
 }
 
-[data-tilt-card] .card-media {
-  transform-style: preserve-3d;
+[data-timeline-grid="projects"] .card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
 }
 
-.tilt-card--static {
-  box-shadow: var(--card-shadow, 0 18px 28px rgba(9, 11, 34, .12));
+[data-timeline-grid="projects"] .card:hover .card-media img,
+[data-timeline-grid="projects"] .card:focus-within .card-media img {
+  transform: scale(1.06);
 }
