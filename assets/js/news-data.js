@@ -88,5 +88,47 @@ window.siteNews = [
       "The PASS Program symbolizes MetLife's belief that sustainable growth begins with investing in knowledge. By empowering promising young minds with the resources and guidance they need to pursue professional actuarial qualifications, MetLife Bangladesh is helping build a new generation of analytical thinkers who will shape the future of the nation's financial resilience and innovation.",
       "In essence, the MetLife PASS Program is more than a scholarship \u2014 it is a pathway for bright Bangladeshi students to turn mathematical precision into strategic foresight, transforming potential into impact."
     ]
+  },
+  {
+    id: "news-casespecs-runner-up-2024",
+    title: "1st Runner Up | Casespecs 2.0",
+    kicker: "Achievement",
+    date: "2024-05-01",
+    displayDate: "May 2024",
+    summary: "Team Code Breakers secured the 1st runner-up spot at Casespecs 2.0 after a rewarding journey to Khulna.",
+    image: "assets/img/News/casespecs-2-0.jpeg",
+    imageAlt: "Team Code Breakers at Casespecs 2.0",
+    body: [
+      "My team and I poured our energy into Casespecs 2.0, traveling all the way to Khulna for the competition hosted by KUET Spectrum.",
+      "The effort and the experience were worth every moment, and finishing as 1st runner up feels like the perfect launchpad for a fresh start."
+    ]
+  },
+  {
+    id: "news-oxfam-green-idea-2024",
+    title: "Champion | Oxfam Green Idea Entrepreneurship Competition",
+    kicker: "Competition",
+    date: "2024-06-01",
+    displayDate: "Jun 2024",
+    summary: "Crowned champions at Oxfam's Green Idea Competition after pitching a sustainability-driven venture with measurable impact.",
+    image: "assets/img/News/Oxfam.png",
+    imageAlt: "Oxfam Green Idea entrepreneurship competition winners",
+    body: [
+      "Leading our team to the championship at the Oxfam Green Idea Entrepreneurship Competition was a proud highlight of 2024. We crafted a sustainability-focused solution and presented it to a panel of experts driven by climate resilience and inclusive growth.",
+      "The recognition from Oxfam validated months of research, fieldwork, and prototyping, and it reinforced my passion for building ventures that balance community benefit with real-world viability."
+    ]
+  },
+  {
+    id: "news-battle-of-minds-bootcamp-2023",
+    title: "Battle of Minds 2023 | Bootcamp",
+    kicker: "Bootcamp",
+    date: "2023-06-01",
+    displayDate: "Jun 2023",
+    summary: "Selected for the Battle of Minds 2023 bootcamp hosted by BAT Bangladesh, gaining first-hand insight into innovation at scale.",
+    image: "assets/img/News/BOM.jpeg",
+    imageAlt: "Battle of Minds 2023 bootcamp",
+    body: [
+      "June 2023 marked an energizing milestone as I joined the Battle of Minds bootcamp, an innovation accelerator led by British American Tobacco Bangladesh.",
+      "Collaborating with a cohort of driven changemakers, I explored real-world problem spaces, iterated bold ideas, and experienced how BATB nurtures entrepreneurial thinking within its global talent pipeline."
+    ]
   }
 ];

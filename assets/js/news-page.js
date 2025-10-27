@@ -33,6 +33,13 @@
   let renderedCount = 0;
   let lastFocused = null;
   let detailOpen = false;
+  const refreshLazy = function () {
+    if (typeof window.refreshLazyImages === "function") {
+      window.refreshLazyImages();
+    } else {
+      document.dispatchEvent(new Event("lazyload:refresh"));
+    }
+  };
 
   if (featured && featuredEl) {
     renderFeatured(featured);
@@ -90,6 +97,7 @@
     });
     listEl.appendChild(fragment);
     renderedCount += nextItems.length;
+    refreshLazy();
   }
 
   function toggleLoadMore() {
@@ -104,12 +112,21 @@
     if (item.image) {
       const media = document.createElement("div");
       media.className = "featured-media";
+      if (item.imageAspect) {
+        media.style.aspectRatio = item.imageAspect;
+      }
       const img = document.createElement("img");
       img.className = "lazy";
       img.setAttribute("data-src", item.image);
       img.setAttribute("alt", item.imageAlt || item.title);
       img.setAttribute("width", "1080");
       img.setAttribute("height", "1080");
+      if (item.imageFit) {
+        img.style.objectFit = item.imageFit;
+      }
+      if (item.imagePosition) {
+        img.style.objectPosition = item.imagePosition;
+      }
       media.appendChild(img);
       fragment.appendChild(media);
     }
@@ -154,6 +171,7 @@
 
     fragment.appendChild(body);
     featuredEl.appendChild(fragment);
+    refreshLazy();
   }
 
   function createNewsCard(item) {
@@ -167,12 +185,21 @@
     if (item.image) {
       const imageWrap = document.createElement("div");
       imageWrap.className = "news-image";
+      if (item.imageAspect) {
+        imageWrap.style.aspectRatio = item.imageAspect;
+      }
       const img = document.createElement("img");
       img.className = "lazy";
       img.setAttribute("data-src", item.image);
       img.setAttribute("alt", item.imageAlt || item.title);
       img.setAttribute("width", "1080");
       img.setAttribute("height", "1080");
+      if (item.imageFit) {
+        img.style.objectFit = item.imageFit;
+      }
+      if (item.imagePosition) {
+        img.style.objectPosition = item.imagePosition;
+      }
       imageWrap.appendChild(img);
       article.appendChild(imageWrap);
     }
