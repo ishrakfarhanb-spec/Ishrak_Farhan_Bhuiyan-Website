@@ -131,6 +131,14 @@
     const btn = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.site-header .site-nav');
     const list = document.getElementById('nav-list');
+    const closeBtn = document.querySelector('.nav-close');
+    const backdrop = document.querySelector('.nav-backdrop');
+    if (closeBtn && !closeBtn.dataset.bound) {
+      closeBtn.setAttribute('hidden', '');
+    }
+    if (backdrop && !backdrop.dataset.bound) {
+      backdrop.setAttribute('hidden', '');
+    }
     if (btn && nav && list && !btn.dataset.bound) {
       const mq = window.matchMedia('(max-width: 900px)');
       function closeMenu(){
@@ -138,6 +146,8 @@
         nav.dataset.open = 'false';
         btn.setAttribute('aria-expanded', 'false');
         document.documentElement.classList.remove('nav-open');
+        if (closeBtn) closeBtn.setAttribute('hidden', '');
+        if (backdrop) backdrop.setAttribute('hidden', '');
         document.removeEventListener('click', onDocClick);
       }
       function onDocClick(e){ if (!nav.contains(e.target)) closeMenu(); }
@@ -149,6 +159,11 @@
           nav.dataset.open = 'true';
           btn.setAttribute('aria-expanded', 'true');
           document.documentElement.classList.add('nav-open');
+          if (closeBtn) {
+            closeBtn.removeAttribute('hidden');
+            closeBtn.focus({ preventScroll: true });
+          }
+          if (backdrop) backdrop.removeAttribute('hidden');
           setTimeout(function(){ document.addEventListener('click', onDocClick); }, 0);
         }
       }
@@ -158,6 +173,14 @@
       // Close on nav link click
       list.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
       btn.dataset.bound = 'true';
+      if (closeBtn && !closeBtn.dataset.bound) {
+        closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closeMenu(); });
+        closeBtn.dataset.bound = 'true';
+      }
+      if (backdrop && !backdrop.dataset.bound) {
+        backdrop.addEventListener('click', closeMenu);
+        backdrop.dataset.bound = 'true';
+      }
     }
 
     function normalizePath(value) {
