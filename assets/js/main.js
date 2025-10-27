@@ -137,6 +137,7 @@
         nav.classList.remove('open');
         nav.dataset.open = 'false';
         btn.setAttribute('aria-expanded', 'false');
+        document.documentElement.classList.remove('nav-open');
         document.removeEventListener('click', onDocClick);
       }
       function onDocClick(e){ if (!nav.contains(e.target)) closeMenu(); }
@@ -147,6 +148,7 @@
           nav.classList.add('open');
           nav.dataset.open = 'true';
           btn.setAttribute('aria-expanded', 'true');
+          document.documentElement.classList.add('nav-open');
           setTimeout(function(){ document.addEventListener('click', onDocClick); }, 0);
         }
       }

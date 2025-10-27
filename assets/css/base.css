@@ -60,6 +60,8 @@
 
 html, body { padding: 0; margin: 0; }
 body { font-family: 'Albert Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+html.nav-open,
+html.nav-open body { overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; }
 img { max-width: 100%; display: block; height: auto; }
@@ -140,16 +142,59 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 .site-nav ul { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
 .site-nav a { padding: .4rem .6rem; border-radius: 8px; text-decoration: none; }
 .site-nav a.active { background: var(--border); }
-.nav-toggle { display: none; background: transparent; border: 0; width: 44px; height: 36px; position: relative; }
-.nav-toggle span { position: absolute; left: 8px; right: 8px; height: 2px; background: var(--text); transition: .2s; }
-.nav-toggle span:nth-child(2) { top: 16px; } 
-.nav-toggle span:nth-child(3) { top: 24px; } 
-.nav-toggle span:nth-child(1) { top: 8px; }
-@media (max-width: 800px) 
-{
-  .site-nav ul { display: none; position: absolute; right: 1rem; top: 64px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: .6rem; width: min(90vw, 320px); box-shadow: var(--shadow); }
-  .site-nav ul.open { display: block; }
-  .nav-toggle { display: inline-block; }
+.nav-toggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0;
+  cursor: pointer;
+}
+.nav-toggle .burger-bar {
+  width: 26px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+@media (max-width: 900px) {
+  .site-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 96px 24px 24px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(320px, 85vw);
+    background: var(--card);
+    border-left: 1px solid var(--border);
+    box-shadow: -20px 0 40px rgba(15, 23, 42, .16);
+    transform: translateX(100%);
+    transition: transform .35s ease;
+    pointer-events: none;
+    overflow-y: auto;
+    min-height: 100vh;
+  }
+  .site-nav.open ul,
+  .site-nav[data-open="true"] ul {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .site-nav ul.open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .nav-toggle { display: inline-flex; }
 }
 
 
