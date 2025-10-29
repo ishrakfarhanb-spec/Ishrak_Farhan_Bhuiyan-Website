@@ -172,20 +172,20 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
     margin: 0;
     padding: 96px 24px 24px;
     position: fixed;
-    top: 0;
+    top: var(--nav-panel-top, 0px);
     right: 0;
-    bottom: 0;
+    bottom: auto;
     width: min(320px, 85vw);
     background: var(--card);
     border-left: 1px solid var(--border);
     box-shadow: -20px 0 40px rgba(15, 23, 42, .16);
     --nav-panel-x: 100%;
-    transform: translate3d(var(--nav-panel-x), var(--nav-panel-shift, 0px), 0);
+    transform: translate3d(var(--nav-panel-x), 0, 0);
     transition: transform .35s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .35s;
     pointer-events: none;
     visibility: hidden;
     overflow-y: auto;
-    min-height: 100vh;
+    max-height: var(--nav-panel-max-height, 100vh);
     overscroll-behavior: contain;
   }
   .site-nav.open ul,

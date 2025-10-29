@@ -146,9 +146,23 @@
 
       function updatePanelOffset() {
         if (!nav.classList.contains('open') && nav.dataset.open !== 'true') return;
-        const rect = nav.getBoundingClientRect();
-        const offset = Math.max(rect.top, 0);
-        nav.style.setProperty('--nav-panel-shift', offset + 'px');
+        const visual = window.visualViewport;
+        const layoutViewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+        const viewportHeight = visual ? visual.height : layoutViewportHeight;
+        const viewportOffsetTop = visual ? visual.offsetTop : 0;
+        const viewportOffsetBottom = Math.max(layoutViewportHeight - (viewportHeight + viewportOffsetTop), 0);
+        const btnRect = btn.getBoundingClientRect();
+        const safeTop = 16 + viewportOffsetTop;
+        const safeBottom = 16 + viewportOffsetBottom;
+        const desiredTop = Math.max(btnRect.top - 12, safeTop);
+        const listHeight = list.scrollHeight;
+        const availableHeight = Math.max(viewportHeight - safeTop - safeBottom, 160);
+        const intrinsicHeight = Math.min(listHeight, availableHeight);
+        const maxTop = Math.max(safeTop, viewportHeight - intrinsicHeight - safeBottom + viewportOffsetTop);
+        const top = Math.min(desiredTop, maxTop);
+        const maxHeight = Math.max(viewportHeight - (top - viewportOffsetTop) - safeBottom, 0);
+        nav.style.setProperty('--nav-panel-top', Math.round(top) + 'px');
+        nav.style.setProperty('--nav-panel-max-height', Math.round(maxHeight) + 'px');
       }
 
       function enablePanelOffset() {
@@ -174,11 +188,13 @@
           window.removeEventListener('resize', updatePanelOffset);
         }
         if (immediate) {
-          nav.style.removeProperty('--nav-panel-shift');
+          nav.style.removeProperty('--nav-panel-top');
+          nav.style.removeProperty('--nav-panel-max-height');
           return;
         }
         panelOffsetTimer = setTimeout(function () {
-          nav.style.removeProperty('--nav-panel-shift');
+          nav.style.removeProperty('--nav-panel-top');
+          nav.style.removeProperty('--nav-panel-max-height');
           panelOffsetTimer = null;
         }, 380);
       }
