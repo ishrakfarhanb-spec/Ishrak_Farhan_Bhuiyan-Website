@@ -131,83 +131,21 @@
     const btn = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.site-header .site-nav');
     const list = document.getElementById('nav-list');
-    const closeBtn = document.querySelector('.nav-close');
     const backdrop = document.querySelector('.nav-backdrop');
-    if (closeBtn && !closeBtn.dataset.bound) {
-      closeBtn.setAttribute('hidden', '');
-    }
     if (backdrop && !backdrop.dataset.bound) {
       backdrop.setAttribute('hidden', '');
     }
     if (btn && nav && list && !btn.dataset.bound) {
       const mq = window.matchMedia('(max-width: 900px)');
-      let trackingPanel = false;
-      let panelOffsetTimer = null;
-
-      function updatePanelOffset() {
-        if (!nav.classList.contains('open') && nav.dataset.open !== 'true') return;
-        const visual = window.visualViewport;
-        const layoutViewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-        const viewportHeight = visual ? visual.height : layoutViewportHeight;
-        const viewportOffsetTop = visual ? visual.offsetTop : 0;
-        const viewportOffsetBottom = Math.max(layoutViewportHeight - (viewportHeight + viewportOffsetTop), 0);
-        const btnRect = btn.getBoundingClientRect();
-        const safeTop = 16 + viewportOffsetTop;
-        const safeBottom = 16 + viewportOffsetBottom;
-        const desiredTop = Math.max(btnRect.top - 12, safeTop);
-        const listHeight = list.scrollHeight;
-        const availableHeight = Math.max(viewportHeight - safeTop - safeBottom, 160);
-        const intrinsicHeight = Math.min(listHeight, availableHeight);
-        const maxTop = Math.max(safeTop, viewportHeight - intrinsicHeight - safeBottom + viewportOffsetTop);
-        const top = Math.min(desiredTop, maxTop);
-        const maxHeight = Math.max(viewportHeight - (top - viewportOffsetTop) - safeBottom, 0);
-        nav.style.setProperty('--nav-panel-top', Math.round(top) + 'px');
-        nav.style.setProperty('--nav-panel-max-height', Math.round(maxHeight) + 'px');
-      }
-
-      function enablePanelOffset() {
-        if (panelOffsetTimer) {
-          clearTimeout(panelOffsetTimer);
-          panelOffsetTimer = null;
-        }
-        updatePanelOffset();
-        if (trackingPanel) return;
-        trackingPanel = true;
-        window.addEventListener('scroll', updatePanelOffset, { passive: true });
-        window.addEventListener('resize', updatePanelOffset);
-      }
-
-      function disablePanelOffset(immediate) {
-        if (panelOffsetTimer) {
-          clearTimeout(panelOffsetTimer);
-          panelOffsetTimer = null;
-        }
-        if (trackingPanel) {
-          trackingPanel = false;
-          window.removeEventListener('scroll', updatePanelOffset);
-          window.removeEventListener('resize', updatePanelOffset);
-        }
-        if (immediate) {
-          nav.style.removeProperty('--nav-panel-top');
-          nav.style.removeProperty('--nav-panel-max-height');
-          return;
-        }
-        panelOffsetTimer = setTimeout(function () {
-          nav.style.removeProperty('--nav-panel-top');
-          nav.style.removeProperty('--nav-panel-max-height');
-          panelOffsetTimer = null;
-        }, 380);
-      }
 
       function closeMenu(options){
         options = options || {};
         nav.classList.remove('open');
         nav.dataset.open = 'false';
         btn.setAttribute('aria-expanded', 'false');
+        btn.classList.remove('is-active');
         document.documentElement.classList.remove('nav-open');
-        if (closeBtn) closeBtn.setAttribute('hidden', '');
         if (backdrop) backdrop.setAttribute('hidden', '');
-        disablePanelOffset(options.immediate === true);
         document.removeEventListener('click', onDocClick);
       }
       function onDocClick(e){ if (!nav.contains(e.target)) closeMenu(); }
@@ -218,12 +156,8 @@
           nav.classList.add('open');
           nav.dataset.open = 'true';
           btn.setAttribute('aria-expanded', 'true');
+          btn.classList.add('is-active');
           document.documentElement.classList.add('nav-open');
-          enablePanelOffset();
-          if (closeBtn) {
-            closeBtn.removeAttribute('hidden');
-            closeBtn.focus({ preventScroll: true });
-          }
           if (backdrop) backdrop.removeAttribute('hidden');
           setTimeout(function(){ document.addEventListener('click', onDocClick); }, 0);
         }
@@ -242,10 +176,6 @@
         a.addEventListener('click', function(){ closeMenu(); });
       });
       btn.dataset.bound = 'true';
-      if (closeBtn && !closeBtn.dataset.bound) {
-        closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closeMenu(); });
-        closeBtn.dataset.bound = 'true';
-      }
       if (backdrop && !backdrop.dataset.bound) {
         backdrop.addEventListener('click', function(){ closeMenu(); });
         backdrop.dataset.bound = 'true';
@@ -264,6 +194,18 @@
       const href = normalizePath(new URL(a.href, location.origin).pathname);
       if (href === path) a.setAttribute('aria-current', 'page');
     });
+    const navStatusCurrent = document.querySelector('.nav-status .status-current');
+    function syncNavStatusLabel() {
+      if (!navStatusCurrent) return;
+      var active = document.querySelector('.site-nav a[aria-current="page"]');
+      var text = active ? active.textContent.trim() : (document.title || '');
+      if (!active) {
+        text = text.split(' | ')[0].split(' – ')[0].trim();
+      }
+      if (!text) text = 'Menu';
+      navStatusCurrent.textContent = text;
+    }
+    syncNavStatusLabel();
 
     var filterButtons = document.querySelectorAll('.filters [data-filter]');
     var projectGroups = document.querySelectorAll('[data-project-group]');

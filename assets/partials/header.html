@@ -8,14 +8,18 @@
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">
         <span class="sr-only">Menu</span>
         <span class="burger-bar bar-top"></span>
+        <span class="burger-bar bar-mid"></span>
         <span class="burger-bar bar-btm"></span>
-      </button>
-      <button class="nav-close" type="button" aria-controls="nav-list">
-        <span class="sr-only">Close menu</span>
-        <span class="nav-close__icon" aria-hidden="true">&times;</span>
       </button>
       <div class="nav-backdrop" aria-hidden="true"></div>
       <ul id="nav-list">
+        <li class="nav-status" aria-live="polite">
+          <span class="status-accent" aria-hidden="true"></span>
+          <div class="status-copy">
+            <span class="status-label">Now exploring</span>
+            <span class="status-current">Home</span>
+          </div>
+        </li>
         <li><a href="index.html">Home</a></li>
         <li><a href="projects.html">Projects</a></li>
         <li><a href="experience.html">Experience</a></li>
