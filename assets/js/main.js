@@ -130,14 +130,14 @@
 
     const loader = document.querySelector('[data-loader]');
     if (loader) {
-      const loaderSeen = sessionStorage.getItem('loaderSeen') === 'true';
-      if (loaderSeen) {
-        loader.remove();
+      if (loader.dataset.bound === 'true') {
+        // Loader already initialized; no need to rebind handlers.
       } else {
+        loader.dataset.bound = 'true';
         const ring = loader.querySelector('[data-loader-ring]');
         const percent = loader.querySelector('[data-loader-percent]');
         let progress = 0;
-        let isWindowLoaded = false;
+        let isWindowLoaded = document.readyState === 'complete';
         let tickId = null;
 
         function updateDisplay(value) {
@@ -150,13 +150,19 @@
           }
         }
 
-        function teardown() {
+        function showLoader() {
+          loader.classList.remove('is-hidden');
+          loader.removeAttribute('aria-hidden');
+        }
+
+        function hideLoader() {
           loader.classList.add('is-hidden');
           loader.setAttribute('aria-hidden', 'true');
-          sessionStorage.setItem('loaderSeen', 'true');
-          setTimeout(function () {
-            loader.remove();
-          }, 600);
+        }
+
+        function resetProgress(value) {
+          progress = typeof value === 'number' ? value : 0;
+          updateDisplay(progress);
         }
 
         function step() {
@@ -168,12 +174,20 @@
           updateDisplay(progress);
           if (isWindowLoaded && progress >= 99.4) {
             clearInterval(tickId);
+            tickId = null;
             updateDisplay(100);
-            setTimeout(teardown, 120);
+            setTimeout(hideLoader, 120);
           }
         }
 
-        tickId = setInterval(step, 60);
+        function beginInitialCycle() {
+          if (tickId) clearInterval(tickId);
+          resetProgress(0);
+          showLoader();
+          tickId = setInterval(step, 60);
+        }
+
+        beginInitialCycle();
 
         window.addEventListener('load', function () {
           isWindowLoaded = true;
@@ -185,6 +199,32 @@
             isWindowLoaded = true;
           }
         }, 8000);
+
+        function handleLinkNavigation(event) {
+          const link = event.target.closest('a');
+          if (!link) return;
+          if (link.target && link.target !== '_self') return;
+          if (link.hasAttribute('download')) return;
+          const href = link.getAttribute('href') || '';
+          if (!href || href.charAt(0) === '#') return;
+          if (link.protocol && link.protocol.startsWith('http') && link.origin !== window.location.origin) return;
+          try {
+            const url = new URL(link.href, window.location.href);
+            if (url.origin !== window.location.origin) return;
+            const samePath = url.pathname === window.location.pathname && url.search === window.location.search;
+            if (samePath && (url.hash || href === '#')) return;
+          } catch (_) {
+            return;
+          }
+          resetProgress(8);
+          showLoader();
+        }
+
+        document.addEventListener('click', handleLinkNavigation, { capture: false });
+        window.addEventListener('beforeunload', function () {
+          resetProgress(8);
+          showLoader();
+        });
       }
     }
 
