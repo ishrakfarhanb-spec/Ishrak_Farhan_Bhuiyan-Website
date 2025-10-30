@@ -130,14 +130,14 @@
 
     const loader = document.querySelector('[data-loader]');
     if (loader) {
-      if (loader.dataset.bound === 'true') {
-        // Loader already initialized; no need to rebind handlers.
+      const loaderSeen = sessionStorage.getItem('loaderSeen') === 'true';
+      if (loaderSeen) {
+        loader.remove();
       } else {
-        loader.dataset.bound = 'true';
         const ring = loader.querySelector('[data-loader-ring]');
         const percent = loader.querySelector('[data-loader-percent]');
         let progress = 0;
-        let isWindowLoaded = document.readyState === 'complete';
+        let isWindowLoaded = false;
         let tickId = null;
 
         function updateDisplay(value) {
@@ -150,19 +150,13 @@
           }
         }
 
-        function showLoader() {
-          loader.classList.remove('is-hidden');
-          loader.removeAttribute('aria-hidden');
-        }
-
-        function hideLoader() {
+        function teardown() {
           loader.classList.add('is-hidden');
           loader.setAttribute('aria-hidden', 'true');
-        }
-
-        function resetProgress(value) {
-          progress = typeof value === 'number' ? value : 0;
-          updateDisplay(progress);
+          sessionStorage.setItem('loaderSeen', 'true');
+          setTimeout(function () {
+            loader.remove();
+          }, 600);
         }
 
         function step() {
@@ -174,20 +168,12 @@
           updateDisplay(progress);
           if (isWindowLoaded && progress >= 99.4) {
             clearInterval(tickId);
-            tickId = null;
             updateDisplay(100);
-            setTimeout(hideLoader, 120);
+            setTimeout(teardown, 120);
           }
         }
 
-        function beginInitialCycle() {
-          if (tickId) clearInterval(tickId);
-          resetProgress(0);
-          showLoader();
-          tickId = setInterval(step, 60);
-        }
-
-        beginInitialCycle();
+        tickId = setInterval(step, 60);
 
         window.addEventListener('load', function () {
           isWindowLoaded = true;
@@ -199,32 +185,6 @@
             isWindowLoaded = true;
           }
         }, 8000);
-
-        function handleLinkNavigation(event) {
-          const link = event.target.closest('a');
-          if (!link) return;
-          if (link.target && link.target !== '_self') return;
-          if (link.hasAttribute('download')) return;
-          const href = link.getAttribute('href') || '';
-          if (!href || href.charAt(0) === '#') return;
-          if (link.protocol && link.protocol.startsWith('http') && link.origin !== window.location.origin) return;
-          try {
-            const url = new URL(link.href, window.location.href);
-            if (url.origin !== window.location.origin) return;
-            const samePath = url.pathname === window.location.pathname && url.search === window.location.search;
-            if (samePath && (url.hash || href === '#')) return;
-          } catch (_) {
-            return;
-          }
-          resetProgress(8);
-          showLoader();
-        }
-
-        document.addEventListener('click', handleLinkNavigation, { capture: false });
-        window.addEventListener('beforeunload', function () {
-          resetProgress(8);
-          showLoader();
-        });
       }
     }
 
