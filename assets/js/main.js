@@ -154,7 +154,6 @@
     if (saved) root.setAttribute('data-theme', saved);
 
     // Theme toggle handled by assets/js/theme.js to match Blogs site
-
     const btn = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.site-header .site-nav');
     const list = document.getElementById('nav-list');
