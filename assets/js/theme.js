@@ -1,6 +1,6 @@
 // Simple theme toggle: toggles data-theme on <html> and persists to localStorage
 (function(){
-  var LABEL = 'Toggle Theme';
+  var LABEL = 'Toggle theme';
   var SELECTOR = '#theme-toggle, [data-theme-toggle]';
 
   function apply(theme){
@@ -27,9 +27,16 @@
     if(!buttons.length) return;
     buttons.forEach(function(btn){
       btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-      btn.textContent = LABEL;
       btn.setAttribute('aria-label', LABEL);
       btn.setAttribute('title', LABEL);
+      btn.dataset.themeState = theme;
+      var sr = btn.querySelector('.sr-only');
+      if(sr){
+        sr.textContent = LABEL;
+      } else if(!btn.dataset.themeHasText){
+        btn.textContent = LABEL;
+      }
+      btn.dataset.themeHasText = 'true';
       if(!btn.getAttribute('type')) btn.setAttribute('type', 'button');
       if(!btn.dataset.themeBound){
         btn.addEventListener('click', toggle);
