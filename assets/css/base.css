@@ -56,6 +56,19 @@
   src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr70w-.ttf) format('truetype');
 }
 
+:root {
+  --nav-close-duration: .5s;
+  --nav-close-item-duration: .42s;
+  --nav-close-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --nav-close-duration: .001s;
+    --nav-close-item-duration: .001s;
+  }
+}
+
 * { box-sizing: border-box; }
 
 html, body { padding: 0; margin: 0; }
@@ -64,6 +77,11 @@ html.nav-open,
 html.nav-open body { overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; }
+.site-nav a[aria-current="page"],
+.site-nav a[aria-current="page"]:hover,
+.site-nav a[aria-current="page"]:focus-visible {
+  text-decoration: none;
+}
 img { max-width: 100%; display: block; height: auto; }
 hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 1rem; }
@@ -273,6 +291,21 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
     box-shadow: none;
     overflow: visible;
   }
+.nav-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 50%;
+    width: 44px;
+    height: 44px;
+    background: var(--brand);
+    border-radius: 18px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.3);
+    transition: none;
+    z-index: -1;
+    filter: blur(0);
+    pointer-events: none;
+  }
 .nav-toggle::after {
     content: none;
   }
@@ -318,10 +351,135 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 .nav-toggle.is-active .burger-bar {
   box-shadow: none;
 }
+.nav-toggle.is-closing {
+  animation: navToggleMorphWrapper var(--nav-close-duration) var(--nav-close-ease);
+}
+.nav-toggle.is-closing::before {
+  animation: navToggleMorph var(--nav-close-duration) var(--nav-close-ease);
+}
+.nav-toggle.is-closing .bar-top {
+  animation: navToggleBarTopReset calc(var(--nav-close-duration) * .82) var(--nav-close-ease);
+}
+.nav-toggle.is-closing .bar-mid {
+  animation: navToggleBarMidReset calc(var(--nav-close-duration) * .82) var(--nav-close-ease);
+}
+.nav-toggle.is-closing .bar-btm {
+  animation: navToggleBarBottomReset calc(var(--nav-close-duration) * .82) var(--nav-close-ease);
+}
 @keyframes navToggleHalo {
   0% { opacity: .35; transform: scale(.9); }
   55% { opacity: .16; transform: scale(1.35); }
   100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes navToggleMorphWrapper {
+  0% { transform: scale(1); }
+  38% { transform: scale(.94); }
+  100% { transform: scale(1); }
+}
+@keyframes navToggleMorph {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.35);
+    border-radius: 22px;
+    filter: blur(0);
+  }
+  34% {
+    opacity: .55;
+    transform: translate(-50%, -50%) scale(1.08);
+    border-radius: 22px;
+  }
+  68% {
+    opacity: .42;
+    transform: translate(-50%, -50%) scale(.96);
+    border-radius: 18px;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.5);
+    border-radius: 14px;
+  }
+}
+@keyframes navToggleBarTopReset {
+  0% {
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(1);
+  }
+  45% {
+    transform: translate(-50%, calc(-50% - 7px)) rotate(0deg) scaleX(.22);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 7px)) rotate(0deg) scaleX(1);
+  }
+}
+@keyframes navToggleBarMidReset {
+  0% {
+    transform: translate(-50%, -50%) scaleX(0);
+    opacity: 0;
+  }
+  48% {
+    transform: translate(-50%, -50%) scaleX(.25);
+    opacity: .45;
+  }
+  100% {
+    transform: translate(-50%, -50%) scaleX(1);
+    opacity: 1;
+  }
+}
+@keyframes navToggleBarBottomReset {
+  0% {
+    transform: translate(-50%, -50%) rotate(-45deg) scaleX(1);
+  }
+  45% {
+    transform: translate(-50%, calc(-50% + 7px)) rotate(0deg) scaleX(.22);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% + 7px)) rotate(0deg) scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle.is-closing,
+  .nav-toggle.is-closing::before,
+  .nav-toggle.is-closing .bar-top,
+  .nav-toggle.is-closing .bar-mid,
+  .nav-toggle.is-closing .bar-btm {
+    animation: none !important;
+  }
+}
+
+@keyframes navPanelFoldOut {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotateX(0deg) rotateY(0deg);
+    border-radius: 20px;
+    filter: blur(0);
+  }
+  48% {
+    opacity: .92;
+    transform: translate3d(6px, -8px, 0) scale(.95) rotateX(6deg) rotateY(-4deg);
+    border-radius: 22px;
+    filter: blur(.4px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(28px, -26px, 0) scale(.78) rotateX(18deg) rotateY(-14deg);
+    border-radius: 26px;
+    filter: blur(6px);
+  }
+}
+
+@keyframes navPanelItemFold {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  45% {
+    opacity: .75;
+    transform: translate3d(14px, -4px, 0) scale(.96);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(34px, -16px, 0) scale(.82);
+  }
 }
   @media (max-width: 900px) {
     .site-header .header-inner {
@@ -502,16 +660,18 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
       border-color: color-mix(in srgb, var(--brand) 65%, transparent 35%);
       box-shadow: 0 22px 48px color-mix(in srgb, var(--brand) 32%, rgba(15, 23, 42, .14) 68%);
       transform: translateY(-3px);
+      text-decoration: none;
+    }
+    .site-nav ul li:not(.nav-status) a[aria-current="page"]:not(.btn):hover,
+    .site-nav ul li:not(.nav-status) a[aria-current="page"]:not(.btn):focus-visible {
+      text-decoration: none;
     }
     .site-nav ul li:not(.nav-status) a[aria-current="page"]:not(.btn)::before {
       opacity: 0;
       background: none;
     }
     .site-nav ul li:not(.nav-status) a[aria-current="page"]:not(.btn)::after {
-      inset: -6px;
-      opacity: .9;
-      transform: scale(1);
-      border-color: color-mix(in srgb, var(--primary-contrast) 80%, transparent 20%);
+      display: none;
     }
     :root[data-theme="dark"] .site-nav ul {
       background-color: #0b1224;
@@ -565,7 +725,7 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
       box-shadow: 0 28px 62px color-mix(in srgb, var(--brand) 38%, rgba(0, 0, 0, .45) 62%);
     }
     :root[data-theme="dark"] .site-nav ul li:not(.nav-status) a[aria-current="page"]:not(.btn)::after {
-      border-color: color-mix(in srgb, var(--primary-contrast) 70%, rgba(148, 163, 184, .4) 30%);
+      display: none;
     }
     .nav-backdrop {
       position: fixed;
@@ -574,8 +734,13 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
       background-image: radial-gradient(circle at center, color-mix(in srgb, var(--brand) 20%, transparent 80%) 0%, rgba(15, 23, 42, .28) 55%, rgba(15, 23, 42, .38) 100%);
       opacity: 0;
       pointer-events: none;
-      transition: opacity .28s ease;
+      transition: opacity var(--nav-close-duration) var(--nav-close-ease);
       z-index: 200;
+      will-change: opacity;
+    }
+    .nav-backdrop.is-fading {
+      opacity: 0;
+      pointer-events: none;
     }
     .nav-backdrop[hidden] { display: none; }
     .site-nav.open ul,
@@ -613,6 +778,31 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
     .site-nav[data-open="true"] ul li:nth-child(6) { animation-delay: .24s; }
     .site-nav.open ul li:nth-child(7),
     .site-nav[data-open="true"] ul li:nth-child(7) { animation-delay: .28s; }
+    .site-nav.is-closing ul {
+      visibility: visible;
+      pointer-events: none;
+      transform-origin: top right;
+      animation: navPanelFoldOut var(--nav-close-duration) var(--nav-close-ease) forwards;
+      will-change: transform, opacity, filter;
+    }
+    .site-nav.is-closing ul li {
+      animation: navPanelItemFold var(--nav-close-item-duration) var(--nav-close-ease) forwards;
+      will-change: transform, opacity;
+    }
+    .site-nav.is-closing ul li:nth-child(1) { animation-delay: 0s; }
+    .site-nav.is-closing ul li:nth-child(2) { animation-delay: .028s; }
+    .site-nav.is-closing ul li:nth-child(3) { animation-delay: .056s; }
+    .site-nav.is-closing ul li:nth-child(4) { animation-delay: .084s; }
+    .site-nav.is-closing ul li:nth-child(5) { animation-delay: .112s; }
+    .site-nav.is-closing ul li:nth-child(6) { animation-delay: .14s; }
+    .site-nav.is-closing ul li:nth-child(7) { animation-delay: .168s; }
+    .site-nav.is-closing ul li:nth-child(8) { animation-delay: .196s; }
+    @media (prefers-reduced-motion: reduce) {
+      .site-nav.is-closing ul,
+      .site-nav.is-closing ul li {
+        animation: none !important;
+      }
+    }
   }
 
 

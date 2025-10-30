@@ -247,27 +247,99 @@
 
       function closeMenu(options){
         options = options || {};
-        nav.classList.remove('open');
-        nav.dataset.open = 'false';
+        const shouldMorph = !!options.animateToggle && !options.immediate && btn.classList.contains('is-active');
+        if (shouldMorph && nav.classList.contains('is-closing')) return;
+
         btn.setAttribute('aria-expanded', 'false');
-        btn.classList.remove('is-active');
-        nav.style.removeProperty('--nav-panel-top');
-        nav.style.removeProperty('--nav-panel-left');
         unbindViewportEvents();
         document.removeEventListener('keydown', onKeydown);
-        if (backdrop) backdrop.setAttribute('hidden', '');
         document.removeEventListener('click', onDocClick);
+
+        let isFinalized = false;
+        let toggleEndHandler = null;
+        let panelEndHandler = null;
+        let backdropEndHandler = null;
+        const finalize = function(){
+          if (isFinalized) return;
+          isFinalized = true;
+          if (toggleEndHandler) {
+            btn.removeEventListener('animationend', toggleEndHandler);
+            toggleEndHandler = null;
+          }
+          if (panelEndHandler) {
+            list.removeEventListener('animationend', panelEndHandler);
+            panelEndHandler = null;
+          }
+          if (backdrop && backdropEndHandler) {
+            backdrop.removeEventListener('transitionend', backdropEndHandler);
+            backdropEndHandler = null;
+          }
+          nav.classList.remove('open', 'is-closing');
+          nav.dataset.open = 'false';
+          nav.style.removeProperty('--nav-panel-top');
+          nav.style.removeProperty('--nav-panel-left');
+          btn.classList.remove('is-closing');
+          if (backdrop) {
+            backdrop.classList.remove('is-fading');
+            backdrop.setAttribute('hidden', '');
+          }
+          if (shouldMorph) {
+            requestAnimationFrame(function(){ btn.classList.remove('is-active'); });
+          } else {
+            btn.classList.remove('is-active');
+          }
+        };
+
+        if (shouldMorph) {
+          btn.classList.add('is-closing');
+          nav.classList.add('is-closing');
+          if (backdrop) {
+            backdrop.classList.add('is-fading');
+            backdrop.removeAttribute('hidden');
+            backdropEndHandler = function (event) {
+              if (event.target !== backdrop) return;
+              backdrop.removeEventListener('transitionend', backdropEndHandler);
+              backdropEndHandler = null;
+            };
+            backdrop.addEventListener('transitionend', backdropEndHandler);
+          }
+
+          toggleEndHandler = function (event) {
+            if (event.target !== btn || event.animationName !== 'navToggleMorphWrapper') return;
+            btn.classList.remove('is-closing');
+            btn.removeEventListener('animationend', toggleEndHandler);
+            toggleEndHandler = null;
+          };
+
+          panelEndHandler = function (event) {
+            if (event.target !== list || event.animationName !== 'navPanelFoldOut') return;
+            list.removeEventListener('animationend', panelEndHandler);
+            panelEndHandler = null;
+            finalize();
+          };
+
+          btn.addEventListener('animationend', toggleEndHandler);
+          list.addEventListener('animationend', panelEndHandler);
+
+          setTimeout(finalize, 650);
+        } else {
+          if (backdrop) backdrop.setAttribute('hidden', '');
+          finalize();
+        }
       }
       function onDocClick(e){ if (!nav.contains(e.target)) closeMenu(); }
       function toggleMenu(){
         const expanded = btn.getAttribute('aria-expanded') === 'true';
-        if (expanded) { closeMenu(); }
+        if (expanded) { closeMenu({ animateToggle: true }); }
         else {
           nav.classList.add('open');
           nav.dataset.open = 'true';
           btn.setAttribute('aria-expanded', 'true');
           btn.classList.add('is-active');
-          if (backdrop) backdrop.removeAttribute('hidden');
+          if (backdrop) {
+            backdrop.classList.remove('is-fading');
+            backdrop.removeAttribute('hidden');
+          }
           positionMenu();
           scheduleMenuPosition();
           bindViewportEvents();
