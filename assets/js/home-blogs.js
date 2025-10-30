@@ -5,6 +5,10 @@
   var utils = window.siteUtils || {};
   var formatDate = utils.formatDate || fallbackFormatDate;
   var toTimestamp = utils.toTimestamp || fallbackToTimestamp;
+  var safeSet = (utils.safeStorageSet || function (storage, key, value) {
+    if (!storage || typeof storage.setItem !== 'function') return;
+    try { storage.setItem(key, value); } catch (err) { /* ignore */ }
+  });
 
   var posts = Array.isArray(window.siteBlogs) ? window.siteBlogs.slice() : [];
   if (!posts.length) {
@@ -77,7 +81,7 @@
     link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">→</span>';
     link.addEventListener('click', function () {
       if (post.id) {
-        sessionStorage.setItem('blogs:open', post.id);
+        safeSet(window.sessionStorage, 'blogs:open', post.id);
       }
     });
     body.appendChild(link);

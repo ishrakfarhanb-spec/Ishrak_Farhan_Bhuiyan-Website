@@ -31,6 +31,33 @@
     };
   }
 
+  function safeStorageGet(storage, key) {
+    if (!storage || typeof storage.getItem !== 'function') return null;
+    try {
+      return storage.getItem(key);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function safeStorageSet(storage, key, value) {
+    if (!storage || typeof storage.setItem !== 'function') return;
+    try {
+      storage.setItem(key, value);
+    } catch (err) {
+      /* ignore storage errors */
+    }
+  }
+
+  function safeStorageRemove(storage, key) {
+    if (!storage || typeof storage.removeItem !== 'function') return;
+    try {
+      storage.removeItem(key);
+    } catch (err) {
+      /* ignore storage errors */
+    }
+  }
+
   var animateObserver = null;
   var animateMutationObservers = new WeakMap();
 
@@ -123,70 +150,10 @@
 
   function initUI() {
     const root = document.documentElement;
-    const saved = localStorage.getItem('theme');
+    const saved = safeStorageGet(localStorage, 'theme');
     if (saved) root.setAttribute('data-theme', saved);
 
     // Theme toggle handled by assets/js/theme.js to match Blogs site
-
-    const loader = document.querySelector('[data-loader]');
-    if (loader) {
-      const loaderSeen = sessionStorage.getItem('loaderSeen') === 'true';
-      if (loaderSeen) {
-        loader.remove();
-      } else {
-        const ring = loader.querySelector('[data-loader-ring]');
-        const percent = loader.querySelector('[data-loader-percent]');
-        let progress = 0;
-        let isWindowLoaded = false;
-        let tickId = null;
-
-        function updateDisplay(value) {
-          const clamped = Math.min(100, Math.max(0, value));
-          if (ring) {
-            ring.style.setProperty('--loader-progress', (clamped / 100 * 360) + 'deg');
-          }
-          if (percent) {
-            percent.textContent = Math.round(clamped) + '%';
-          }
-        }
-
-        function teardown() {
-          loader.classList.add('is-hidden');
-          loader.setAttribute('aria-hidden', 'true');
-          sessionStorage.setItem('loaderSeen', 'true');
-          setTimeout(function () {
-            loader.remove();
-          }, 600);
-        }
-
-        function step() {
-          if (isWindowLoaded) {
-            progress += (100 - progress) * 0.18;
-          } else {
-            progress = Math.min(96, progress + 1.8 + Math.random() * 2.6);
-          }
-          updateDisplay(progress);
-          if (isWindowLoaded && progress >= 99.4) {
-            clearInterval(tickId);
-            updateDisplay(100);
-            setTimeout(teardown, 120);
-          }
-        }
-
-        tickId = setInterval(step, 60);
-
-        window.addEventListener('load', function () {
-          isWindowLoaded = true;
-        });
-
-        // Safety timeout in case load stalls
-        setTimeout(function () {
-          if (!isWindowLoaded) {
-            isWindowLoaded = true;
-          }
-        }, 8000);
-      }
-    }
 
     const btn = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.site-header .site-nav');
@@ -493,6 +460,10 @@
   window.addEventListener('partials:ready', initUI);
   // If partials already loaded before this script, initialize now
   if (window.__partialsReady) initUI();
+
+  if (!siteUtils.safeStorageGet) siteUtils.safeStorageGet = safeStorageGet;
+  if (!siteUtils.safeStorageSet) siteUtils.safeStorageSet = safeStorageSet;
+  if (!siteUtils.safeStorageRemove) siteUtils.safeStorageRemove = safeStorageRemove;
 })();
 
 

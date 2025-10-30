@@ -4,6 +4,29 @@
   var formatDate = utils.formatDate || fallbackFormatDate;
   var toTimestamp = utils.toTimestamp || fallbackToTimestamp;
 
+  var safeGet = (utils.safeStorageGet || function (storage, key) {
+    if (!storage || typeof storage.getItem !== 'function') return null;
+    try { return storage.getItem(key); } catch (err) { return null; }
+  });
+  var safeSet = (utils.safeStorageSet || function (storage, key, value) {
+    if (!storage || typeof storage.setItem !== 'function') return;
+    try { storage.setItem(key, value); } catch (err) { /* ignore */ }
+  });
+  var safeRemove = (utils.safeStorageRemove || function (storage, key) {
+    if (!storage || typeof storage.removeItem !== 'function') return;
+    try { storage.removeItem(key); } catch (err) { /* ignore */ }
+  });
+
+  function safeSessionGet(key) {
+    return safeGet(window.sessionStorage, key);
+  }
+  function safeSessionSet(key, value) {
+    safeSet(window.sessionStorage, key, value);
+  }
+  function safeSessionRemove(key) {
+    safeRemove(window.sessionStorage, key);
+  }
+
   var posts = Array.isArray(window.siteBlogs) ? window.siteBlogs.slice() : [];
   if (!posts.length) {
     var emptyGrid = document.getElementById('blogs-grid');
@@ -36,11 +59,11 @@
 
   renderGrid(posts, state, modal);
 
-  var saved = sessionStorage.getItem('blogs:open');
+  var saved = safeSessionGet('blogs:open');
   if (saved && modal) {
     var entry = posts.find(function (p) { return p.id === saved; });
     if (entry) modal.open(entry);
-    sessionStorage.removeItem('blogs:open');
+    safeSessionRemove('blogs:open');
   }
 
   function renderHero(item, container, modalApi) {
@@ -77,7 +100,7 @@
         if (modalApi) {
           modalApi.open(item);
         } else {
-          sessionStorage.setItem('blogs:open', item.id);
+          safeSessionSet('blogs:open', item.id);
           window.location.hash = 'blogs-grid';
         }
       });
@@ -242,7 +265,7 @@
       if (modalApi) {
         modalApi.open(post);
       } else {
-        sessionStorage.setItem('blogs:open', postId);
+        safeSessionSet('blogs:open', postId);
         window.location.hash = card.id || 'blogs-grid';
       }
     });
