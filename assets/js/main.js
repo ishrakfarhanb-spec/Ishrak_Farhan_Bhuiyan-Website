@@ -130,56 +130,62 @@
 
     const loader = document.querySelector('[data-loader]');
     if (loader) {
-      const ring = loader.querySelector('[data-loader-ring]');
-      const percent = loader.querySelector('[data-loader-percent]');
-      let progress = 0;
-      let isWindowLoaded = false;
-      let tickId = null;
+      const loaderSeen = sessionStorage.getItem('loaderSeen') === 'true';
+      if (loaderSeen) {
+        loader.remove();
+      } else {
+        const ring = loader.querySelector('[data-loader-ring]');
+        const percent = loader.querySelector('[data-loader-percent]');
+        let progress = 0;
+        let isWindowLoaded = false;
+        let tickId = null;
 
-      function updateDisplay(value) {
-        const clamped = Math.min(100, Math.max(0, value));
-        if (ring) {
-          ring.style.setProperty('--loader-progress', (clamped / 100 * 360) + 'deg');
+        function updateDisplay(value) {
+          const clamped = Math.min(100, Math.max(0, value));
+          if (ring) {
+            ring.style.setProperty('--loader-progress', (clamped / 100 * 360) + 'deg');
+          }
+          if (percent) {
+            percent.textContent = Math.round(clamped) + '%';
+          }
         }
-        if (percent) {
-          percent.textContent = Math.round(clamped) + '%';
+
+        function teardown() {
+          loader.classList.add('is-hidden');
+          loader.setAttribute('aria-hidden', 'true');
+          sessionStorage.setItem('loaderSeen', 'true');
+          setTimeout(function () {
+            loader.remove();
+          }, 600);
         }
-      }
 
-      function teardown() {
-        loader.classList.add('is-hidden');
-        loader.setAttribute('aria-hidden', 'true');
-        setTimeout(function () {
-          loader.remove();
-        }, 600);
-      }
-
-      function step() {
-        if (isWindowLoaded) {
-          progress += (100 - progress) * 0.18;
-        } else {
-          progress = Math.min(96, progress + 1.8 + Math.random() * 2.6);
+        function step() {
+          if (isWindowLoaded) {
+            progress += (100 - progress) * 0.18;
+          } else {
+            progress = Math.min(96, progress + 1.8 + Math.random() * 2.6);
+          }
+          updateDisplay(progress);
+          if (isWindowLoaded && progress >= 99.4) {
+            clearInterval(tickId);
+            updateDisplay(100);
+            setTimeout(teardown, 120);
+          }
         }
-        updateDisplay(progress);
-        if (isWindowLoaded && progress >= 99.4) {
-          clearInterval(tickId);
-          updateDisplay(100);
-          setTimeout(teardown, 120);
-        }
-      }
 
-      tickId = setInterval(step, 60);
+        tickId = setInterval(step, 60);
 
-      window.addEventListener('load', function () {
-        isWindowLoaded = true;
-      });
-
-      // Safety timeout in case load stalls
-      setTimeout(function () {
-        if (!isWindowLoaded) {
+        window.addEventListener('load', function () {
           isWindowLoaded = true;
-        }
-      }, 8000);
+        });
+
+        // Safety timeout in case load stalls
+        setTimeout(function () {
+          if (!isWindowLoaded) {
+            isWindowLoaded = true;
+          }
+        }, 8000);
+      }
     }
 
     const btn = document.querySelector('.nav-toggle');
