@@ -130,5 +130,19 @@ window.siteNews = [
       "June 2023 marked an energizing milestone as I joined the Battle of Minds bootcamp, an innovation accelerator led by British American Tobacco Bangladesh.",
       "Collaborating with a cohort of driven changemakers, I explored real-world problem spaces, iterated bold ideas, and experienced how BATB nurtures entrepreneurial thinking within its global talent pipeline."
     ]
+  },
+  {
+    id: "news-banglalink-ennovators-2022",
+    title: "Banglalink Ennovators 6.0",
+    kicker: "Competition",
+    date: "2022-12-01",
+    displayDate: "Dec 2022",
+    summary: "Joined Banglalink Ennovators 6.0 to tackle real-world digital challenges alongside industry mentors.",
+    image: "assets/img/News/Ennovators_6.0.png",
+    imageAlt: "Banglalink Ennovators 6.0 competition graphic",
+    body: [
+      "Banglalink Ennovators 6.0 united students from across Bangladesh to solve digital innovation challenges inspired by real market problems.",
+      "Working with mentors from Banglalink, I sharpened my strategic thinking, experimented with data-driven solutions, and presented ideas geared toward building smarter services for a connected future."
+    ]
   }
 ];

@@ -116,7 +116,7 @@
 
 .filters .btn.is-active {
   background-color: color-mix(in srgb, var(--brand), var(--card) 35%);
-  color: var(--body);
+  color: #fff;
   border-color: transparent;
 }
 
