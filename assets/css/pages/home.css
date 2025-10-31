@@ -82,6 +82,7 @@
   backdrop-filter: blur(12px);
   box-shadow: 0 16px 28px rgba(6, 10, 22, .24);
   width: min(100%, 540px);
+  transition: transform .35s ease, box-shadow .35s ease, background-color .35s ease, border-color .35s ease;
 }
 
 .hero-announcement__media {
@@ -94,12 +95,26 @@
   width: 100%;
   height: auto;
   display: block;
+  transition: transform .4s ease;
 }
 
 .hero-announcement__content {
   display: grid;
   gap: .75rem;
   align-content: start;
+}
+
+.hero-announcement__card:hover,
+.hero-announcement__card:focus-within {
+  transform: translateY(-6px);
+  background: linear-gradient(135deg, rgba(11, 16, 30, .76), rgba(8, 12, 24, .58));
+  border-color: rgba(244, 247, 251, .32);
+  box-shadow: 0 24px 42px rgba(6, 10, 22, .32);
+}
+
+.hero-announcement__card:hover .hero-announcement__media img,
+.hero-announcement__card:focus-within .hero-announcement__media img {
+  transform: scale(1.04);
 }
 
 .hero-announcement__content .btn-link {

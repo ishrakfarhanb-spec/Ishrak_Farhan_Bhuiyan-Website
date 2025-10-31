@@ -58,6 +58,385 @@
     }
   }
 
+  function initSiteLoader() {
+    var root = window;
+    var body = document.body;
+    if (!root || !body) {
+      root.addEventListener('DOMContentLoaded', initSiteLoader, { once: true });
+      return;
+    }
+
+    var storage = root.sessionStorage;
+    var hasShown = !!safeStorageGet(storage, 'site-loader-seen');
+    if (hasShown) {
+      return;
+    }
+
+    var loader = document.createElement('div');
+    loader.className = 'site-loader is-visible';
+    loader.innerHTML =
+      '<div class="site-loader__inner" role="alert" aria-live="assertive">' +
+        '<img class="site-loader__logo" src="assets/img/Brand Logo.png" alt="Ishrak Farhan logo" />' +
+        '<div class="site-loader__spinner" aria-hidden="true"></div>' +
+        '<div class="site-loader__progress" aria-hidden="true">' +
+          '<div class="site-loader__bar"><span class="site-loader__bar-fill" data-loader-bar></span></div>' +
+          '<span class="site-loader__percent"><span data-loader-progress>0</span>%</span>' +
+        '</div>' +
+        '<p class="site-loader__tagline">Preparing your experience...</p>' +
+      '</div>';
+
+    body.insertBefore(loader, body.firstChild);
+
+    var progressFill = loader.querySelector('[data-loader-bar]');
+    var progressValue = loader.querySelector('[data-loader-progress]');
+    var current = 0;
+    var rafId = null;
+    var done = false;
+
+    function render(value) {
+      if (progressFill) {
+        progressFill.style.transform = 'scaleX(' + Math.min(1, value / 100) + ')';
+      }
+      if (progressValue) {
+        progressValue.textContent = Math.round(value);
+      }
+    }
+
+    function progressLoop() {
+      if (done) return;
+      current += (90 - current) * 0.035;
+      render(current);
+      rafId = root.requestAnimationFrame(progressLoop);
+    }
+
+    rafId = root.requestAnimationFrame(progressLoop);
+
+    function teardown() {
+      if (done) return;
+      done = true;
+      if (rafId) root.cancelAnimationFrame(rafId);
+      render(100);
+      safeStorageSet(storage, 'site-loader-seen', '1');
+      loader.classList.remove('is-visible');
+      loader.classList.add('is-leaving');
+      root.setTimeout(function () {
+        loader.remove();
+      }, 500);
+    }
+
+    root.addEventListener('load', teardown, { once: true });
+    root.setTimeout(teardown, 9000);
+  }
+
+  initSiteLoader();
+
+  function initIntroGuide() {
+    var root = window;
+    var doc = document;
+    if (!root || !doc.querySelector('.hero')) return;
+
+    var storage = root.sessionStorage || root.localStorage;
+    var INTRO_KEY = 'site-intro-session-v1';
+    if (storage !== root.localStorage) {
+      safeStorageRemove(root.localStorage, INTRO_KEY);
+    }
+    if (safeStorageGet(storage, INTRO_KEY) === '1') return;
+
+    var steps = [
+      {
+        selectors: ['#theme-toggle', '[data-theme-toggle]'],
+        title: 'Switch the theme',
+        body: 'Use the floating toggle to swap between light and dark modes anytime.',
+        placement: 'left',
+        padding: 20,
+        adjust: { y: -40 }
+      },
+      {
+        selectors: ['.nav-toggle', '.site-header .site-nav'],
+        title: 'Open the site menu',
+        body: 'Tap the menu icon to jump directly to any section of the site.',
+        placement: 'bottom',
+        padding: 18
+      },
+      {
+        selectors: ['.hero'],
+        title: 'Scroll to explore',
+        body: 'Scroll down to find the latest updates, projects, and stories.',
+        placement: 'bottom',
+        padding: 28
+      }
+    ];
+
+    var overlay = null;
+    var focusEl = null;
+    var calloutEl = null;
+    var titleEl = null;
+    var bodyEl = null;
+    var stepLabelEl = null;
+    var skipBtn = null;
+    var hintEl = null;
+    var currentStep = 0;
+    var active = false;
+    var rafId = null;
+    var previousTarget = null;
+
+    function resolveElement(step) {
+      for (var i = 0; i < step.selectors.length; i++) {
+        var el = doc.querySelector(step.selectors[i]);
+        if (!el) continue;
+        var style = root.getComputedStyle(el);
+        if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') continue;
+        return el;
+      }
+      return null;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function placeCallout(rect, step) {
+      var placement = step.placement || 'right';
+      var offset = 24;
+      var adjust = step.adjust || {};
+      var calloutWidth = calloutEl.offsetWidth || 260;
+      var calloutHeight = calloutEl.offsetHeight || 160;
+      var viewportWidth = root.innerWidth;
+      var viewportHeight = root.innerHeight;
+      var top = rect.top;
+      var left = rect.left;
+
+      if (placement === 'left') {
+        left = rect.left - offset - calloutWidth;
+        top = rect.top + rect.height / 2 - calloutHeight / 2;
+      } else if (placement === 'right') {
+        left = rect.right + offset;
+        top = rect.top + rect.height / 2 - calloutHeight / 2;
+      } else if (placement === 'top') {
+        left = rect.left + rect.width / 2 - calloutWidth / 2;
+        top = rect.top - offset - calloutHeight;
+      } else {
+        // bottom default
+        left = rect.left + rect.width / 2 - calloutWidth / 2;
+        top = rect.bottom + offset;
+      }
+
+      left = clamp(left, 16, Math.max(16, viewportWidth - calloutWidth - 16));
+      top = clamp(top, 16, Math.max(16, viewportHeight - calloutHeight - 16));
+
+      if (adjust.x) left = clamp(left + adjust.x, 16, Math.max(16, viewportWidth - calloutWidth - 16));
+      if (adjust.y) top = clamp(top + adjust.y, 16, Math.max(16, viewportHeight - calloutHeight - 16));
+
+      calloutEl.dataset.placement = placement;
+      calloutEl.style.top = top + 'px';
+      calloutEl.style.left = left + 'px';
+      calloutEl.style.transform = 'none';
+    }
+
+    function highlightTarget(target, step) {
+      if (!target || !focusEl) return;
+      var rect = target.getBoundingClientRect();
+      var padding = step.padding || 18;
+
+      var width = rect.width + padding * 2;
+      var height = rect.height + padding * 2;
+      var top = rect.top - padding;
+      var left = rect.left - padding;
+
+      var maxW = root.innerWidth - 32;
+      var maxH = root.innerHeight - 32;
+      if (width > maxW) {
+        width = maxW;
+        left = (root.innerWidth - width) / 2;
+      } else {
+        left = clamp(left, 16, root.innerWidth - width - 16);
+      }
+
+      if (height > maxH) {
+        height = maxH;
+        top = (root.innerHeight - height) / 2;
+      } else {
+        top = clamp(top, 16, root.innerHeight - height - 16);
+      }
+
+      focusEl.style.width = Math.max(80, width) + 'px';
+      focusEl.style.height = Math.max(80, height) + 'px';
+      focusEl.style.top = top + 'px';
+      focusEl.style.left = left + 'px';
+      focusEl.style.borderRadius = step.radius ? step.radius + 'px' : '22px';
+
+      placeCallout(rect, step);
+    }
+
+    function updateContent(stepIndex) {
+      var step = steps[stepIndex];
+      var target = step.element;
+      if (!target) return;
+
+      if (previousTarget && previousTarget !== target) {
+        previousTarget.classList.remove('site-intro__target');
+      }
+      target.classList.add('site-intro__target');
+      previousTarget = target;
+
+      highlightTarget(target, step);
+      stepLabelEl.textContent = 'Step ' + (stepIndex + 1) + ' of ' + steps.length;
+      titleEl.textContent = step.title || '';
+      bodyEl.textContent = step.body || '';
+      if (hintEl) {
+        hintEl.innerHTML = stepIndex === steps.length - 1 ? '<strong>Tap anywhere</strong> to finish' : '<strong>Tap anywhere</strong> to continue';
+      }
+    }
+
+    function applyStep() {
+      if (!active) return;
+      updateContent(currentStep);
+    }
+
+    function handleResize() {
+      if (rafId) root.cancelAnimationFrame(rafId);
+      rafId = root.requestAnimationFrame(function () {
+        rafId = null;
+        applyStep();
+      });
+    }
+
+    function teardownOverlay() {
+      if (!overlay) return;
+      active = false;
+      doc.documentElement.classList.remove('site-intro-open');
+      doc.body.classList.remove('site-intro-open');
+      root.removeEventListener('resize', handleResize);
+      root.removeEventListener('scroll', handleResize);
+      root.removeEventListener('keydown', handleKeydown);
+      if (previousTarget) previousTarget.classList.remove('site-intro__target');
+      overlay.remove();
+      overlay = null;
+      safeStorageSet(storage, INTRO_KEY, '1');
+    }
+
+    function handleKeydown(event) {
+      if (!active) return;
+      var key = event.key || event.code;
+      if (key === 'Escape') {
+        event.preventDefault();
+        teardownOverlay();
+      } else if (key === 'ArrowRight') {
+        event.preventDefault();
+        goToStep(currentStep + 1);
+      } else if (key === 'ArrowLeft') {
+        event.preventDefault();
+        goToStep(currentStep - 1);
+      }
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= steps.length) {
+        teardownOverlay();
+        return;
+      }
+      currentStep = index;
+      applyStep();
+    }
+
+    function buildOverlay() {
+      overlay = doc.createElement('div');
+      overlay.className = 'site-intro';
+      overlay.innerHTML =
+        '<div class="site-intro__backdrop" role="presentation"></div>' +
+        '<div class="site-intro__focus" aria-hidden="true"></div>' +
+        '<div class="site-intro__callout" role="dialog" aria-modal="true">' +
+          '<div class="site-intro__step" data-intro-step></div>' +
+          '<h2 class="site-intro__title" data-intro-title></h2>' +
+          '<p class="site-intro__body" data-intro-body></p>' +
+          '<div class="site-intro__controls">' +
+            '<span class="site-intro__hint" data-intro-hint><strong>Tap anywhere</strong> to continue</span>' +
+            '<button type="button" class="site-intro__skip" data-intro-skip>Skip</button>' +
+          '</div>' +
+        '</div>';
+
+      focusEl = overlay.querySelector('.site-intro__focus');
+      calloutEl = overlay.querySelector('.site-intro__callout');
+      titleEl = overlay.querySelector('[data-intro-title]');
+      bodyEl = overlay.querySelector('[data-intro-body]');
+      stepLabelEl = overlay.querySelector('[data-intro-step]');
+      skipBtn = overlay.querySelector('[data-intro-skip]');
+      hintEl = overlay.querySelector('[data-intro-hint]');
+
+      skipBtn.addEventListener('pointerdown', function (evt) {
+        evt.stopPropagation();
+      });
+      skipBtn.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        teardownOverlay();
+      });
+
+      overlay.addEventListener('click', function (event) {
+        if (!active) return;
+        var target = event.target;
+        if (skipBtn && skipBtn.contains(target)) {
+          return;
+        }
+        goToStep(currentStep + 1);
+      });
+
+      overlay.addEventListener('pointerdown', function (event) {
+        if (skipBtn && skipBtn.contains(event.target)) {
+          event.stopPropagation();
+        }
+      });
+
+      doc.body.appendChild(overlay);
+      root.requestAnimationFrame(function () {
+        if (!overlay) return;
+        overlay.classList.add('is-active');
+        doc.documentElement.classList.add('site-intro-open');
+        doc.body.classList.add('site-intro-open');
+        active = true;
+        applyStep();
+        skipBtn.focus();
+      });
+
+      root.addEventListener('resize', handleResize);
+      root.addEventListener('scroll', handleResize, { passive: true });
+      root.addEventListener('keydown', handleKeydown);
+    }
+
+    function startGuide() {
+      if (active || overlay) return;
+      for (var i = 0; i < steps.length; i++) {
+        steps[i].element = resolveElement(steps[i]);
+      }
+      var ready = steps.every(function (step) { return !!step.element; });
+      if (!ready) {
+        root.setTimeout(startGuide, 300);
+        return;
+      }
+      buildOverlay();
+    }
+
+    function scheduleStart() {
+      if (active || overlay) return;
+      startGuide();
+    }
+
+    if (doc.readyState === 'complete') {
+      root.setTimeout(scheduleStart, 700);
+    } else {
+      root.addEventListener('load', function () {
+        root.setTimeout(scheduleStart, 700);
+      }, { once: true });
+    }
+
+    root.addEventListener('partials:ready', function () {
+      if (overlay || active) return;
+      root.setTimeout(scheduleStart, 400);
+    });
+  }
+
+  initIntroGuide();
+
   var animateObserver = null;
   var animateMutationObservers = new WeakMap();
 
