@@ -2,7 +2,6 @@
 (function () {
   const listEl = document.querySelector("[data-news-list]");
   const featuredEl = document.querySelector("[data-news-featured]");
-  const loadMoreBtn = document.querySelector("[data-news-load-more]");
   const detailEl = document.querySelector("[data-news-detail]");
   const detailMediaEl = detailEl ? detailEl.querySelector("[data-news-detail-media]") : null;
   const detailKickerEl = detailEl ? detailEl.querySelector("[data-news-detail-kicker]") : null;
@@ -16,7 +15,6 @@
     return;
   }
 
-  const NEWS_PER_BATCH = 4;
   const items = [...window.siteNews].sort((a, b) => {
     const dateA = new Date(a.date || 0);
     const dateB = new Date(b.date || 0);
@@ -30,7 +28,6 @@
 
   const featured = items[0];
   const rest = items.slice(1);
-  let renderedCount = 0;
   let lastFocused = null;
   let detailOpen = false;
   const refreshLazy = function () {
@@ -46,15 +43,7 @@
     featuredEl.hidden = false;
   }
 
-  renderBatch(true);
-  toggleLoadMore();
-
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener("click", function () {
-      renderBatch(false);
-      toggleLoadMore();
-    });
-  }
+  renderAll();
 
   if (detailEl && detailCloseEls.length) {
     detailCloseEls.forEach((el) => {
@@ -80,30 +69,17 @@
     });
   }
 
-  function renderBatch(reset) {
-    const source = rest;
-    if (reset) {
-      renderedCount = 0;
+  function renderAll() {
+    listEl.innerHTML = "";
+    if (!rest.length) {
+      return;
     }
-    const nextItems = source.slice(renderedCount, renderedCount + NEWS_PER_BATCH);
-    if (reset || renderedCount === 0) {
-      listEl.innerHTML = "";
-    }
-    if (!nextItems.length) return;
-
     const fragment = document.createDocumentFragment();
-    nextItems.forEach((item) => {
+    rest.forEach((item) => {
       fragment.appendChild(createNewsCard(item));
     });
     listEl.appendChild(fragment);
-    renderedCount += nextItems.length;
     refreshLazy();
-  }
-
-  function toggleLoadMore() {
-    if (!loadMoreBtn) return;
-    const remaining = rest.length - renderedCount;
-    loadMoreBtn.hidden = remaining <= 0;
   }
 
   function renderFeatured(item) {
