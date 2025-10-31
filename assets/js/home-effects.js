@@ -12,6 +12,59 @@
 
   const prefersReducedMotion = root.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  function initHeroParallax() {
+    if (prefersReducedMotion || !ScrollTrigger) {
+      return;
+    }
+
+    const hero = document.querySelector(".hero");
+    if (!hero) {
+      return;
+    }
+
+    const heroCopy = hero.querySelector(".hero-copy");
+    const heroAnnouncement = hero.querySelector(".hero-announcement__card");
+
+    gsap.to(hero, {
+      "--hero-bg-shift": 42,
+      ease: "none",
+      scrollTrigger: {
+        trigger: hero,
+        start: "top top",
+        end: "bottom+=30% top",
+        scrub: true,
+      },
+    });
+
+    if (heroCopy) {
+      gsap.to(heroCopy, {
+        "--hero-copy-shift": "-24px",
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: hero,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
+    if (heroAnnouncement) {
+      gsap.to(heroAnnouncement, {
+        y: -18,
+        opacity: 0.6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: hero,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+  }
+
   function initTimelineReveals() {
     if (prefersReducedMotion || !ScrollTrigger) {
       return;
@@ -52,6 +105,7 @@
   }
 
   window.addEventListener("DOMContentLoaded", () => {
+    initHeroParallax();
     initTimelineReveals();
   });
 })();
