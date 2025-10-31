@@ -251,7 +251,11 @@
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
-.about-logo-track:hover { animation-play-state: paused; }
+@media (hover: hover) and (pointer: fine) {
+  .about-logo-track:hover {
+    animation-play-state: paused;
+  }
+}
 .about-logo-segment {
   display: inline-flex;
   align-items: center;
