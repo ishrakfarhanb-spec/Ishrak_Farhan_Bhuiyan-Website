@@ -151,6 +151,9 @@ body { overflow-x: hidden; }
   font-size: .78rem;
   color: color-mix(in srgb, var(--brand), var(--text) 55%);
 }
+:root[data-theme="dark"] .follow-cta .eyebrow {
+  color: #fff;
+}
 
 .follow-cta__art {
   position: relative;
