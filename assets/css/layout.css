@@ -75,7 +75,7 @@
   font-weight: 700;
   letter-spacing: .02em;
   line-height: 1.2;
-  color: #000;
+  color: var(--text);
 }
 .about-hero-title .about-hero-hi {
   color: #c9184a;
