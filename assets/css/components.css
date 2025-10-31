@@ -593,6 +593,13 @@ body { overflow-x: hidden; }
       opacity: 0;
       transform: scale(0.85);
     }
+    .site-nav #nav-list li:not(.nav-status) a[aria-current="page"]:not(.btn):hover,
+    .site-nav #nav-list li:not(.nav-status) a[aria-current="page"]:not(.btn):focus-visible {
+      background: var(--brand);
+      border-color: color-mix(in srgb, var(--brand) 65%, transparent 35%);
+      box-shadow: 0 22px 48px color-mix(in srgb, var(--brand) 32%, rgba(15, 23, 42, .14) 68%);
+      transform: translateY(-3px);
+    }
     .site-nav #nav-list li a.btn-primary:hover,
     .site-nav #nav-list li a.btn-primary:focus-visible { color: #fff; }
     :root[data-theme="dark"] .site-nav #nav-list {
