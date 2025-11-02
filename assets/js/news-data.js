@@ -3,15 +3,18 @@
 window.siteNews = [
   {
     id: "news-gp-nextern-2025",
-    title: "Journey at GP Starts",
+    title: "GP Nextern — The Internship Journey Begins!",
     kicker: "Career",
     date: "2025-11-02",
     displayDate: "Nov 2, 2025",
-    summary: "Nextern internship journey starts from 2nd November 2025.",
+    summary: "I’m thrilled to share that my Nextern internship journey officially begins on November 2, 2025.",
     image: "assets/img/News/Grameenphone.jpeg",
     imageAlt: "Grameenphone headquarters exterior with brand signage",
     body: [
-      "Nextern internship journey starts from 2nd November 2025."
+      "I’m thrilled to share that my Nextern internship journey officially begins on November 2, 2025, marking the start of an exciting new chapter at GP.",
+      "This opportunity represents more than just an internship—it’s a step toward growth, learning, and exploration. I’m eager to dive into real-world projects, collaborate with talented professionals, and gain hands-on experience in areas that align with my passions and career goals.",
+      "Over the coming months, I aim to challenge myself, build meaningful connections, and make the most of every learning moment. The road ahead promises valuable lessons, creative challenges, and countless opportunities to evolve both personally and professionally.",
+      "Here’s to a journey filled with growth, innovation, and impact—the Nextern way!"
     ]
   },
   {
