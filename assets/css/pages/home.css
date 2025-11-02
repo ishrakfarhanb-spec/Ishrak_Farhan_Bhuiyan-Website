@@ -89,12 +89,15 @@
   position: relative;
   overflow: hidden;
   border-radius: clamp(10px, 3vw, 18px);
+  height: clamp(150px, 24vw, 190px);
 }
 
 .hero-announcement__media img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: center;
   transition: transform .4s ease;
 }
 

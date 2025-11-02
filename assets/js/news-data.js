@@ -2,6 +2,19 @@
 // Ordered newest to oldest.
 window.siteNews = [
   {
+    id: "news-gp-nextern-2025",
+    title: "Journey at GP Starts",
+    kicker: "Career",
+    date: "2025-11-02",
+    displayDate: "Nov 2, 2025",
+    summary: "Nextern internship journey starts from 2nd November 2025.",
+    image: "assets/img/News/Grameenphone.jpeg",
+    imageAlt: "Grameenphone headquarters exterior with brand signage",
+    body: [
+      "Nextern internship journey starts from 2nd November 2025."
+    ]
+  },
+  {
     id: "news-brandrill-finale-2025",
     title: "Brandrill 5.0 Came to an End",
     kicker: "Event",
