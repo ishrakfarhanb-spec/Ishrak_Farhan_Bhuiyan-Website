@@ -261,6 +261,28 @@
   color: #111;
 }
 
+@media (max-width: 900px) {
+  :root[data-theme="dark"] .hero,
+  :root[data-theme="dark"] .hero .eyebrow,
+  :root[data-theme="dark"] .hero .hero-title,
+  :root[data-theme="dark"] .hero .intro-line,
+  :root[data-theme="dark"] .hero .lede,
+  :root[data-theme="dark"] .hero .muted {
+    color: #f8fafc;
+  }
+
+  :root[data-theme="dark"] .hero .cta-row .btn.btn-ghost {
+    border-color: rgba(248, 250, 252, .55);
+    color: #f8fafc;
+  }
+
+  :root[data-theme="dark"] .hero .cta-row .btn.btn-primary {
+    background: #f8fafc;
+    color: #0b0b0c;
+    border-color: #f8fafc;
+  }
+}
+
 .hero .hero-copy > * {
   opacity: 0;
   transform: translateY(24px);
