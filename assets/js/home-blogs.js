@@ -74,17 +74,16 @@
       body.appendChild(summary);
     }
 
-    var link = document.createElement('a');
-    link.className = 'btn btn-link btn-link-arrow';
-    link.href = 'blogs.html';
-    if (post.id) link.dataset.blogLink = post.id;
-    link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">→</span>';
-    link.addEventListener('click', function () {
-      if (post.id) {
-        safeSet(window.sessionStorage, 'blogs:open', post.id);
-      }
-    });
-    body.appendChild(link);
+    if (post.pdf) {
+      var link = document.createElement('a');
+      link.className = 'btn btn-link btn-link-arrow';
+      link.href = post.pdf;
+      if (post.id) link.dataset.blogLink = post.id;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.innerHTML = '<span>Read more</span><span aria-hidden="true" class="link-arrow">&rarr;</span>';
+      body.appendChild(link);
+    }
 
     article.appendChild(body);
     return article;
@@ -105,3 +104,4 @@
     return isNaN(timestamp) ? 0 : timestamp;
   }
 })();
+

@@ -12,6 +12,7 @@ window.siteBlogs = [
     summary: "Achilles’ legendary fury was rooted in a lucid understanding of mortality, transforming every decision into a search for meaning rather than mere glory.",
     image: "assets/img/Blogs/Blog 02.png",
     imageAlt: "Marble statue of Achilles lit dramatically",
+    pdf: "assets/pdfs/achilles-awareness.pdf",
     heroBadge: "New",
     body: [
       "Achilles is often remembered as the man who sulked, slaughtered, and fell because of his pride — a fiery demigod whose rage burned brighter than reason. But this image, immortalized through centuries of retelling, hides the deeper truth. Achilles wasn’t arrogant. He was aware — painfully, profoundly aware — of what it meant to be human in a world ruled by gods, fate, and fragile egos. His story isn’t about unchecked pride; it’s about the unbearable consciousness of mortality.",
@@ -39,6 +40,7 @@ window.siteBlogs = [
     summary: "A concise tour from Descartes to the digital age, tracing how thinkers reinterpret what it means to be a self.",
     image: "assets/img/Blogs/Blog 03.png",
     imageAlt: "Abstract silhouette composed of layered mirrors",
+    pdf: "assets/pdfs/philosophy-of-self.pdf",
     heroBadge: "New",
     body: [
       "The concept of the self has been at the heart of philosophical inquiry for centuries, with thinkers attempting to uncover the true nature of personal identity and existence.",
@@ -61,6 +63,7 @@ window.siteBlogs = [
     summary: "Cozy Minimalism softens the minimalist playbook with warmth, texture, and intentional living for calmer, more human homes.",
     image: "assets/img/Blogs/Blog 01.png",
     imageAlt: "Soft neutral living room with minimal furniture and plants",
+    pdf: "assets/pdfs/cozy-minimalism.pdf",
     heroBadge: "Featured",
     body: [
       "Minimalism once meant pristine white walls, cold steel furniture, and a ruthless absence of clutter -- the visual equivalent of silence. But in 2025, that silence is being rewritten into something softer, more human. Welcome to Cozy Minimalism, the design movement that is sweeping homes, feeds, and hearts alike. It is minimalism with emotion -- simplicity without sterility, restraint without restriction.",

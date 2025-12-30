@@ -41,34 +41,29 @@
   });
 
   var state = { filter: 'all', sort: 'newest' };
-  var modal = setupModal();
 
   var heroEl = document.getElementById('blog-hero');
-  if (heroEl) renderHero(posts[0], heroEl, modal);
+  if (heroEl) renderHero(posts[0], heroEl);
 
   var filtersEl = document.getElementById('blog-filters');
-  if (filtersEl) renderFilters(posts, filtersEl, state, modal);
+  if (filtersEl) renderFilters(posts, filtersEl, state);
 
   var sortSelect = document.getElementById('blog-sort');
   if (sortSelect) {
     sortSelect.addEventListener('change', function () {
       state.sort = sortSelect.value || 'newest';
-      renderGrid(posts, state, modal);
+      renderGrid(posts, state);
     });
   }
 
-  renderGrid(posts, state, modal);
+  renderGrid(posts, state);
 
-  var saved = safeSessionGet('blogs:open');
-  if (saved && modal) {
-    var entry = posts.find(function (p) { return p.id === saved; });
-    if (entry) modal.open(entry);
-    safeSessionRemove('blogs:open');
-  }
-
-  function renderHero(item, container, modalApi) {
+  function renderHero(item, container) {
     if (!item) return;
     var themeClass = document.documentElement.getAttribute('data-theme') === 'dark' ? 'theme-dark' : 'theme-light';
+    var heroAction = item.pdf
+      ? '      <a class="btn btn-primary" href="' + escapeHtml(item.pdf) + '" target="_blank" rel="noopener">Read story</a>'
+      : '';
     container.innerHTML = [
       '<div class="blog-hero-inner ' + themeClass + '">',
       '  <div>',
@@ -76,7 +71,7 @@
       '    <h2 class="hero-title">' + escapeHtml(item.title) + '</h2>',
       '    <p class="muted">' + escapeHtml(item.summary || '') + '</p>',
       '    <div class="hero-actions">',
-      '      <button class="btn btn-primary" type="button" data-blog-open="' + escapeHtml(item.id) + '">Read story</button>',
+      heroAction,
       '    </div>',
       '  </div>',
       '  <div class="hero-meta">',
@@ -93,22 +88,9 @@
         inner.style.removeProperty('background-image');
       }
     }
-    var trigger = container.querySelector('[data-blog-open]');
-    if (trigger && trigger.dataset.bound !== 'true') {
-      trigger.addEventListener('click', function (event) {
-        event.preventDefault();
-        if (modalApi) {
-          modalApi.open(item);
-        } else {
-          safeSessionSet('blogs:open', item.id);
-          window.location.hash = 'blogs-grid';
-        }
-      });
-      trigger.dataset.bound = 'true';
-    }
   }
 
-  function renderFilters(items, container, current, modalApi) {
+  function renderFilters(items, container, current) {
     var categories = Array.from(new Set(items
       .map(function (post) { return (post.category || '').trim(); })
       .filter(Boolean)
@@ -129,12 +111,12 @@
         chip.classList.add('is-active');
         chip.setAttribute('aria-selected', 'true');
         current.filter = chip.getAttribute('data-filter') || 'all';
-        renderGrid(posts, current, modalApi);
+        renderGrid(posts, current);
       });
     });
   }
 
-  function renderGrid(items, current, modalApi) {
+  function renderGrid(items, current) {
     var grid = document.getElementById('blogs-grid');
     if (!grid) return;
 
@@ -154,6 +136,9 @@
     }
 
     grid.innerHTML = list.map(function (item) {
+      var cta = item.pdf
+        ? '<a class="btn btn-link" href="' + escapeHtml(item.pdf) + '" target="_blank" rel="noopener">Read more</a>'
+        : '';
       return [
         '<article class="card" data-blog-card data-id="' + escapeHtml(item.id) + '">',
         '  <div class="card-media">',
@@ -164,7 +149,7 @@
         '    <h3 class="card-title">' + escapeHtml(item.title) + '</h3>',
         '    <p class="muted">' + escapeHtml(item.displayDate || formatDate(item.date)) + '</p>',
         item.summary ? '    <p>' + escapeHtml(item.summary) + '</p>' : '',
-        '    <button class="btn btn-link" type="button">Read more</button>',
+        cta ? '    ' + cta : '',
         '  </div>',
         '</article>'
       ].join('');
@@ -172,101 +157,23 @@
 
     if (typeof window.initUI === 'function') window.initUI();
 
-    bindGridInteractions(grid, modalApi);
+    bindGridInteractions(grid);
   }
-
-  function setupModal() {
-    var dialog = document.getElementById('blog-modal');
-    if (!dialog) return null;
-    var titleEl = document.getElementById('modal-title');
-    var metaEl = document.getElementById('modal-meta');
-    var subtitleEl = document.getElementById('modal-subtitle');
-    var bodyEl = document.getElementById('modal-body');
-    var closeBtn = dialog.querySelector('.modal-close');
-
-    function open(post) {
-      if (!post) return;
-      if (titleEl) titleEl.textContent = post.title || '';
-      if (metaEl) {
-        var metaPieces = [post.category, post.displayDate || formatDate(post.date)]
-          .filter(Boolean)
-          .map(function (piece) {
-            return '<span class="meta-pill">' + escapeHtml(piece) + '</span>';
-          }).join('');
-        metaEl.innerHTML = metaPieces;
-      }
-      if (subtitleEl) subtitleEl.textContent = post.author || '';
-      if (bodyEl) {
-        var paragraphs = Array.isArray(post.body) ? post.body : [post.summary || ''];
-        bodyEl.innerHTML = paragraphs.map(function (entry, index) {
-          var type = 'paragraph';
-          var text = '';
-          var items = null;
-          var ordered = false;
-
-          if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
-            type = entry.type || 'paragraph';
-            text = entry.text || entry.content || '';
-            if (type === 'list') {
-              items = Array.isArray(entry.items) ? entry.items : null;
-              ordered = Boolean(entry.ordered);
-            }
-          } else {
-            text = entry;
-          }
-
-          if (type === 'list' && items) {
-            var tag = ordered ? 'ol' : 'ul';
-            var listClass = 'modal-list' + (ordered ? ' modal-list--ordered' : '');
-            var listItems = items.map(function (item) {
-              return '<li>' + escapeHtml(item) + '</li>';
-            }).join('');
-            return '<' + tag + ' class="' + listClass + '">' + listItems + '</' + tag + '>';
-          }
-
-          var safeText = escapeHtml(text);
-          if (!safeText) return '';
-          if (type === 'quote') {
-            return '<blockquote>' + safeText + '</blockquote>';
-          }
-          var cls = index === 0 ? ' class="lead"' : '';
-          return '<p' + cls + '>' + safeText + '</p>';
-        }).join('');
-      }
-      if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', 'true');
-    }
-
-    function close() {
-      if (typeof dialog.close === 'function') dialog.close(); else dialog.removeAttribute('open');
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', close);
-    dialog.addEventListener('click', function (event) {
-      if (event.target === dialog) close();
-    });
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && dialog.open) close();
-    });
-
-    return { open: open, close: close };
-  }
-
-  function bindGridInteractions(container, modalApi) {
+  function bindGridInteractions(container) {
     if (!container) return;
     if (container.dataset.blogBound === 'true') return;
     container.addEventListener('click', function (event) {
       var card = event.target.closest('[data-blog-card]');
       if (!card || !container.contains(card)) return;
+      var directLink = event.target.closest('a');
+      if (directLink && card.contains(directLink)) return;
       var postId = card.getAttribute('data-id');
       if (!postId) return;
       var post = posts.find(function (entry) { return entry.id === postId; });
       if (!post) return;
       event.preventDefault();
-      if (modalApi) {
-        modalApi.open(post);
-      } else {
-        safeSessionSet('blogs:open', postId);
-        window.location.hash = card.id || 'blogs-grid';
+      if (post.pdf) {
+        window.open(post.pdf, '_blank', 'noopener');
       }
     });
     container.dataset.blogBound = 'true';
