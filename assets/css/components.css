@@ -572,9 +572,12 @@ body { overflow-x: hidden; }
   color: var(--text);
   background: transparent;
   font-weight: 600;
+  border: 2px solid color-mix(in srgb, var(--text) 65%, transparent 35%);
+  border-radius: 0;
+  padding: .35rem .8rem;
 }
 .site-nav a:not(.btn)[aria-current="page"]::after {
-  transform: scaleX(1);
+  transform: scaleX(0);
 }
 .site-nav a.btn-primary,
 .site-nav a.btn-primary:visited,
