@@ -3,7 +3,7 @@
   overflow: hidden;
   --hero-bg-shift: 0px;
   background: url("../../img/Index Page.png") calc(100% - 120px) calc(50% + var(--hero-bg-shift, 0px)) / cover no-repeat;
-  color: #f4f7fb;
+  color: #111;
   padding-bottom: clamp(2.5rem, 8vw, 5rem);
 }
 
@@ -11,8 +11,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(120deg, rgba(6, 10, 22, .68) 12%, rgba(8, 12, 26, .36) 54%, rgba(12, 16, 32, .14) 100%);
+  background: none;
   z-index: 0;
   pointer-events: none;
 }
@@ -36,11 +35,11 @@
 .hero .intro-line,
 .hero .lede,
 .hero .muted {
-  color: rgba(244, 247, 251, .86);
+  color: #111;
 }
 
 .hero .cta-row .btn.btn-ghost {
-  border-color: rgba(244, 247, 251, .55);
+  border-color: rgba(17, 17, 17, .4);
   color: inherit;
 }
 
@@ -104,6 +103,13 @@
   align-content: start;
 }
 
+.hero-announcement__content,
+.hero-announcement__content .card-title,
+.hero-announcement__content .muted,
+.hero-announcement__content .eyebrow {
+  color: #fff;
+}
+
 .hero-announcement__card:hover,
 .hero-announcement__card:focus-within {
   transform: translateY(-6px);
@@ -162,7 +168,7 @@
 .hero .intro-line {
   margin: .75rem 0 0;
   font-size: 1.05rem;
-  color: rgba(244, 247, 251, .8);
+  color: #111;
 }
 
 .hero .hero-copy > * {
