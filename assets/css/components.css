@@ -569,11 +569,12 @@ body { overflow-x: hidden; }
   transition: color .3s ease, transform .3s ease;
 }
 .site-nav a:not(.btn)[aria-current="page"] {
-  color: #fff;
-  background: linear-gradient(135deg, var(--nav-accent), color-mix(in srgb, var(--brand) 55%, #64748b 45%));
+  color: var(--text);
+  background: transparent;
+  font-weight: 600;
 }
-:root[data-theme="dark"] .site-nav a:not(.btn)[aria-current="page"] {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--nav-accent) 60%, #1e293b 40%), color-mix(in srgb, var(--brand) 50%, #64748b 50%));
+.site-nav a:not(.btn)[aria-current="page"]::after {
+  transform: scaleX(1);
 }
 .site-nav a.btn-primary,
 .site-nav a.btn-primary:visited,

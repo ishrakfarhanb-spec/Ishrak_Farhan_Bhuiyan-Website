@@ -800,6 +800,17 @@
     }
 
     initMorphAnimations();
+
+    const heroScroll = document.querySelector('.hero-scroll');
+    if (heroScroll) {
+      heroScroll.addEventListener('click', function () {
+        const hero = document.querySelector('.hero');
+        const target = hero ? hero.nextElementSibling : null;
+        if (target && typeof target.scrollIntoView === 'function') {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
   }
 
   window.initUI = initUI;
