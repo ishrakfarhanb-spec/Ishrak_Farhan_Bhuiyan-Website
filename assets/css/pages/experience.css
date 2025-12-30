@@ -63,7 +63,7 @@
 .experience-highlights .stat {
   display: block;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
-  font-weight: 800;
+  font-weight: 900;
   color: var(--brand);
   letter-spacing: .02em;
 }
@@ -80,6 +80,7 @@
 .xp-group-head {
   display: grid;
   gap: .4rem;
+  margin-top: 1.5rem;
 }
 .xp-group-head h2 {
   margin: 0;
@@ -93,9 +94,9 @@
 }
 
 .xp-card {
-  border-radius: var(--radius);
+  border-radius: 0;
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--card), var(--brand) 4%);
+  background: transparent;
   box-shadow: var(--shadow);
   padding: 1.5rem;
   display: grid;
@@ -146,6 +147,7 @@
   background: transparent;
   display: block;
   overflow: hidden;
+  flex: 0 0 52px;
 }
 .xp-logo img {
   width: 100%;
@@ -234,9 +236,9 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .xp-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: 1fr;
   }
 }
 
