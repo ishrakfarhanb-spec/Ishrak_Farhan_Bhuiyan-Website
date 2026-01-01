@@ -596,6 +596,7 @@ body { overflow-x: hidden; }
     width: 44px;
     height: 44px;
     border: none;
+    border-radius: 0;
     background: transparent;
     color: inherit;
     display: none;
@@ -611,6 +612,9 @@ body { overflow-x: hidden; }
 .nav-toggle:hover,
 .nav-toggle:focus-visible {
   transform: translateY(-1px);
+}
+.nav-toggle::before {
+  content: none;
 }
 .nav-toggle::after {
     content: none;
@@ -652,22 +656,22 @@ body { overflow-x: hidden; }
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 26px;
+  width: 24px;
   height: 2px;
-  border-radius: 999px;
+  border-radius: 0;
   background: currentColor;
   box-shadow: none;
   transform-origin: center;
   transform: translate(-50%, calc(-50% + var(--bar-offset))) rotate(var(--bar-rotate)) scaleX(var(--bar-scale));
   transition: transform .38s cubic-bezier(.8, .05, .2, 1), opacity .28s cubic-bezier(.8, .05, .2, 1);
 }
-.nav-toggle .bar-top { --bar-offset: -7px; }
+.nav-toggle .bar-top { --bar-offset: -6px; }
 .nav-toggle .bar-mid {
   --bar-offset: 0px;
   transition: transform .38s cubic-bezier(.8, .05, .2, 1), opacity .28s cubic-bezier(.8, .05, .2, 1);
   transition-delay: 0s, .02s;
 }
-.nav-toggle .bar-btm { --bar-offset: 7px; }
+.nav-toggle .bar-btm { --bar-offset: 6px; }
 .nav-toggle.is-active .burger-bar {
   box-shadow: none;
 }

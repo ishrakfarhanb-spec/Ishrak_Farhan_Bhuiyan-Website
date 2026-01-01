@@ -651,6 +651,7 @@
 
           toggleEndHandler = function (event) {
             if (event.target !== btn || event.animationName !== 'navToggleMorphWrapper') return;
+            btn.classList.remove('is-active');
             btn.classList.remove('is-closing');
             btn.removeEventListener('animationend', toggleEndHandler);
             toggleEndHandler = null;

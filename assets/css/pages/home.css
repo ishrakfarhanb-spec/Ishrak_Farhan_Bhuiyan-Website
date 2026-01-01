@@ -29,22 +29,30 @@
   top: 50%;
   bottom: auto;
   transform: translateY(-50%);
-  border: 0;
-  border-radius: 999px;
-  padding: .4rem .75rem;
+  pointer-events: auto;
+  border: 1px solid rgba(17, 17, 17, .7);
+  border-radius: 0;
+  padding: .4rem .85rem;
   font-size: .75rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  background: rgba(255, 255, 255, .9);
+  background: rgba(255, 255, 255, .75);
   color: #111;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, .14);
+  box-shadow: none;
   display: none;
   align-items: center;
   gap: .45rem;
+  transition: background .2s ease, border-color .2s ease;
 }
 
 .hero-scroll span {
   font-size: 1rem;
+}
+
+.hero-scroll:hover,
+.hero-scroll:focus-visible {
+  background: rgba(255, 255, 255, .95);
+  border-color: #111;
 }
 
 @media (max-width: 900px) {

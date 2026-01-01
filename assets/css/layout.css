@@ -129,6 +129,11 @@
   margin: 0 auto;
   font-size: 1.05rem;
 }
+.legal-wrap p,
+.legal-wrap li {
+  text-align: justify;
+  text-justify: inter-word;
+}
 .legal-wrap header .muted {
   font-size: .9rem;
 }
