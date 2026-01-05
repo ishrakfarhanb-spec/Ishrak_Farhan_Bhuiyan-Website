@@ -67,10 +67,6 @@
     }
 
     var storage = root.sessionStorage;
-    var hasShown = !!safeStorageGet(storage, 'site-loader-seen');
-    if (hasShown) {
-      return;
-    }
 
     var loader = document.createElement('div');
     loader.className = 'site-loader is-visible';
@@ -89,7 +85,7 @@
     var rafId = null;
     var done = false;
     var startTime = Date.now();
-    var minDuration = 3000;
+    var minDuration = 5000;
 
     function render(value) {
       if (progressFill) {
