@@ -68,16 +68,30 @@
 
     var storage = root.sessionStorage;
 
-    var loader = document.createElement('div');
-    loader.className = 'site-loader is-visible';
-    loader.innerHTML =
+    var loader = body.querySelector('.site-loader');
+    var created = false;
+    var loaderMarkup =
       '<div class="site-loader__inner" role="status" aria-live="polite">' +
         '<p class="site-loader__greeting">Hello<span class="site-loader__dots" aria-hidden="true">' +
           '<span>.</span><span>.</span><span>.</span>' +
         '</span></p>' +
       '</div>';
 
-    body.insertBefore(loader, body.firstChild);
+    if (!loader) {
+      loader = document.createElement('div');
+      loader.className = 'site-loader is-visible';
+      loader.innerHTML = loaderMarkup;
+      created = true;
+    } else {
+      loader.classList.add('is-visible');
+      if (!loader.querySelector('.site-loader__greeting')) {
+        loader.innerHTML = loaderMarkup;
+      }
+    }
+
+    if (created) {
+      body.insertBefore(loader, body.firstChild);
+    }
 
     var progressFill = loader.querySelector('[data-loader-bar]');
     var progressValue = loader.querySelector('[data-loader-progress]');
