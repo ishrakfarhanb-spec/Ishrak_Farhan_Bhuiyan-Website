@@ -16,7 +16,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity .45s ease, visibility .45s ease;
+  transition: opacity .6s ease, visibility .6s ease;
 }
 
 .site-loader.is-visible {
@@ -33,6 +33,28 @@
   max-width: 320px;
   color: #111827;
 }
+
+.site-loader__greeting {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.site-loader__dots {
+  display: inline-flex;
+  gap: .25rem;
+  margin-left: .35rem;
+}
+
+.site-loader__dots span {
+  display: inline-block;
+  opacity: .2;
+  animation: loaderDots 1.2s infinite;
+}
+
+.site-loader__dots span:nth-child(2) { animation-delay: .2s; }
+.site-loader__dots span:nth-child(3) { animation-delay: .4s; }
 
 .site-loader__logo {
   width: clamp(72px, 10vw, 96px);
@@ -112,6 +134,11 @@
   100% { transform: rotate(360deg); }
 }
 
+@keyframes loaderDots {
+  0%, 80%, 100% { opacity: .2; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+
 html.site-intro-open,
 body.site-intro-open {
   overflow: hidden;
@@ -124,7 +151,7 @@ body.site-intro-open {
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transition: opacity .4s ease, visibility .4s ease;
+  transition: opacity .6s ease, visibility .6s ease;
 }
 
 .site-intro.is-active {
@@ -136,17 +163,17 @@ body.site-intro-open {
 .site-intro__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(248, 250, 255, .88);
+  background: rgba(6, 10, 22, .72);
   backdrop-filter: blur(6px);
 }
 
 .site-intro__focus {
   position: absolute;
   border-radius: 22px;
-  border: 2px solid rgba(17, 24, 39, .85);
+  border: 2px solid rgba(233, 237, 247, .85);
   box-shadow:
-    0 20px 40px rgba(15, 23, 42, .12),
-    0 0 0 9999px rgba(248, 250, 255, .82);
+    0 20px 40px rgba(6, 10, 22, .42),
+    0 0 0 9999px rgba(6, 10, 22, .78);
   transition: top .25s ease, left .25s ease, width .25s ease, height .25s ease, border-radius .25s ease;
   pointer-events: none;
 }
@@ -160,8 +187,13 @@ body.site-intro-open {
   padding: 1.25rem clamp(1rem, 3vw, 1.35rem);
   border: 1px solid rgba(148, 163, 184, .25);
   box-shadow: 0 24px 44px rgba(2, 6, 23, .45);
-  transition: top .25s ease, left .25s ease;
+  transition: top .25s ease, left .25s ease, opacity .25s ease, transform .25s ease;
   will-change: top, left;
+}
+
+.site-intro__callout.is-swapping {
+  opacity: 0;
+  transform: translateY(8px);
 }
 
 .site-intro__callout::after {

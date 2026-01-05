@@ -75,14 +75,10 @@
     var loader = document.createElement('div');
     loader.className = 'site-loader is-visible';
     loader.innerHTML =
-      '<div class="site-loader__inner" role="alert" aria-live="assertive">' +
-        '<img class="site-loader__logo" src="assets/img/Brand Logo.png" alt="Ishrak Farhan logo" />' +
-        '<div class="site-loader__spinner" aria-hidden="true"></div>' +
-        '<div class="site-loader__progress" aria-hidden="true">' +
-          '<div class="site-loader__bar"><span class="site-loader__bar-fill" data-loader-bar></span></div>' +
-          '<span class="site-loader__percent"><span data-loader-progress>0</span>%</span>' +
-        '</div>' +
-        '<p class="site-loader__tagline">Preparing your experience...</p>' +
+      '<div class="site-loader__inner" role="status" aria-live="polite">' +
+        '<p class="site-loader__greeting">Hello<span class="site-loader__dots" aria-hidden="true">' +
+          '<span>.</span><span>.</span><span>.</span>' +
+        '</span></p>' +
       '</div>';
 
     body.insertBefore(loader, body.firstChild);
@@ -92,6 +88,8 @@
     var current = 0;
     var rafId = null;
     var done = false;
+    var startTime = Date.now();
+    var minDuration = 3000;
 
     function render(value) {
       if (progressFill) {
@@ -113,19 +111,26 @@
 
     function teardown() {
       if (done) return;
+      var elapsed = Date.now() - startTime;
+      if (elapsed < minDuration) {
+        root.setTimeout(teardown, minDuration - elapsed);
+        return;
+      }
       done = true;
       if (rafId) root.cancelAnimationFrame(rafId);
       render(100);
       safeStorageSet(storage, 'site-loader-seen', '1');
       loader.classList.remove('is-visible');
       loader.classList.add('is-leaving');
+      root.dispatchEvent(new Event('site-loader:leaving'));
       root.setTimeout(function () {
         loader.remove();
+        root.dispatchEvent(new Event('site-loader:done'));
       }, 500);
     }
 
     root.addEventListener('load', teardown, { once: true });
-    root.setTimeout(teardown, 9000);
+    root.setTimeout(teardown, minDuration);
   }
 
   initSiteLoader();
@@ -136,6 +141,7 @@
     if (!root || !doc.querySelector('.hero')) return;
 
     var storage = root.sessionStorage || root.localStorage;
+    var prefersReducedMotion = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var INTRO_KEY = 'site-intro-session-v1';
     if (storage !== root.localStorage) {
       safeStorageRemove(root.localStorage, INTRO_KEY);
@@ -179,6 +185,7 @@
     var active = false;
     var rafId = null;
     var previousTarget = null;
+    var waitingForLoader = false;
 
     function resolveElement(step) {
       for (var i = 0; i < step.selectors.length; i++) {
@@ -272,6 +279,17 @@
       var step = steps[stepIndex];
       var target = step.element;
       if (!target) return;
+
+      if (calloutEl && !prefersReducedMotion) {
+        calloutEl.classList.add('is-swapping');
+        root.requestAnimationFrame(function () {
+          root.requestAnimationFrame(function () {
+            if (calloutEl) {
+              calloutEl.classList.remove('is-swapping');
+            }
+          });
+        });
+      }
 
       if (previousTarget && previousTarget !== target) {
         previousTarget.classList.remove('site-intro__target');
@@ -418,6 +436,21 @@
 
     function scheduleStart() {
       if (active || overlay) return;
+      var loaderEl = document.querySelector('.site-loader');
+      if (loaderEl) {
+        if (loaderEl.classList.contains('is-leaving')) {
+          root.setTimeout(startGuide, 150);
+          return;
+        }
+        if (waitingForLoader) return;
+        waitingForLoader = true;
+        root.addEventListener('site-loader:leaving', function handler() {
+          waitingForLoader = false;
+          root.removeEventListener('site-loader:leaving', handler);
+          root.setTimeout(startGuide, 150);
+        }, { once: true });
+        return;
+      }
       startGuide();
     }
 
