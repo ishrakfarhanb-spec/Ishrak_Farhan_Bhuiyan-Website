@@ -297,6 +297,29 @@ body.site-intro-open {
 
 body { overflow-x: hidden; }
 
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2000;
+  transition: opacity .35s ease;
+}
+
+body.is-transitioning .page-transition {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.page-enter .page-transition {
+  opacity: 1;
+}
+
+body.page-enter.is-transitioning .page-transition {
+  opacity: 1;
+}
+
 [data-animate-item] {
   opacity: 0;
   transform: translateY(32px);
