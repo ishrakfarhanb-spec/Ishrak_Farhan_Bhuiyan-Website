@@ -120,6 +120,119 @@
   box-shadow: 0 18px 36px rgba(5, 9, 18, .4);
 }
 
+.hero .cta-row {
+  display: inline-flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: .5rem;
+}
+
+.hero-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin: .65rem 0 .25rem;
+}
+
+.hero-audio-text {
+  font-size: .7rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #111;
+  line-height: 1;
+}
+
+.hero-audio-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #d92b2b;
+  background: #d92b2b;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.hero-audio-toggle::before,
+.hero-audio-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.hero-audio-toggle::before {
+  width: 0;
+  height: 0;
+  border-left: 8px solid #ffffff;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  transform: translate(-35%, -50%);
+}
+
+.hero-audio-toggle::after {
+  display: none;
+}
+
+.hero-audio-toggle.is-playing::before,
+.hero-audio-toggle.is-playing::after {
+  width: 3px;
+  height: 12px;
+  background: #ffffff;
+  border: none;
+  transform: translate(-50%, -50%);
+}
+
+.hero-audio-toggle.is-playing::before {
+  left: calc(50% - 3px);
+}
+
+.hero-audio-toggle.is-playing::after {
+  display: block;
+  left: calc(50% + 3px);
+}
+
+.hero-audio-toggle:hover,
+.hero-audio-toggle:focus-visible {
+  transform: translateY(-1px);
+  border-color: #b61f1f;
+  box-shadow: none;
+  background: #b61f1f;
+}
+
+.hero-audio-progress {
+  height: 2px;
+  width: 120px;
+  background: rgba(17, 17, 17, .2);
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: none;
+  opacity: 0;
+  max-width: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, max-width .2s ease;
+}
+
+.hero-audio-progress-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: #d92b2b;
+}
+
+.hero-audio-toggle.is-playing + .hero-audio-progress {
+  opacity: 1;
+  max-width: 120px;
+  pointer-events: auto;
+}
+
 .hero .hero-grid {
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.5rem, 5vw, 3rem);
@@ -311,6 +424,9 @@
   transition: transform .35s ease, box-shadow .35s ease, background-color .35s ease, color .35s ease;
   box-shadow: 0 12px 24px rgba(15, 23, 42, .12);
   margin-top: .75rem;
+}
+.hero .cta-stack .btn {
+  margin-top: 0;
 }
 .hero .cta-row .btn:hover,
 .hero .cta-row .btn:focus-visible {

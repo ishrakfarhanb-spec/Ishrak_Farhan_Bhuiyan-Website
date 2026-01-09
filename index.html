@@ -74,8 +74,22 @@
             <p class="eyebrow">Personal Website</p>
             <h1 class="hero-title">ISHRAK FARHAN</h1>
             <h1 class="hero-title">BHUIYAN</h1><br>
-            <p class="intro-line"><strong>Business student</strong> blending creative strategy with practical tech to ship ideas that actually help people and turning community experiments into measurable wins-capturing what works along the way.</p>
-            <p class="lede"><strong>Welcome</strong> to my corner of the web - projects, experiments, and notes.</p><br>
+            <div class="hero-audio">
+              <button class="hero-audio-toggle" type="button" data-audio-toggle data-play-label="Play" data-pause-label="Pause" aria-pressed="false" aria-label="Play music">
+                <span class="sr-only">Toggle music</span>
+              </button>
+              <span class="hero-audio-progress" data-audio-progress-track role="slider" aria-label="Audio progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                <span class="hero-audio-progress-fill" data-audio-progress aria-hidden="true"></span>
+              </span>
+              <span class="hero-audio-text" data-audio-label>Play</span>
+            </div>
+            <div class="hero-text-block">
+              <p class="intro-line"><strong>Business student</strong> blending creative strategy with practical tech to ship ideas that actually help people and turning community experiments into measurable wins-capturing what works along the way.</p>
+              <p class="lede"><strong>Welcome</strong> to my corner of the web - projects, experiments, and notes.</p><br>
+            </div>
+            <audio class="site-audio" data-site-audio preload="none" loop>
+              <source src="assets/audio/pretty-woman.m4a" type="audio/mp4" />
+            </audio>
             <div class="cta-row">
               <a class="btn btn-primary" href="request-cv.html">Request CV</a>
               <a class="btn btn-ghost" href="contact.html">Contact Me</a>
