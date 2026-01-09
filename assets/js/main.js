@@ -31,6 +31,8 @@
     };
   }
 
+  var LOADER_LABEL_KEY = 'site-loader-label';
+
   function safeStorageGet(storage, key) {
     if (!storage || typeof storage.getItem !== 'function') return null;
     try {
@@ -67,12 +69,42 @@
     }
 
     var storage = root.sessionStorage;
-
     var loader = body.querySelector('.site-loader');
+    var hasSeen = safeStorageGet(storage, 'site-loader-seen') === '1';
+
+    if (hasSeen) {
+      safeStorageRemove(storage, LOADER_LABEL_KEY);
+      if (loader) loader.remove();
+      return;
+    }
+
+    var greetingLabel = safeStorageGet(storage, LOADER_LABEL_KEY);
+    if (greetingLabel !== null) {
+      safeStorageRemove(storage, LOADER_LABEL_KEY);
+    }
+    greetingLabel = String(greetingLabel || '').trim();
+    if (!greetingLabel) greetingLabel = 'Hello';
+
+    function setLoaderGreeting(loaderEl, text) {
+      if (!loaderEl) return;
+      var greetingEl = loaderEl.querySelector('.site-loader__greeting');
+      if (!greetingEl) return;
+      var dotsEl = greetingEl.querySelector('.site-loader__dots');
+      var nextText = String(text || '').trim();
+      if (!nextText) nextText = 'Hello';
+      if (dotsEl) {
+        greetingEl.textContent = '';
+        greetingEl.appendChild(document.createTextNode(nextText));
+        greetingEl.appendChild(dotsEl);
+      } else {
+        greetingEl.textContent = nextText;
+      }
+    }
+
     var created = false;
     var loaderMarkup =
       '<div class="site-loader__inner" role="status" aria-live="polite">' +
-        '<p class="site-loader__greeting">Hello<span class="site-loader__dots" aria-hidden="true">' +
+        '<p class="site-loader__greeting">' + siteUtils.escapeHtml(greetingLabel) + '<span class="site-loader__dots" aria-hidden="true">' +
           '<span>.</span><span>.</span><span>.</span>' +
         '</span></p>' +
       '</div>';
@@ -93,13 +125,15 @@
       body.insertBefore(loader, body.firstChild);
     }
 
+    setLoaderGreeting(loader, greetingLabel);
+
     var progressFill = loader.querySelector('[data-loader-bar]');
     var progressValue = loader.querySelector('[data-loader-progress]');
     var current = 0;
     var rafId = null;
     var done = false;
     var startTime = Date.now();
-    var minDuration = 5000;
+    var minDuration = 3000;
 
     function render(value) {
       if (progressFill) {
@@ -745,9 +779,24 @@
       window.addEventListener('resize', function(){
         if (window.innerWidth > 900) closeMenu({ immediate: true });
       });
+      function queueLoaderLabel(link, event) {
+        if (!link) return;
+        if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return;
+        if (link.hasAttribute('download')) return;
+        if (link.target && link.target !== '_self') return;
+        var href = link.getAttribute('href');
+        if (!href || href.startsWith('#')) return;
+        if (href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+        var label = (link.textContent || '').trim();
+        if (!label) return;
+        safeStorageSet(window.sessionStorage, LOADER_LABEL_KEY, label);
+      }
       // Close on nav link click
       list.querySelectorAll('a').forEach(function(a){
-        a.addEventListener('click', function(){ closeMenu(); });
+        a.addEventListener('click', function(e){
+          queueLoaderLabel(a, e);
+          closeMenu();
+        });
       });
       btn.dataset.bound = 'true';
       if (backdrop && !backdrop.dataset.bound) {
@@ -757,7 +806,33 @@
     }
 
     function normalizePath(value) {
-      return value.replace(/\/index\.html$/, '/');
+      return String(value || '').replace(/\/index\.html$/, '/');
+    }
+
+    var navLabelMap = null;
+
+    function buildNavLabelMap() {
+      var map = new Map();
+      document.querySelectorAll('.site-nav a[href]').forEach(function (link) {
+        var label = (link.textContent || '').trim();
+        if (!label) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+        var url;
+        try {
+          url = new URL(href, location.origin);
+        } catch (err) {
+          return;
+        }
+        map.set(normalizePath(url.pathname), label);
+      });
+      navLabelMap = map;
+    }
+
+    function resolveNavLabel(pathname) {
+      if (!navLabelMap || navLabelMap.size === 0) buildNavLabelMap();
+      if (!navLabelMap) return '';
+      return navLabelMap.get(normalizePath(pathname)) || '';
     }
 
     const path = normalizePath(window.location.pathname);
@@ -889,13 +964,18 @@
               return;
             }
 
+            var navLabel = resolveNavLabel(nextUrl.pathname);
+            if (navLabel) {
+              safeStorageSet(window.sessionStorage, LOADER_LABEL_KEY, navLabel);
+            }
+
             if (prefersReduced) return;
 
             event.preventDefault();
             document.body.classList.add('is-transitioning');
             window.setTimeout(() => {
               window.location.href = nextUrl.href;
-            }, 280);
+            }, 2000);
           });
         });
 

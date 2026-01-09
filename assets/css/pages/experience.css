@@ -90,7 +90,7 @@
 .xp-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .xp-card {
@@ -115,6 +115,10 @@
 .xp-card[data-brand="zatiq"] {
   --brand: #6c5ce7;
   --brand-contrast: #312783;
+}
+.xp-card[data-brand="grameenphone"] {
+  --brand: #0074c8;
+  --brand-contrast: #0a3a6b;
 }
 .xp-card[data-brand="vob"] {
   --brand: #d92b2b;

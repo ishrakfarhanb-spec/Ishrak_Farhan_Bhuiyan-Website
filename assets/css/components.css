@@ -336,7 +336,7 @@ body { overflow-x: hidden; }
   opacity: 0;
   pointer-events: none;
   z-index: 2000;
-  transition: opacity .35s ease;
+  transition: opacity 2s ease;
 }
 
 body.is-transitioning .page-transition {
