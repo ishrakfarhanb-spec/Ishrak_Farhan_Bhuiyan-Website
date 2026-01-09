@@ -120,6 +120,10 @@
   --brand: #0074c8;
   --brand-contrast: #0a3a6b;
 }
+.xp-card[data-brand="metlife"] {
+  --brand: #0061a8;
+  --brand-contrast: #08355d;
+}
 .xp-card[data-brand="vob"] {
   --brand: #d92b2b;
   --brand-contrast: #7c1414;
