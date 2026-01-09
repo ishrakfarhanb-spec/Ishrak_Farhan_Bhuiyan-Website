@@ -146,6 +146,9 @@
 .hero-audio-toggle {
   width: 36px;
   height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
   border-radius: 50%;
   border: 2px solid #d92b2b;
   background: #d92b2b;
@@ -154,6 +157,9 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  flex: 0 0 auto;
+  appearance: none;
+  -webkit-appearance: none;
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
 }
 
@@ -207,6 +213,7 @@
 .hero-audio-progress {
   height: 2px;
   width: 120px;
+  min-width: 0;
   background: rgba(17, 17, 17, .2);
   border-radius: 999px;
   overflow: hidden;
@@ -215,6 +222,7 @@
   opacity: 0;
   max-width: 0;
   pointer-events: none;
+  visibility: hidden;
   transition: opacity .2s ease, max-width .2s ease;
 }
 
@@ -231,6 +239,31 @@
   opacity: 1;
   max-width: 120px;
   pointer-events: auto;
+  visibility: visible;
+}
+
+:root[data-theme="dark"] .hero .hero-audio-text {
+  color: #f8fafc;
+}
+
+:root[data-theme="dark"] .hero .hero-audio-progress {
+  background: rgba(248, 250, 252, .25);
+}
+
+:root[data-theme="dark"] .hero .hero-audio-progress-fill {
+  background: #f8fafc;
+}
+
+@media (min-width: 901px) {
+  :root[data-theme="dark"] .hero .hero-media + .hero-grid .hero-audio-text {
+    color: #111;
+  }
+  :root[data-theme="dark"] .hero .hero-media + .hero-grid .hero-audio-progress {
+    background: rgba(17, 17, 17, .2);
+  }
+  :root[data-theme="dark"] .hero .hero-media + .hero-grid .hero-audio-progress-fill {
+    background: #d92b2b;
+  }
 }
 
 .hero .hero-grid {
