@@ -11,11 +11,17 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-  overflow: hidden;
+  overflow: visible;
   padding: clamp(1.75rem, 3vw, 2.5rem);
   text-align: left;
+  border: 1px solid color-mix(in srgb, var(--brand), transparent 75%);
+  background: var(--card);
 }
 .experience-hero-body {
+  max-width: none;
+}
+.experience-hero-body > h1,
+.experience-hero-body > .experience-hero-actions {
   max-width: 56ch;
 }
 .experience-hero-body h1 {
@@ -47,7 +53,7 @@
   margin: 1.5rem 0;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-auto-rows: 1fr;
 }
 .experience-highlights li {
@@ -56,8 +62,15 @@
   align-content: flex-start;
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) * 0.75);
-  padding: 1.05rem 1.25rem;
+  padding: .9rem 1rem;
   background: color-mix(in srgb, var(--card), var(--brand) 6%);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  justify-items: stretch;
+}
+.experience-highlights li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12);
+  border-color: color-mix(in srgb, var(--brand), transparent 60%);
 }
 
 .experience-highlights .stat {
@@ -66,11 +79,13 @@
   font-weight: 900;
   color: var(--brand);
   letter-spacing: .02em;
+  text-align: left;
 }
 .experience-highlights .caption {
   display: block;
   font-size: .95rem;
   color: var(--muted);
+  text-align: left;
 }
 
 .xp-group {
@@ -239,9 +254,6 @@
   .experience-wrap {
     gap: 2.25rem;
   }
-  .experience-highlights {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 1024px) {
@@ -252,10 +264,8 @@
 
 @media (max-width: 640px) {
   .experience-hero {
+    display: none;
     padding: 1.25rem;
-  }
-  .experience-highlights {
-    grid-template-columns: 1fr;
   }
   .experience-hero-actions {
     flex-direction: column;
