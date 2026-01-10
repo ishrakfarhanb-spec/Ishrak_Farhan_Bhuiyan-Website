@@ -610,7 +610,28 @@ body.page-enter.is-transitioning .page-transition {
 .social-list a[href*="goodreads.com"]:hover { background: #ffbf00; border-color: #ffbf00; color: #ffffff; }
 
 /* Match Blogs site header/footer layout */
-.site-header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg), transparent 10%); border-bottom: 1px solid var(--border); backdrop-filter: saturate(180%) blur(8px); }
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  background: color-mix(in srgb, var(--bg), transparent 10%);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: saturate(180%) blur(8px);
+  transform: translateY(0);
+  transition: transform .22s ease;
+  will-change: transform;
+}
+.site-header.is-hidden {
+  transform: translateY(-110%);
+}
+body {
+  padding-top: var(--header-offset, 72px);
+}
+html {
+  scroll-padding-top: var(--header-offset, 72px);
+}
 .header-inner { max-width: var(--wrap); margin: 0 auto; padding: 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: auto; }
 .site-nav { display: flex; align-items: center; }
 .site-nav #nav-list { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
