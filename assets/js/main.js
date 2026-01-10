@@ -970,15 +970,23 @@
       if (href === path) a.setAttribute('aria-current', 'page');
     });
     const navStatusCurrent = document.querySelector('.nav-status .status-current');
+    const navStatusLabel = document.querySelector('.nav-status .status-label');
     function syncNavStatusLabel() {
-      if (!navStatusCurrent) return;
+      if (!navStatusCurrent && !navStatusLabel) return;
       var active = document.querySelector('.site-nav a[aria-current="page"]');
       var text = active ? active.textContent.trim() : (document.title || '');
       if (!active) {
-        text = text.split(' | ')[0].split(' – ')[0].trim();
+        text = text.split(' | ')[0].split(' - ')[0].trim();
       }
       if (!text) text = 'Menu';
-      navStatusCurrent.textContent = text;
+      if (navStatusCurrent) {
+        navStatusCurrent.textContent = text;
+      }
+      if (navStatusLabel) {
+        var tagline = active ? active.getAttribute('data-nav-tagline') : '';
+        if (!tagline) tagline = 'Explore the site';
+        navStatusLabel.textContent = tagline;
+      }
     }
     syncNavStatusLabel();
 
