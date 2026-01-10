@@ -248,6 +248,11 @@
   overflow: hidden;
   width: 100%;
 }
+@supports (-webkit-overflow-scrolling: touch) {
+  .about-logo-strip {
+    --logo-scroll-duration: 36s;
+  }
+}
 .about-logo-track {
   display: flex;
   width: max-content;
