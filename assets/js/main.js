@@ -735,6 +735,34 @@
     const saved = safeStorageGet(localStorage, 'theme');
     if (saved) root.setAttribute('data-theme', saved);
 
+    function syncLogoMarquee() {
+      var tracks = document.querySelectorAll('.about-logo-track');
+      if (!tracks.length) return;
+      tracks.forEach(function (track) {
+        var segment = track.querySelector('.about-logo-segment');
+        if (!segment) return;
+        var rect = segment.getBoundingClientRect();
+        if (!rect.width) return;
+        track.style.setProperty('--logo-scroll-width', rect.width.toFixed(2) + 'px');
+      });
+    }
+
+    if (root.dataset.logoMarqueeBound !== 'true') {
+      root.dataset.logoMarqueeBound = 'true';
+      var logoRaf = null;
+      var scheduleLogoMarquee = function () {
+        if (logoRaf !== null) return;
+        logoRaf = window.requestAnimationFrame(function () {
+          logoRaf = null;
+          syncLogoMarquee();
+        });
+      };
+      window.addEventListener('resize', scheduleLogoMarquee);
+      window.addEventListener('orientationchange', scheduleLogoMarquee);
+      window.addEventListener('load', scheduleLogoMarquee);
+    }
+    syncLogoMarquee();
+
     // Theme toggle handled by assets/js/theme.js to match Blogs site
     const btn = document.querySelector('.nav-toggle');
     const nav = document.querySelector('.site-header .site-nav');
