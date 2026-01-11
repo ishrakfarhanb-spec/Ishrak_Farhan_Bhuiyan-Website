@@ -139,6 +139,23 @@
 }
 
 @media (max-width: 720px) {
+  .projects-page {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .projects-page h1 {
+    margin-bottom: .75rem;
+  }
+
+  .projects-page .filters {
+    margin: .5rem 0 1rem;
+  }
+
+  .projects-page .project-group:first-of-type {
+    margin-top: .75rem;
+  }
+
   .project-group .project-group-title {
     font-size: clamp(1.5rem, 5vw, 2rem);
   }
