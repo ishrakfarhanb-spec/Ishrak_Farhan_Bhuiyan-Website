@@ -100,7 +100,7 @@
 .about-story-text {
   column-count: 2;
   column-gap: 2.5rem;
-  column-fill: auto;
+  column-fill: balance;
   min-width: 0;
 }
 .about-story-text p {
