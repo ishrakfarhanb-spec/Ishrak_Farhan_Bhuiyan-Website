@@ -786,6 +786,7 @@ html {
 }
 
 .site-nav .nav-status { display: none; }
+.site-nav #nav-list li.nav-strip { display: none; }
 
 @keyframes navToggleHalo {
   0% { opacity: .35; transform: scale(.9); }
@@ -958,6 +959,101 @@ html {
     font-weight: 600;
     background: transparent;
     border-color: transparent;
+  }
+  .site-nav #nav-list li.nav-strip {
+    display: block;
+    padding-top: .85rem;
+    border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent 30%);
+  }
+  .site-nav #nav-list li.nav-strip.nav-strip-social {
+    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+    padding-bottom: .65rem;
+    z-index: 1;
+    overflow: visible;
+  }
+  .site-nav #nav-list li.nav-strip .nav-strip-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
+    gap: .45rem .5rem;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+  }
+  .site-nav #nav-list li.nav-strip a.nav-strip-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent 20%);
+    color: var(--text);
+    background: transparent;
+    text-decoration: none;
+  }
+  .site-nav #nav-list li.nav-strip a.nav-strip-link[aria-current="page"] {
+    background: color-mix(in srgb, var(--brand) 18%, transparent 82%);
+    border-color: color-mix(in srgb, var(--brand) 55%, var(--border) 45%);
+  }
+  .site-nav #nav-list li.nav-strip a.nav-strip-link::before,
+  .site-nav #nav-list li.nav-strip a.nav-strip-link::after {
+    content: none;
+  }
+  .site-nav #nav-list li.nav-strip a.nav-strip-link:hover,
+  .site-nav #nav-list li.nav-strip a.nav-strip-link:focus-visible {
+    background: color-mix(in srgb, var(--brand) 12%, transparent 88%);
+    border-color: color-mix(in srgb, var(--brand) 55%, var(--border) 45%);
+  }
+  .site-nav #nav-list li.nav-strip a.nav-strip-link:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--brand) 45%, transparent 55%);
+    outline-offset: 2px;
+  }
+  .site-nav #nav-list li.nav-strip .nav-strip-icon {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .site-nav #nav-list li.nav-strip .nav-strip-icon.is-filled {
+    fill: currentColor;
+    stroke: none;
+  }
+  .site-nav #nav-list li.nav-strip-social a[href*="linkedin.com"]:hover,
+  .site-nav #nav-list li.nav-strip-social a[href*="linkedin.com"]:focus-visible {
+    background: #0A66C2;
+    border-color: #0A66C2;
+    color: #ffffff;
+  }
+  .site-nav #nav-list li.nav-strip-social a[href*="github.com"]:hover,
+  .site-nav #nav-list li.nav-strip-social a[href*="github.com"]:focus-visible {
+    background: #373737;
+    border-color: #373737;
+    color: #ffffff;
+  }
+  .site-nav #nav-list li.nav-strip-social a[href*="instagram.com"]:hover,
+  .site-nav #nav-list li.nav-strip-social a[href*="instagram.com"]:focus-visible {
+    background: #8134AF;
+    border-color: #8134AF;
+    color: #ffffff;
+  }
+  .site-nav #nav-list li.nav-strip-social a[href*="facebook.com"]:hover,
+  .site-nav #nav-list li.nav-strip-social a[href*="facebook.com"]:focus-visible {
+    background: #1877F2;
+    border-color: #1877F2;
+    color: #ffffff;
+  }
+  .site-nav #nav-list li.nav-strip-social a[href*="goodreads.com"]:hover,
+  .site-nav #nav-list li.nav-strip-social a[href*="goodreads.com"]:focus-visible {
+    background: #ffbf00;
+    border-color: #ffbf00;
+    color: #111111;
   }
   .site-nav.open #nav-list,
   .site-nav[data-open="true"] #nav-list {
