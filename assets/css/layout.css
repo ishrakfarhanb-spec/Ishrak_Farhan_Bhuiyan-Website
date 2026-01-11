@@ -48,7 +48,9 @@
   overflow: hidden;
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
   border-radius: calc(var(--radius) * 0.9);
-  background: color-mix(in srgb, var(--brand), transparent 85%);
+  background: #ffffff;
+  border: none;
+  box-shadow: none;
   align-items: center;
   max-width: min(960px, 100%);
   margin: 0 auto;
@@ -57,8 +59,9 @@
   position: relative;
   border-radius: calc(var(--radius) * 0.7);
   overflow: hidden;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, .16);
-  max-width: 360px;
+  box-shadow: none;
+  border: none;
+  max-width: 440px;
   margin: 0 auto;
 }
 .about-hero-media img {
@@ -76,6 +79,8 @@
   letter-spacing: .02em;
   line-height: 1.2;
   color: var(--text);
+  font-size: clamp(2.2rem, 3.6vw, 3rem);
+  text-transform: uppercase;
 }
 .about-hero-title .about-hero-hi {
   color: #c9184a;
@@ -91,6 +96,36 @@
   width: 100%;
   margin: 0;
   padding-top: 1.5rem;
+}
+.about-story-text {
+  column-count: 2;
+  column-gap: 2.5rem;
+  column-fill: auto;
+  min-width: 0;
+}
+.about-story-text p {
+  break-inside: avoid;
+  text-align: justify;
+}
+.about-story-media {
+  margin: 1.25rem 0;
+  break-inside: avoid;
+  text-align: center;
+}
+.about-story-media img {
+  width: 100%;
+  height: clamp(180px, 22vw, 260px);
+  display: block;
+  border-radius: 0;
+  margin: 0;
+  object-fit: cover;
+}
+.about-story-caption {
+  margin: .75rem auto 0;
+  max-width: 30ch;
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.6;
 }
 .about-panels {
   display: grid;
@@ -117,6 +152,9 @@
   .about-hero-body {
     max-width: none;
     margin: 0 auto;
+  }
+  .about-story-text {
+    column-count: 1;
   }
 }
 
