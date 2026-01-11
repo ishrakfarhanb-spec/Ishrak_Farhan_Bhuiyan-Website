@@ -48,7 +48,7 @@
   overflow: hidden;
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
   border-radius: calc(var(--radius) * 0.9);
-  background: #ffffff;
+  background: var(--card);
   border: none;
   box-shadow: none;
   align-items: center;
