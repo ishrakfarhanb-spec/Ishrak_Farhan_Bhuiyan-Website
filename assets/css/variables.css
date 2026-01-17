@@ -9,6 +9,7 @@
   --primary-contrast: #ffffff;
   /* Align brand and wrap with Blogs site */
   --brand: #111827;
+  --accent: #c9184a;
   --radius: 16px;
   --shadow: 0 8px 24px rgba(0,0,0,.08);
   --wrap: min(1200px, 94vw);
@@ -26,6 +27,7 @@
   --primary-contrast: #0a0a0a;
   /* Match Blogs blue accent */
   --brand: #2563eb;
+  --accent: #f97316;
   --shadow: 0 12px 36px rgba(0,0,0,.6);
   --nav-accent: color-mix(in srgb, var(--brand) 60%, #a855f7 40%);
 }
