@@ -85,10 +85,10 @@
 }
 
 #blogs-grid .card-title {
-  font-family: inherit;
+  font-family: 'Montserrat', 'Albert Sans', sans-serif;
   font-weight: 700;
   font-size: clamp(1.15rem, 2.4vw, 1.4rem);
-  margin-bottom: .15rem;
+  letter-spacing: .01em;
 }
 
 #blogs-grid .card-body .muted {
@@ -175,7 +175,7 @@
 }
 
 #blog-modal .modal-head h2 {
-  font-family: inherit;
+  font-family: 'Montserrat', 'Albert Sans', sans-serif;
   font-size: clamp(1.55rem, 3.4vw, 2.15rem);
   font-weight: 750;
   margin: 0;
@@ -308,7 +308,7 @@
   isolation: isolate;
 }
 @media (max-width: 800px){ .blog-hero-inner { grid-template-columns: 1fr; } }
-.blog-hero .hero-title { font-family: inherit; font-size: clamp(1.2rem, 3vw, 1.8rem); margin: .25rem 0; color: #fff; transition: color .2s ease; }
+.blog-hero .hero-title { font-family: 'Montserrat', 'Albert Sans', sans-serif; font-size: clamp(1.2rem, 3vw, 1.8rem); line-height: 1.28; margin: .25rem 0; color: #fff; transition: color .2s ease; letter-spacing: .01em; }
 .badge { display: inline-block; padding: .25rem .6rem; border-radius: 999px; background: color-mix(in srgb, var(--brand), var(--card) 88%); color: var(--brand); border: 1px solid color-mix(in srgb, var(--brand), transparent 55%); font-size: .8rem; transition: color .2s ease, background-color .2s ease, border-color .2s ease; }
 .blog-hero .hero-title,
 .blog-hero .hero-title a { color: #fff; transition: color .2s ease; }
