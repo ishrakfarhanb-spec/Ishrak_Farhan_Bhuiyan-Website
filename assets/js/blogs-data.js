@@ -1,6 +1,27 @@
 // Edit this file with tools/blog-editor.html for a guided form.
 window.siteBlogs = [
   {
+    id: "toyota-land-cruiser-legend",
+    title: "The Toyota Land Cruiser: A Legend Written in Dust, Steel, and Stories",
+    kicker: "Automotive Legacy",
+    date: "2026-01-18",
+    displayDate: "Jan 18, 2026",
+    author: "Ishrak Farhan",
+    category: "Automotive",
+    tags: ["toyota", "land-cruiser", "off-road", "engineering", "legacy"],
+    summary: "A look at how the Toyota Land Cruiser became a global symbol of durability, balancing rugged utility and evolving luxury across decades.",
+    image: "assets/img/Blogs/Blog 04.png",
+    imageAlt: "Toyota Land Cruiser driving across dusty terrain",
+    pdf: "assets/pdfs/toyota-land-cruiser-legend.pdf",
+    heroBadge: "New",
+    body: [
+      "Few vehicles in automotive history have earned respect the way the Toyota Land Cruiser has. Since its birth in the early 1950s, the Land Cruiser has carved out a reputation that stretches far beyond highways and showrooms. It was not built to chase trends or dominate advertisements - it was built to last. From its early military-inspired roots to becoming one of the most trusted utility vehicles on the planet, the Land Cruiser grew into something bigger than transportation. It became a global symbol of reliability, quietly proving itself in the toughest environments imaginable.",
+      "Across continents, the Land Cruiser adapted to culture while maintaining its core identity. In Australia's Outback, it became essential equipment for survival across endless red terrain. In the Middle East, it evolved into a status staple - equally at home in desert dune bashing sessions as it is outside luxury hotels. Across Africa, it has served as everything from a safari vehicle to humanitarian transport in remote regions where infrastructure is limited. The iconic 40 and 70 Series models built their reputation the hard way - through durability, mechanical simplicity, and the ability to endure extreme heat, rough terrain, and heavy loads without complaint. It is no exaggeration to say that in many parts of the world, the Land Cruiser is not just a car - it is a backbone.",
+      "As the decades progressed, the Land Cruiser embraced refinement without abandoning its rugged DNA. The 80, 100, and later 200 Series introduced more comfort, advanced suspension systems, and powerful V8 engines, blending off-road dominance with executive-level luxury. While other SUVs softened into crossovers focused purely on urban convenience, the Land Cruiser maintained its body-on-frame construction and serious off-road engineering. That balance - toughness with maturity - helped it appeal to farmers, explorers, diplomats, business leaders, and families alike. Owners often speak about longevity in numbers that sound unreal: hundreds of thousands of miles driven with minimal issues. That consistency built loyalty you cannot manufacture through marketing alone.",
+      "Today, as the automotive world pivots toward electrification and rapid innovation, the Land Cruiser's legacy stands as a reminder of thoughtful engineering and long-term vision. It represents endurance in a market driven by quick upgrades and short product cycles. Whether restored as a classic FJ40, modified for overlanding adventures, or driven daily in modern form, the Land Cruiser continues to carry cultural weight. Its story is not loud - it is steady. And in an industry that constantly reinvents itself, that steady presence is exactly why the Land Cruiser remains legendary."
+    ]
+  },
+  {
     id: "achilles-awareness",
     title: "Achilles Wasn’t Arrogant — He Was Aware",
     kicker: "Classical Insight",
