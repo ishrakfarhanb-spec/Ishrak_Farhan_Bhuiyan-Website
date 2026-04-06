@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: /sitemap.xml
+Sitemap: https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/sitemap.xml

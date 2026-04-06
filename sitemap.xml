@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc></url>
-  <url><loc>/about.html</loc></url>
-  <url><loc>/projects.html</loc></url>
-  <url><loc>/experience.html</loc></url>
-  <url><loc>/news.html</loc></url>
-  <url><loc>/request-download.html</loc></url>
-  <url><loc>/contact.html</loc></url>
-  <url><loc>/privacy.html</loc></url>
-  <url><loc>/terms.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/about.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/blogs.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/contact.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/experience.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/feedback.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/follow.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/news.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/privacy.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/projects.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/request-cv.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/request-download.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/terms.html</loc></url>
+  <url><loc>https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/updates.html</loc></url>
 </urlset>
 
