@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Updates â€” Ishrak Farhan</title>
-    <meta name="description" content="Short notes and news." />
+    <title>Updates | Ishrak Farhan</title>
+    <meta name="description" content="Short notes, milestones, and quick field updates from Ishrak Farhan." />
     <meta name="theme-color" content="#0a0a0a" />
     <link rel="icon" href="assets/img/Brand Logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="assets/img/Brand Logo.png" />
     <link rel="manifest" href="site.webmanifest" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Updates â€” Ishrak Farhan" />
-    <meta property="og:description" content="Short notes and news." />
+    <meta property="og:title" content="Updates | Ishrak Farhan" />
+    <meta property="og:description" content="Short notes, milestones, and quick field updates from Ishrak Farhan." />
     <meta property="og:image" content="https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/assets/img/Brand%20Logo.png" />
     <meta property="og:image:secure_url" content="https://ishrakfarhanb-spec.github.io/Ishrak_Farhan_Bhuiyan-Website/assets/img/Brand%20Logo.png" />
     <meta property="og:image:type" content="image/png" />
@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="assets/css/variables.css" />
     <link rel="stylesheet" href="assets/css/base.css" />
     <link rel="stylesheet" href="assets/css/layout.css" />
-    <link rel="stylesheet" href="assets/css/components.css" />    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages/updates.css" />
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3BY32ZZXY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -42,23 +44,37 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <div data-include="header"></div>
     <main id="main" class="section">
-      <div class="wrap flow">
-        <h1>Updates</h1>
-        <article class="update">
-          <h2>Training update & rehab progress</h2>
-          <p class="muted">Aug 24, 2025</p>
-          <p>A quick note on recovery, gym work, and next steps.</p>
-        </article>
-        <article class="update">
-          <h2>Thank you, Melbourne</h2>
-          <p class="muted">Aug 06, 2025</p>
-          <p>Great energy with partners and friends at the clubhouse.</p>
-        </article>
-        <article class="update">
-          <h2>Highlights & analysis</h2>
-          <p class="muted">Jul 18, 2025</p>
-          <p>A look back at key moments and lessons learned.</p>
-        </article>
+      <div class="wrap updates-wrap flow">
+        <header class="page-head flow">
+          <h1>Updates</h1>
+          <p class="muted">Short notes, momentum checks, and in-between milestones.</p>
+        </header>
+
+        <section class="updates-featured" data-updates-featured hidden></section>
+
+        <section class="updates-feed">
+          <div class="updates-list" data-updates-list></div>
+        </section>
+
+        <div class="updates-detail" data-updates-detail hidden aria-hidden="true" role="dialog" aria-modal="true">
+          <div class="updates-detail-backdrop" data-updates-detail-close></div>
+          <article class="updates-detail-panel">
+            <button class="btn btn-ghost updates-detail-close" type="button" data-updates-detail-close aria-label="Close update">&times;</button>
+            <header class="updates-detail-header">
+              <p class="updates-kicker" data-updates-detail-kicker></p>
+              <h2 class="updates-detail-title" data-updates-detail-title></h2>
+              <p class="updates-detail-meta" data-updates-detail-meta></p>
+            </header>
+            <div class="updates-detail-body" data-updates-detail-body></div>
+            <footer class="updates-detail-footer">
+              <button class="btn btn-link" type="button" data-updates-detail-back>Back to page</button>
+            </footer>
+          </article>
+        </div>
+
+        <noscript>
+          <p class="muted">Enable JavaScript to read the latest updates.</p>
+        </noscript>
       </div>
     </main>
     <div data-include="follow-cta"></div>
@@ -66,6 +82,8 @@
     <script src="assets/js/includes.js" defer></script>
     <script src="assets/js/theme.js" defer></script>
     <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/updates-data.js" defer></script>
+    <script src="assets/js/updates-page.js" defer></script>
     <script src="assets/js/lazyload.js" defer></script>
   </body>
 </html>

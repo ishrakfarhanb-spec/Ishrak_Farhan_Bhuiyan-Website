@@ -14,3 +14,13 @@ This site is deployed to GitHub Pages from the `main` branch using the included 
 
 ### Notes
 - All asset and page links use relative paths (e.g., `assets/...`, `about.html`) so the site works correctly under the project subpath.
+
+## Quick Publish
+
+Use the repo-root PowerShell helper to stage, commit, and push in one step:
+
+```powershell
+.\publish.ps1 -Message "Update homepage content"
+```
+
+If you omit `-Message`, the script uses `Update site content`.

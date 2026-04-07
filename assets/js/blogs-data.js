@@ -1,4 +1,4 @@
-// Edit this file with tools/blog-editor.html for a guided form.
+// Edit this file with tools/content-studio.html for a guided form.
 window.siteBlogs = [
   {
     id: "toyota-land-cruiser-legend",

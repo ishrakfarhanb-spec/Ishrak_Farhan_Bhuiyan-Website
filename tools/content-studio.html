@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Content Studio | Ishrak Site</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #10214a;
+        --muted: #5a6888;
+        --paper: #edf3ff;
+        --paper-strong: #fbfdff;
+        --sand: #d8e4ff;
+        --line: rgba(0, 71, 171, 0.14);
+        --line-strong: rgba(0, 71, 171, 0.24);
+        --brand: #0047ab;
+        --brand-deep: #00327a;
+        --brand-soft: rgba(0, 71, 171, 0.12);
+        --danger: #b23d22;
+        --success: #15608f;
+        --shadow: 0 30px 56px rgba(16, 33, 74, 0.12);
+        --shadow-soft: 0 14px 28px rgba(16, 33, 74, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Aptos", "Gill Sans", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(0, 71, 171, 0.18), transparent 26%),
+          radial-gradient(circle at 82% 8%, rgba(72, 127, 255, 0.18), transparent 22%),
+          linear-gradient(180deg, #f5f9ff 0%, #eaf1ff 55%, #dee8ff 100%);
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      code {
+        font-family: "Cascadia Code", "Consolas", monospace;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+        font-family: "Bahnschrift SemiCondensed", "Franklin Gothic Medium", "Arial Narrow", sans-serif;
+        letter-spacing: -0.03em;
+      }
+
+      .studio-shell {
+        width: min(1520px, calc(100% - 1.5rem));
+        margin: 1rem auto;
+        padding-bottom: 1rem;
+      }
+
+      .chrome,
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        background: rgba(248, 251, 255, 0.84);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .chrome {
+        overflow: hidden;
+      }
+
+      .command-bar {
+        display: grid;
+        gap: 1rem;
+        padding: 1rem 1rem 0;
+      }
+
+      @media (min-width: 1180px) {
+        .command-bar {
+          grid-template-columns: minmax(0, 1.3fr) minmax(420px, 0.7fr);
+          align-items: stretch;
+        }
+      }
+
+      .hero-pane,
+      .action-pane {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        background: rgba(250, 252, 255, 0.92);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .hero-pane {
+        padding: clamp(1.2rem, 2.3vw, 1.8rem);
+        background:
+          radial-gradient(circle at top right, rgba(0, 71, 171, 0.16), transparent 34%),
+          linear-gradient(145deg, rgba(250, 253, 255, 0.95), rgba(230, 239, 255, 0.92));
+      }
+
+      .action-pane {
+        padding: 1rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.55rem;
+        color: var(--brand);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .hero-title {
+        max-width: 12ch;
+        font-size: clamp(2.5rem, 5vw, 4.8rem);
+        line-height: 0.92;
+      }
+
+      .hero-copy {
+        max-width: 60ch;
+        margin-top: 0.9rem;
+        color: var(--muted);
+        line-height: 1.78;
+      }
+
+      .hero-metrics {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1.2rem;
+      }
+
+      @media (min-width: 760px) {
+        .hero-metrics {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .metric {
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(252, 254, 255, 0.9);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.6rem;
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 0.45rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .action-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.8rem;
+      }
+
+      .action-head h2 {
+        font-size: 1.45rem;
+      }
+
+      .action-copy {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .toolbar {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .toolbar-row,
+      .pill-row,
+      .editor-actions,
+      .entry-actions,
+      .preview-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+      }
+
+      .status-cluster {
+        margin-top: 1rem;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 0.72rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(252, 254, 255, 0.95);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .pill strong {
+        color: var(--ink);
+      }
+
+      .status-message {
+        min-height: 3.5rem;
+        padding: 0.95rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(252, 254, 255, 0.96);
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .status-message.is-error {
+        border-color: rgba(178, 61, 34, 0.25);
+        color: var(--danger);
+      }
+
+      .btn {
+        border: none;
+        border-radius: 999px;
+        padding: 0.8rem 1.14rem;
+        font-weight: 700;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+        color: #fff;
+        box-shadow: 0 14px 24px rgba(0, 71, 171, 0.22);
+      }
+
+      .btn-secondary {
+        background: #dbe7ff;
+        color: var(--ink);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid var(--line-strong);
+        color: var(--brand-deep);
+      }
+
+      .btn-danger {
+        background: rgba(178, 61, 34, 0.1);
+        color: var(--danger);
+      }
+
+      .studio-layout {
+        display: grid;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      @media (min-width: 1180px) {
+        .studio-layout {
+          grid-template-columns: 300px minmax(0, 1fr);
+          align-items: start;
+        }
+      }
+
+      .rail {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .panel {
+        padding: 1rem;
+      }
+
+      .panel-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .panel-head h2 {
+        font-size: 1.35rem;
+      }
+
+      .panel-copy,
+      .meta-line,
+      .footnote,
+      .checklist {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .type-nav {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .type-btn {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.8rem;
+        align-items: start;
+        padding: 1rem;
+        border-radius: 22px;
+        border: 1px solid transparent;
+        background: rgba(251, 253, 255, 0.9);
+        box-shadow: var(--shadow-soft);
+        text-align: left;
+        color: var(--ink);
+      }
+
+      .type-btn.is-active {
+        border-color: rgba(0, 71, 171, 0.22);
+        background:
+          linear-gradient(145deg, rgba(232, 241, 255, 0.98), rgba(251, 253, 255, 0.98));
+      }
+
+      .type-btn strong {
+        display: block;
+        margin-bottom: 0.2rem;
+        font-size: 1rem;
+      }
+
+      .type-btn small {
+        display: block;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .type-count {
+        min-width: 2.1rem;
+        padding: 0.28rem 0.54rem;
+        border-radius: 999px;
+        background: var(--brand-soft);
+        color: var(--brand-deep);
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .checklist {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      .checklist li + li {
+        margin-top: 0.32rem;
+      }
+
+      .stage {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .section-banner {
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(250, 253, 255, 0.97), rgba(228, 238, 255, 0.93));
+      }
+
+      .section-banner::after {
+        content: "";
+        position: absolute;
+        right: -3rem;
+        bottom: -4rem;
+        width: 16rem;
+        height: 16rem;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(0, 71, 171, 0.14), transparent 70%);
+        pointer-events: none;
+      }
+
+      .section-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 960px) {
+        .section-grid {
+          grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+          align-items: start;
+        }
+      }
+
+      .section-kicker {
+        margin: 0 0 0.4rem;
+        color: var(--brand);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .section-name {
+        font-size: clamp(1.9rem, 4vw, 3rem);
+        line-height: 0.96;
+      }
+
+      .section-description {
+        max-width: 60ch;
+        margin: 0.85rem 0 0;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .section-meta {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .file-card,
+      .summary-card {
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(252, 254, 255, 0.95);
+      }
+
+      .file-card code {
+        display: inline-block;
+        margin-top: 0.35rem;
+        word-break: break-word;
+        color: var(--brand-deep);
+      }
+
+      .workspace-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 1320px) {
+        .workspace-grid {
+          grid-template-columns: minmax(370px, 0.9fr) minmax(0, 1.1fr);
+        }
+      }
+
+      .search-wrap {
+        margin-top: -0.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .input,
+      .textarea {
+        width: 100%;
+        border: 1px solid var(--line-strong);
+        border-radius: 18px;
+        padding: 0.84rem 0.95rem;
+        background: #fcfdff;
+        color: var(--ink);
+      }
+
+      .input:focus,
+      .textarea:focus {
+        outline: none;
+        border-color: rgba(0, 71, 171, 0.44);
+        box-shadow: 0 0 0 4px rgba(0, 71, 171, 0.12);
+      }
+
+      .entry-list {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .entry-card {
+        padding: 1rem;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: rgba(252, 254, 255, 0.96);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .entry-card.is-editing {
+        border-color: rgba(0, 71, 171, 0.28);
+        box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.1), var(--shadow-soft);
+      }
+
+      .entry-card-top {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.8rem;
+      }
+
+      .entry-card h3 {
+        font-size: 1.18rem;
+      }
+
+      .entry-card p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .entry-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .entry-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.34rem 0.58rem;
+        border-radius: 999px;
+        background: var(--brand-soft);
+        color: var(--brand-deep);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .entry-tag--soft {
+        background: rgba(101, 91, 81, 0.1);
+        color: var(--muted);
+      }
+
+      .entry-empty {
+        padding: 1rem;
+        border-radius: 24px;
+        border: 1px dashed var(--line-strong);
+        background: rgba(252, 254, 255, 0.82);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .editor-shell {
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 1100px) {
+        .editor-shell {
+          grid-template-columns: minmax(0, 1.1fr) minmax(310px, 0.72fr);
+          align-items: start;
+        }
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 0.95rem;
+      }
+
+      @media (min-width: 760px) {
+        .form-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .field {
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      .field label {
+        font-weight: 700;
+      }
+
+      .field small {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .textarea {
+        min-height: 190px;
+        resize: vertical;
+        line-height: 1.7;
+      }
+
+      .asset-row {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      @media (min-width: 640px) {
+        .asset-row {
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-items: start;
+        }
+      }
+
+      .preview-shell {
+        position: relative;
+      }
+
+      @media (min-width: 1100px) {
+        .preview-shell {
+          position: sticky;
+          top: 1rem;
+        }
+      }
+
+      .preview-card {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background:
+          linear-gradient(180deg, rgba(252, 254, 255, 0.98), rgba(233, 241, 255, 0.95));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .preview-media {
+        aspect-ratio: 16 / 10;
+        background:
+          linear-gradient(135deg, rgba(0, 71, 171, 0.14), rgba(0, 50, 122, 0.07)),
+          repeating-linear-gradient(135deg, rgba(0, 71, 171, 0.06) 0 12px, transparent 12px 24px);
+        border-bottom: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .preview-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .preview-media-label {
+        padding: 0.7rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(252, 254, 255, 0.92);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .preview-copy {
+        padding: 1rem;
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .preview-eyebrow {
+        margin: 0;
+        color: var(--brand);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .preview-title {
+        font-size: 1.9rem;
+        line-height: 1.02;
+      }
+
+      .preview-meta,
+      .preview-summary {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .preview-body {
+        display: grid;
+        gap: 0.7rem;
+      }
+
+      .preview-body p {
+        margin: 0;
+        line-height: 1.75;
+      }
+
+      .preview-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.36rem 0.6rem;
+        border-radius: 999px;
+        background: var(--brand-soft);
+        color: var(--brand-deep);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .preview-chip--muted {
+        background: rgba(101, 91, 81, 0.1);
+        color: var(--muted);
+      }
+
+      .footnote {
+        margin-top: 1rem;
+        font-size: 0.92rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="studio-shell">
+      <div class="chrome">
+        <header class="command-bar">
+          <section class="hero-pane">
+            <p class="eyebrow">Content Studio</p>
+            <h1 class="hero-title">Shape, stage, and ship your site content.</h1>
+            <p class="hero-copy">This workspace handles your blogs, news, and quick updates in one place. It is designed to feel less like a backup admin page and more like a real editorial desk: a searchable library, structured form editing, direct file output, and a live preview while you work.</p>
+            <div class="hero-metrics">
+              <article class="metric">
+                <strong>3</strong>
+                <span>Publishing lanes under one roof instead of separate tools.</span>
+              </article>
+              <article class="metric">
+                <strong>Search</strong>
+                <span>Find entries quickly before editing, duplicating, or removing them.</span>
+              </article>
+              <article class="metric">
+                <strong>Preview</strong>
+                <span>See a live content mockup while you write so the output is easier to judge.</span>
+              </article>
+            </div>
+          </section>
+
+          <section class="action-pane">
+            <div class="action-head">
+              <div>
+                <p class="eyebrow">Controls</p>
+                <h2>Save And Publish</h2>
+              </div>
+              <p class="action-copy">Connect the repo folder once, then write generated files back into the site whenever you are ready.</p>
+            </div>
+
+            <div class="toolbar">
+              <div class="toolbar-row">
+                <button class="btn btn-secondary" id="connect-folder" type="button">Connect Site Folder</button>
+                <button class="btn btn-primary" id="save-active" type="button">Save Active Section</button>
+              </div>
+              <div class="toolbar-row">
+                <button class="btn btn-primary" id="save-all" type="button">Save All Sections</button>
+                <button class="btn btn-ghost" id="download-active" type="button">Download Active File</button>
+              </div>
+            </div>
+
+            <div class="status-cluster">
+              <div class="pill-row">
+                <span class="pill"><strong>Folder</strong> <span id="folder-status">Not connected</span></span>
+                <span class="pill"><strong>Browser</strong> <span id="browser-status">Checking support...</span></span>
+                <span class="pill"><strong>Active</strong> <span id="active-status">Blogs</span></span>
+              </div>
+              <div class="status-message" id="status-message">Connect your site folder to enable direct save and local asset import.</div>
+            </div>
+          </section>
+        </header>
+
+        <div class="studio-layout">
+          <aside class="rail">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Sections</h2>
+              </div>
+              <div class="type-nav" id="type-nav"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Workflow</h2>
+              </div>
+              <ol class="checklist">
+                <li>Run <code>open-content-studio.cmd</code>.</li>
+                <li>Connect this repo folder after the browser opens.</li>
+                <li>Search or select an entry, then edit the working list.</li>
+                <li>Use direct save when available, or download the active file.</li>
+                <li>Run <code>publish-site.cmd</code> when you want the update live.</li>
+              </ol>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Studio Note</h2>
+              </div>
+              <p class="panel-copy">This is the single content editor for the project now. The older standalone editors are gone, so the workflow stays in one place.</p>
+            </section>
+          </aside>
+
+          <main class="stage">
+            <section class="panel section-banner">
+              <div class="section-grid">
+                <div>
+                  <p class="section-kicker" id="section-kicker">Structured Content</p>
+                  <h2 class="section-name" id="section-name">Blogs</h2>
+                  <p class="section-description" id="section-description">Long-form stories, field notes, and feature pieces with optional PDF attachments.</p>
+                </div>
+                <div class="section-meta">
+                  <div class="summary-card">
+                    <div class="meta-line">Active library</div>
+                    <div class="pill-row" style="margin-top:0.7rem;">
+                      <span class="pill"><strong>Items</strong> <span id="entries-meta"></span></span>
+                    </div>
+                  </div>
+                  <div class="file-card">
+                    <div class="meta-line">Generated file</div>
+                    <code id="section-file">assets/js/blogs-data.js</code>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="workspace-grid">
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h2 id="entries-title">Blogs Library</h2>
+                    <div class="meta-line">Search, edit, duplicate, or remove items in the working list.</div>
+                  </div>
+                  <button class="btn btn-secondary" id="new-entry" type="button">New Entry</button>
+                </div>
+
+                <div class="search-wrap">
+                  <input class="input" id="entry-search" type="search" placeholder="Search title, summary, id, tag, category..." autocomplete="off">
+                </div>
+
+                <div class="entry-list" id="entry-list"></div>
+              </section>
+
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h2 id="editor-title">Add Blog Post</h2>
+                    <div class="meta-line" id="editor-meta">Fill the form, save it into the working list, then write the generated file back into the site.</div>
+                  </div>
+                </div>
+
+                <div class="editor-shell">
+                  <div>
+                    <form id="entry-form">
+                      <div class="form-grid" id="form-grid"></div>
+                      <div class="editor-actions" style="margin-top:1rem;">
+                        <button class="btn btn-primary" id="save-entry" type="submit">Save To Working List</button>
+                        <button class="btn btn-secondary" id="clear-form" type="button">Clear Form</button>
+                      </div>
+                    </form>
+                    <p class="footnote" id="footnote">Direct save needs a Chromium browser such as Edge or Chrome because it uses the local folder access API.</p>
+                  </div>
+
+                  <aside class="preview-shell">
+                    <div class="preview-card">
+                      <div class="preview-media" id="preview-media">
+                        <span class="preview-media-label" id="preview-media-label">No media selected</span>
+                      </div>
+                      <div class="preview-copy">
+                        <p class="preview-eyebrow" id="preview-eyebrow">Draft Preview</p>
+                        <h3 class="preview-title" id="preview-title">Start typing to preview your content.</h3>
+                        <p class="preview-meta" id="preview-meta">The live preview updates from the current form.</p>
+                        <p class="preview-summary" id="preview-summary">Use this panel to sanity-check the title, metadata, summary, and first body paragraphs before saving.</p>
+                        <div class="preview-chips" id="preview-chips"></div>
+                        <div class="preview-body" id="preview-body"></div>
+                      </div>
+                    </div>
+                  </aside>
+                </div>
+              </section>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/blogs-data.js"></script>
+    <script src="../assets/js/news-data.js"></script>
+    <script src="../assets/js/updates-data.js"></script>
+    <script src="content-studio.js"></script>
+  </body>
+</html>
