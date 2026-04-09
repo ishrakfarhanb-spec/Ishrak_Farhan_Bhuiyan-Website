@@ -653,12 +653,32 @@
   background: rgba(255, 255, 255, .82);
   border: 1px solid rgba(17, 24, 39, .1);
   box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+  display: flex;
+  flex-direction: column;
   backdrop-filter: blur(6px);
   transition:
     transform .35s cubic-bezier(.22, 1, .36, 1),
     box-shadow .35s ease,
     border-color .35s ease,
     background-color .35s ease;
+}
+
+.section-chapter .about-logo {
+  width: clamp(7rem, 11vw, 8.5rem);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.section-chapter .about-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .section-chapter--news::before {
@@ -776,20 +796,29 @@
   background: transparent;
 }
 
-.section-chapter--projects .card-body,
-.section-chapter--reports .card-body {
+.section-chapter .card-body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: .9rem;
-  min-height: 100%;
+  flex: 1;
+}
+
+.section-chapter .card-body .btn,
+.section-chapter .card-body .btn-link-arrow {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .section-chapter--projects .card-body .btn,
 .section-chapter--reports .card-body .btn {
-  margin-top: auto;
-  align-self: flex-start;
   box-shadow: none;
+}
+
+.section-chapter .card-body .btn-link-arrow,
+.section-chapter .card-body .btn-link-arrow:hover,
+.section-chapter .card-body .btn-link-arrow:focus-visible {
+  text-align: left;
 }
 
 .section-chapter--projects .card-body .btn:hover,

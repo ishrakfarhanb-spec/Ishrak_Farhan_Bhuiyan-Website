@@ -1,6 +1,6 @@
 # Local Content Studio
 
-Use the local content workflow when you want to add blogs, news, or updates from your PC without editing source files manually.
+Use the local content workflow when you want to add blogs, news, or projects from your PC without editing source files manually.
 
 This is the only content editor now. The older standalone blog and news editors have been removed.
 
@@ -12,9 +12,9 @@ This is the only content editor now. The older standalone blog and news editors 
 
 ## Add content
 
-- Pick `Blogs`, `News`, or `Updates`.
+- Pick `Blogs`, `News`, or `Projects`.
 - Add or edit entries in the form.
-- For blogs and news, use the import buttons to copy images or PDFs from your PC into the correct site folders.
+- For blogs, news, and projects, use the import buttons to copy images, Excel files, or PDFs from your PC into the correct site folders.
 - Click `Save to working list` before writing the file back to the site.
 
 ## Save and publish

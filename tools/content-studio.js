@@ -106,33 +106,44 @@
         return item.kicker || "Update";
       }
     },
-    updates: {
-      key: "updates",
-      label: "Updates",
-      singular: "update",
-      description: "Short notes, quick momentum checks, and concise status updates.",
-      previewHint: "Quick Note",
-      globalName: "siteUpdates",
-      filePath: "assets/js/updates-data.js",
-      assetDirectories: {},
-      source: Array.isArray(window.siteUpdates) ? window.siteUpdates : [],
+    projects: {
+      key: "projects",
+      label: "Projects",
+      singular: "project entry",
+      description: "Manage Excel projects and PDF reports from one shared library used by the homepage and the projects page.",
+      previewHint: "Project Draft",
+      globalName: "siteProjects",
+      filePath: "assets/js/projects-data.js",
+      assetDirectories: { image: "assets/img/Projects" },
+      source: Array.isArray(window.siteProjects) ? window.siteProjects : [],
       commentLines: [
-        "// Centralized short updates used by the updates page.",
-        "// Ordered newest to oldest."
+        "// Centralized project entries used across the site.",
+        "// Ordered newest to oldest within each category."
       ],
       fields: [
-        { name: "title", label: "Update title", required: true, full: true },
-        { name: "id", label: "Unique ID", required: true, pattern: "[a-z0-9\\-]+", help: "Example: training-update-rehab-progress." },
-        { name: "kicker", label: "Label", placeholder: "Fitness" },
+        { name: "title", label: "Project title", required: true, full: true },
+        { name: "id", label: "Unique ID", required: true, pattern: "[a-z0-9\\-]+", help: "Lowercase with dashes. Example: bank-loan-default-risk-dashboard." },
+        {
+          name: "category",
+          label: "Category",
+          type: "select",
+          required: true,
+          options: [
+            { value: "tools", label: "Excel Project" },
+            { value: "reports", label: "Report" }
+          ]
+        },
         { name: "summary", label: "Summary", type: "textarea", required: true, full: true },
         { name: "date", label: "Publish date", type: "date", required: true },
-        { name: "displayDate", label: "Friendly date", placeholder: "Aug 24, 2025" },
-        { name: "body", label: "Body", type: "textarea", required: true, full: true, help: "Keep these concise. One blank line creates a new paragraph." }
+        { name: "displayDate", label: "Friendly date", placeholder: "Apr 9, 2026" },
+        { name: "image", label: "Cover image path", assetKind: "image", placeholder: "assets/img/Projects/example.jpg", full: true, help: "Optional for reports. Use the import button to copy an image from your PC." },
+        { name: "imageAlt", label: "Image alt text", full: true },
+        { name: "file", label: "Project file path", assetKind: "projectFile", placeholder: "Excel_Projects/example.xlsx or assets/All Reports/report.pdf", required: true, full: true, help: "For Excel projects this should be XLSX or XLS. For reports this should be a PDF." }
       ],
       parseBody: parsePlainBody,
       stringifyBody: stringifyPlainBody,
       getSubtitle(item) {
-        return item.kicker || "Note";
+        return item.category === "reports" ? "Report" : "Excel Project";
       }
     }
   };
@@ -141,12 +152,12 @@
     activeType: "blogs",
     directoryHandle: null,
     data: {},
-    editIndex: { blogs: null, news: null, updates: null },
-    searchQuery: { blogs: "", news: "", updates: "" }
+    editIndex: { blogs: null, news: null, projects: null },
+    searchQuery: { blogs: "", news: "", projects: "" }
   };
 
   Object.keys(CONTENT_TYPES).forEach((key) => {
-    state.data[key] = sortByDateDesc(cloneDeep(CONTENT_TYPES[key].source));
+    state.data[key] = sortEntries(cloneDeep(CONTENT_TYPES[key].source), key);
   });
 
   browserStatus.textContent = supportsFolderAccess ? "Direct save supported" : "Download-only mode";
@@ -210,7 +221,11 @@
     editorMeta.textContent = "Fill the form, keep the working list clean, and save the generated file when you are ready.";
     if (entrySearchInput) {
       entrySearchInput.value = state.searchQuery[config.key] || "";
-      entrySearchInput.placeholder = "Search title, summary, id, " + (config.key === "blogs" ? "tag, category..." : "kicker...");
+      entrySearchInput.placeholder = config.key === "blogs"
+        ? "Search title, summary, id, tag, category..."
+        : config.key === "projects"
+          ? "Search title, summary, id, category, file..."
+          : "Search title, summary, id, kicker...";
     }
     renderSectionMeta();
     renderEntryList();
@@ -330,12 +345,19 @@
     const placeholder = field.placeholder ? ' placeholder="' + escapeHtml(field.placeholder) + '"' : "";
     const help = field.help ? '<small>' + escapeHtml(field.help) + "</small>" : "";
     const isTextarea = field.type === "textarea";
+    const isSelect = field.type === "select";
     const assetButton = field.assetKind
       ? '<button class="btn btn-secondary" type="button" data-import-field="' + field.name + '" data-asset-kind="' + field.assetKind + '"' + (!supportsFileImport ? " disabled" : "") + '>Import from PC</button>'
       : "";
     const control = isTextarea
       ? '<textarea class="textarea" id="' + inputId + '" name="' + field.name + '"' + required + placeholder + ">" + escapeHtml(value) + "</textarea>"
-      : '<input class="input" id="' + inputId + '" name="' + field.name + '" type="' + escapeHtml(field.type || "text") + '"' + required + pattern + placeholder + ' value="' + escapeHtml(value) + '">';
+      : isSelect
+        ? '<select class="input" id="' + inputId + '" name="' + field.name + '"' + required + ">" + field.options.map((option) => {
+            const optionValue = option && option.value ? option.value : "";
+            const optionLabel = option && option.label ? option.label : optionValue;
+            return '<option value="' + escapeHtml(optionValue) + '"' + (optionValue === value ? " selected" : "") + '>' + escapeHtml(optionLabel) + "</option>";
+          }).join("") + "</select>"
+        : '<input class="input" id="' + inputId + '" name="' + field.name + '" type="' + escapeHtml(field.type || "text") + '"' + required + pattern + placeholder + ' value="' + escapeHtml(value) + '">';
 
     return [
       '<div class="' + classes.join(" ") + '">',
@@ -370,7 +392,7 @@
     }
     duplicate.id = createUniqueId(typeKey, duplicate.id || slugify(duplicate.title || config.label));
     state.data[typeKey].push(duplicate);
-    state.data[typeKey] = sortByDateDesc(state.data[typeKey]);
+    state.data[typeKey] = sortEntries(state.data[typeKey], typeKey);
     const nextIndex = state.data[typeKey].findIndex((item) => item.id === duplicate.id);
     renderTypeNav();
     renderActiveType();
@@ -405,7 +427,7 @@
       state.data[config.key][currentIndex] = entry;
     }
 
-    state.data[config.key] = sortByDateDesc(state.data[config.key]);
+    state.data[config.key] = sortEntries(state.data[config.key], config.key);
     state.editIndex[config.key] = null;
     renderTypeNav();
     renderActiveType();
@@ -493,19 +515,17 @@
       setStatus("Connect the site folder before importing files from your PC.", true);
       return;
     }
-    const targetDirectory = config.assetDirectories[assetKind];
-    if (!targetDirectory) {
-      setStatus("No target folder is configured for that asset type.", true);
-      return;
-    }
     try {
-      const pickerTypes = assetKind === "pdf"
-        ? [{ description: "PDF files", accept: { "application/pdf": [".pdf"] } }]
-        : [{ description: "Images", accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] } }];
+      const pickerTypes = getPickerTypes(config.key, assetKind);
       const result = await window.showOpenFilePicker({ multiple: false, types: pickerTypes });
       const sourceHandle = result && result[0];
       if (!sourceHandle) return;
       const sourceFile = await sourceHandle.getFile();
+      const targetDirectory = resolveAssetDirectory(config, assetKind, sourceFile);
+      if (!targetDirectory) {
+        setStatus("No target folder is configured for that asset type.", true);
+        return;
+      }
       const extension = getFileExtension(sourceFile.name);
       const idValue = String((form.elements.namedItem("id") && form.elements.namedItem("id").value) || "").trim();
       const fallbackName = sourceFile.name.replace(/\.[^.]+$/, "");
@@ -524,7 +544,7 @@
 
   function buildFileContent(typeKey) {
     const config = CONTENT_TYPES[typeKey];
-    const items = sortByDateDesc(cloneDeep(state.data[typeKey]));
+    const items = sortEntries(cloneDeep(state.data[typeKey]), typeKey);
     return config.commentLines.concat(
       "window." + config.globalName + " = " + JSON.stringify(items, null, 2) + ";",
       ""
@@ -583,7 +603,13 @@
   }
 
   function getDefaultItem(typeKey) {
-    return typeKey === "blogs" ? { author: "Ishrak Farhan" } : {};
+    if (typeKey === "blogs") {
+      return { author: "Ishrak Farhan" };
+    }
+    if (typeKey === "projects") {
+      return { category: "tools", image: "assets/img/Projects/Excel.png" };
+    }
+    return {};
   }
 
   function readFormDraft(config) {
@@ -618,6 +644,9 @@
     }
     if (config.key === "blogs" && !entry.author) {
       entry.author = "Ishrak Farhan";
+    }
+    if (config.key === "projects" && entry.category === "reports" && entry.image === "assets/img/Projects/Excel.png") {
+      delete entry.image;
     }
 
     return entry;
@@ -673,8 +702,14 @@
         tags.push('<span class="entry-tag">' + escapeHtml(tag) + "</span>");
       });
     }
+    if (typeKey === "projects" && item.category) {
+      tags.push('<span class="entry-tag">' + escapeHtml(item.category === "reports" ? "Report" : "Excel Project") + "</span>");
+    }
     if (item.pdf) {
       tags.push('<span class="entry-tag entry-tag--soft">PDF</span>');
+    }
+    if (typeKey === "projects" && item.file) {
+      tags.push('<span class="entry-tag entry-tag--soft">' + escapeHtml(getProjectFileBadge(item)) + "</span>");
     }
     if (item.image) {
       tags.push('<span class="entry-tag entry-tag--soft">Image</span>');
@@ -690,7 +725,9 @@
       return;
     }
 
-    previewEyebrow.textContent = entry.kicker || config.previewHint;
+    previewEyebrow.textContent = config.key === "projects"
+      ? (entry.category === "reports" ? "Report" : "Excel Project")
+      : (entry.kicker || config.previewHint);
     previewTitle.textContent = entry.title || "Untitled " + capitalize(config.singular);
     previewMeta.textContent = buildPreviewMeta(entry, config);
     previewSummary.textContent = entry.summary || buildSummaryFallback(entry);
@@ -699,7 +736,9 @@
     const bodyBlocks = normalizeBodyBlocks(entry.body).slice(0, 3);
     previewBody.innerHTML = bodyBlocks.length
       ? bodyBlocks.map((block) => "<p>" + escapeHtml(block) + "</p>").join("")
-      : "<p>No body copy yet.</p>";
+      : config.key === "projects" && entry.file
+        ? "<p>" + escapeHtml(buildProjectLinkHint(entry)) + "</p>"
+        : "<p>No body copy yet.</p>";
 
     renderPreviewMedia(entry);
   }
@@ -737,7 +776,8 @@
     return [
       entry.displayDate || formatDate(entry.date),
       config.getSubtitle(entry),
-      config.key === "blogs" ? entry.author : ""
+      config.key === "blogs" ? entry.author : "",
+      config.key === "projects" ? getProjectFileBadge(entry) : ""
     ].filter(Boolean).join(" | ");
   }
 
@@ -751,8 +791,14 @@
         chips.push('<span class="entry-tag">' + escapeHtml(tag) + "</span>");
       });
     }
+    if (typeKey === "projects" && entry.category) {
+      chips.push('<span class="entry-tag">' + escapeHtml(entry.category === "reports" ? "Report" : "Excel Project") + "</span>");
+    }
     if (entry.pdf) {
       chips.push('<span class="entry-tag">PDF attached</span>');
+    }
+    if (typeKey === "projects" && entry.file) {
+      chips.push('<span class="entry-tag entry-tag--soft">' + escapeHtml(getProjectFileBadge(entry)) + "</span>');
     }
     if (entry.image) {
       chips.push('<span class="entry-tag entry-tag--soft">Image ready</span>');
@@ -791,6 +837,12 @@
       if (typeKey === "blogs" && key === "author" && entry[key] === "Ishrak Farhan") {
         return false;
       }
+      if (typeKey === "projects" && key === "category" && entry[key] === "tools") {
+        return false;
+      }
+      if (typeKey === "projects" && key === "image" && entry[key] === "assets/img/Projects/Excel.png") {
+        return false;
+      }
       if (Array.isArray(entry[key])) {
         return entry[key].length > 0;
       }
@@ -815,8 +867,61 @@
     statusMessage.classList.toggle("is-error", Boolean(isError));
   }
 
-  function sortByDateDesc(items) {
-    return items.sort((a, b) => Date.parse(b && b.date ? b.date : 0) - Date.parse(a && a.date ? a.date : 0));
+  function sortEntries(items, typeKey) {
+    return items.sort((a, b) => {
+      if (typeKey === "projects") {
+        if ((a && a.category) !== (b && b.category)) {
+          return (a && a.category) === "tools" ? -1 : 1;
+        }
+      }
+      return Date.parse(b && b.date ? b.date : 0) - Date.parse(a && a.date ? a.date : 0);
+    });
+  }
+
+  function getPickerTypes(typeKey, assetKind) {
+    if (assetKind === "pdf") {
+      return [{ description: "PDF files", accept: { "application/pdf": [".pdf"] } }];
+    }
+    if (assetKind === "projectFile") {
+      const categoryField = form.elements.namedItem("category");
+      const category = String(categoryField && categoryField.value || "").trim();
+      if (typeKey === "projects" && category === "reports") {
+        return [{ description: "PDF reports", accept: { "application/pdf": [".pdf"] } }];
+      }
+      return [{
+        description: "Excel and spreadsheet files",
+        accept: {
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+          "application/vnd.ms-excel": [".xls"]
+        }
+      }];
+    }
+    return [{ description: "Images", accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] } }];
+  }
+
+  function resolveAssetDirectory(config, assetKind, sourceFile) {
+    if (assetKind === "projectFile" && config.key === "projects") {
+      const categoryField = form.elements.namedItem("category");
+      const category = String(categoryField && categoryField.value || "").trim();
+      const extension = getFileExtension(sourceFile && sourceFile.name);
+      if (category === "reports" || extension === ".pdf") {
+        return "assets/All Reports";
+      }
+      return "Excel_Projects";
+    }
+    return config.assetDirectories[assetKind];
+  }
+
+  function getProjectFileBadge(item) {
+    const extension = getFileExtension(item && item.file ? item.file : "");
+    return extension ? extension.replace(".", "").toUpperCase() : (item && item.category === "reports" ? "PDF" : "FILE");
+  }
+
+  function buildProjectLinkHint(entry) {
+    if (!entry || !entry.file) return "No file attached yet.";
+    return entry.category === "reports"
+      ? "This entry will open the request-download flow for the linked PDF."
+      : "This entry will trigger a direct file download from the linked project file.";
   }
 
   function parsePlainBody(raw) {
