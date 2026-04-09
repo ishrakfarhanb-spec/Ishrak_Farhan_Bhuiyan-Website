@@ -1,0 +1,46 @@
+﻿<!doctype html>
+<html>
+<body>
+<form id="entry-form"></form>
+<div id="form-grid"></div>
+<div id="type-nav"></div>
+<div id="entry-list"></div>
+<div id="entries-title"></div>
+<div id="entries-meta"></div>
+<div id="editor-title"></div>
+<div id="editor-meta"></div>
+<div id="section-kicker"></div>
+<div id="section-name"></div>
+<div id="section-description"></div>
+<div id="section-file"></div>
+<div id="active-status"></div>
+<div id="folder-status"></div>
+<div id="browser-status">Checking support...</div>
+<div id="status-message"></div>
+<div id="footnote"></div>
+<button id="connect-folder"></button>
+<button id="save-active"></button>
+<button id="save-all"></button>
+<button id="download-active"></button>
+<button id="new-entry"></button>
+<button id="clear-form"></button>
+<input id="entry-search" />
+<div id="preview-media"></div>
+<div id="preview-eyebrow"></div>
+<div id="preview-title"></div>
+<div id="preview-meta"></div>
+<div id="preview-summary"></div>
+<div id="preview-body"></div>
+<div id="preview-chips"></div>
+<pre id="error-log"></pre>
+<script>
+window.siteBlogs = [];
+window.siteNews = [];
+window.siteProjects = [];
+window.onerror = function (msg, src, line, col, err) {
+  document.getElementById('error-log').textContent = [String(msg), src, line, col, err && err.stack ? err.stack : ''].join('\n');
+};
+</script>
+<script src="content-studio.js"></script>
+</body>
+</html>
