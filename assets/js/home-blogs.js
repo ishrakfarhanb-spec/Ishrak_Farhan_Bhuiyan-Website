@@ -21,7 +21,7 @@
   });
 
   var fragment = document.createDocumentFragment();
-  posts.slice(0, 3).forEach(function (post) {
+  posts.slice(0, 4).forEach(function (post) {
     fragment.appendChild(createCard(post));
   });
 

@@ -44,7 +44,7 @@
     return;
   }
 
-  const latestNews = newsItems.slice(1, 4);
+  const latestNews = newsItems.slice(1, 5);
   latestNews.forEach((item) => {
     latestContainer.appendChild(createNewsCard(item));
   });
