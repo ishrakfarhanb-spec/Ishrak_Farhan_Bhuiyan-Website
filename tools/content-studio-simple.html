@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Content Studio | Simple Upload</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #0b1b3a;
+        --muted: #4f5f80;
+        --bg: #eef4ff;
+        --panel: rgba(250, 252, 255, 0.95);
+        --line: rgba(0, 71, 171, 0.18);
+        --line-strong: rgba(0, 71, 171, 0.3);
+        --brand: #0047ab;
+        --brand-deep: #00327a;
+        --brand-soft: rgba(0, 71, 171, 0.12);
+        --danger: #b23d22;
+        --shadow: 0 20px 44px rgba(15, 29, 68, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Aptos", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(0, 71, 171, 0.16), transparent 30%),
+          radial-gradient(circle at 75% 5%, rgba(81, 125, 255, 0.16), transparent 24%),
+          linear-gradient(180deg, #f7faff 0%, #e7efff 60%, #dde7ff 100%);
+      }
+
+      h1, h2, h3 {
+        margin: 0;
+        font-family: "Bahnschrift SemiCondensed", "Franklin Gothic Medium", sans-serif;
+        letter-spacing: -0.03em;
+      }
+
+      button, input, textarea, select { font: inherit; }
+      button { cursor: pointer; }
+
+      .shell {
+        width: min(1100px, calc(100% - 1.5rem));
+        margin: 1.2rem auto 2rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        padding: clamp(1.1rem, 2vw, 1.5rem);
+      }
+
+      .headline {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .headline p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .steps {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .step {
+        display: grid;
+        gap: 0.3rem;
+        padding: 0.8rem 1rem;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        background: rgba(252, 254, 255, 0.95);
+      }
+
+      .step strong {
+        font-size: 1rem;
+      }
+
+      .step span {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 999px;
+        padding: 0.75rem 1.1rem;
+        font-weight: 700;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .btn:hover { transform: translateY(-1px); }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+        color: #fff;
+        box-shadow: 0 12px 22px rgba(0, 71, 171, 0.2);
+      }
+
+      .btn-secondary {
+        background: #dbe7ff;
+        color: var(--ink);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid var(--line-strong);
+        color: var(--brand-deep);
+      }
+
+      .status {
+        margin-top: 0.9rem;
+        padding: 0.9rem 1rem;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(252, 254, 255, 0.96);
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .status.is-error {
+        border-color: rgba(178, 61, 34, 0.28);
+        color: var(--danger);
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 0.9rem;
+        margin-top: 1rem;
+      }
+
+      @media (min-width: 760px) {
+        .form-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .field {
+        display: grid;
+        gap: 0.35rem;
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        font-weight: 700;
+      }
+
+      input, textarea, select {
+        width: 100%;
+        border: 1px solid var(--line-strong);
+        border-radius: 16px;
+        padding: 0.78rem 0.9rem;
+        background: #fcfdff;
+        color: var(--ink);
+      }
+
+      input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: rgba(0, 71, 171, 0.44);
+        box-shadow: 0 0 0 4px rgba(0, 71, 171, 0.12);
+      }
+
+      textarea {
+        min-height: 150px;
+        line-height: 1.7;
+        resize: vertical;
+      }
+
+      .uploader {
+        margin-top: 1rem;
+        border: 2px dashed var(--line);
+        border-radius: 22px;
+        padding: 1rem;
+        display: grid;
+        gap: 0.7rem;
+        background: rgba(252, 254, 255, 0.95);
+      }
+
+      .uploader.is-drag {
+        border-color: rgba(0, 71, 171, 0.5);
+        box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.12);
+      }
+
+      .uploader p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .recent {
+        display: grid;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      .recent-card {
+        padding: 0.7rem 0.9rem;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(252, 254, 255, 0.96);
+      }
+
+      .recent-card small {
+        color: var(--muted);
+      }
+
+      .link {
+        color: var(--brand);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .link:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <section class="card headline">
+        <h1>Simple Content Upload</h1>
+        <p>This is the easiest way to update your site. Pick the type, fill in the basics, drop your files, then save. No code, no VS Code.</p>
+        <div class="toolbar">
+          <button class="btn btn-secondary" id="connect-folder" type="button">Connect Site Folder</button>
+          <button class="btn btn-primary" id="save-entry" type="button">Save Entry</button>
+          <button class="btn btn-ghost" id="download-file" type="button">Download File Instead</button>
+        </div>
+        <div class="status" id="status">Connect your site folder to enable seamless saving and file uploads.</div>
+      </section>
+
+      <section class="card">
+        <h2>Step 1: Choose What You Are Posting</h2>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="type">Content type</label>
+            <select id="type">
+              <option value="blogs" selected>Blog</option>
+              <option value="news">News</option>
+              <option value="updates">Update</option>
+            </select>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <strong>Blogs</strong>
+            <span>Long-form stories and essays. Optional image + PDF.</span>
+          </div>
+          <div class="step">
+            <strong>News</strong>
+            <span>Announcements and milestones. Optional image.</span>
+          </div>
+          <div class="step">
+            <strong>Updates</strong>
+            <span>Short notes and quick updates. No attachments required.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Step 2: Fill The Basics</h2>
+        <form id="entry-form">
+          <div class="form-grid">
+            <div class="field full">
+              <label for="title">Title *</label>
+              <input id="title" name="title" type="text" required>
+            </div>
+            <div class="field">
+              <label for="kicker">Label (optional)</label>
+              <input id="kicker" name="kicker" type="text" placeholder="Announcement, Fitness, Event">
+            </div>
+            <div class="field">
+              <label for="date">Date *</label>
+              <input id="date" name="date" type="date" required>
+            </div>
+            <div class="field full" id="category-field">
+              <label for="category">Category (Blogs only) *</label>
+              <input id="category" name="category" type="text" placeholder="Design, Strategy, Personal">
+            </div>
+            <div class="field full">
+              <label for="summary">Summary *</label>
+              <textarea id="summary" name="summary" required></textarea>
+            </div>
+            <div class="field full">
+              <label for="body">Body *</label>
+              <textarea id="body" name="body" required></textarea>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Step 3: Drop Images Or PDFs</h2>
+        <div class="uploader" id="dropzone">
+          <p>Drag and drop an image or PDF here, or use the buttons below.</p>
+          <div class="toolbar">
+            <button class="btn btn-secondary" id="pick-image" type="button">Pick Image</button>
+            <button class="btn btn-secondary" id="pick-pdf" type="button">Pick PDF (Blogs)</button>
+          </div>
+          <div id="asset-status" class="status">No files uploaded yet.</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Recent Entries</h2>
+        <div class="recent" id="recent-list"></div>
+        <p style="margin-top:0.8rem;color:var(--muted);">
+          Need advanced controls? Open the full studio at
+          <a class="link" href="content-studio.html" target="_blank" rel="noopener">Content Studio</a>.
+        </p>
+      </section>
+    </div>
+
+    <script src="../assets/js/blogs-data.js"></script>
+    <script src="../assets/js/news-data.js"></script>
+    <script src="../assets/js/updates-data.js"></script>
+    <script src="content-studio-simple.js"></script>
+  </body>
+</html>
