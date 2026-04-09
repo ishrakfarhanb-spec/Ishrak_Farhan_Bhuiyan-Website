@@ -200,6 +200,38 @@
         gap: 0.7rem;
       }
 
+      .file-editor {
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(252, 254, 255, 0.96);
+      }
+
+      .file-editor h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .file-editor textarea {
+        width: 100%;
+        min-height: 180px;
+        border: 1px solid var(--line-strong);
+        border-radius: 16px;
+        padding: 0.75rem;
+        background: #fcfdff;
+        font-family: "Cascadia Code", "Consolas", monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        resize: vertical;
+      }
+
+      .file-editor textarea:focus {
+        outline: none;
+        border-color: rgba(0, 71, 171, 0.44);
+        box-shadow: 0 0 0 4px rgba(0, 71, 171, 0.12);
+      }
+
       .status-cluster {
         margin-top: 1rem;
         display: grid;
@@ -594,6 +626,27 @@
         line-height: 1.7;
       }
 
+      .editor-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .editor-btn {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        background: rgba(219, 231, 255, 0.65);
+        color: var(--brand-deep);
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .editor-btn:hover {
+        background: rgba(219, 231, 255, 0.9);
+      }
+
       .asset-row {
         display: grid;
         gap: 0.55rem;
@@ -754,6 +807,22 @@
                 <button class="btn btn-primary" id="save-all" type="button">Save All Sections</button>
                 <button class="btn btn-ghost" id="download-active" type="button">Download Active File</button>
               </div>
+            </div>
+
+            <div class="file-editor">
+              <h3>File Editor (Advanced)</h3>
+              <p class="action-copy">Load an existing data file, edit it directly, then save it back into the site folder.</p>
+              <div class="toolbar">
+                <div class="toolbar-row">
+                  <button class="btn btn-secondary" id="load-active-file" type="button">Load Active File</button>
+                  <button class="btn btn-ghost" id="load-file-pc" type="button">Load File From PC</button>
+                </div>
+                <div class="toolbar-row">
+                  <input class="input" id="editor-path" type="text" placeholder="assets/js/blogs-data.js">
+                  <button class="btn btn-primary" id="save-editor-file" type="button">Save To Site Folder</button>
+                </div>
+              </div>
+              <textarea id="file-editor-text" spellcheck="false" placeholder="Load a file to edit its contents..."></textarea>
             </div>
 
             <div class="status-cluster">

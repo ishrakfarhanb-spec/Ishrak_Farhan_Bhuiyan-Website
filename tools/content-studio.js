@@ -20,6 +20,11 @@
   const saveActiveBtn = document.getElementById("save-active");
   const saveAllBtn = document.getElementById("save-all");
   const downloadActiveBtn = document.getElementById("download-active");
+  const loadActiveFileBtn = document.getElementById("load-active-file");
+  const loadFilePcBtn = document.getElementById("load-file-pc");
+  const saveEditorFileBtn = document.getElementById("save-editor-file");
+  const editorPathInput = document.getElementById("editor-path");
+  const fileEditorText = document.getElementById("file-editor-text");
   const newEntryBtn = document.getElementById("new-entry");
   const clearFormBtn = document.getElementById("clear-form");
   const entrySearchInput = document.getElementById("entry-search");
@@ -64,7 +69,7 @@
         { name: "imageAlt", label: "Image alt text", full: true },
         { name: "pdf", label: "PDF path", assetKind: "pdf", placeholder: "assets/pdfs/post.pdf", full: true, help: "Optional PDF for the Read more button." },
         { name: "heroBadge", label: "Hero badge", placeholder: "Featured" },
-        { name: "body", label: "Body", type: "textarea", required: true, full: true, help: "Leave blank lines between paragraphs. Use > for quotes and - for bullet items." }
+        { name: "body", label: "Body", type: "textarea", required: true, full: true, editor: true, help: "Leave blank lines between paragraphs. Use > for quotes and - for bullet items." }
       ],
       parseBody: parseRichBody,
       stringifyBody: stringifyRichBody,
@@ -99,7 +104,7 @@
         { name: "imageAspect", label: "Image aspect ratio", placeholder: "4 / 3" },
         { name: "imageFit", label: "Image fit", placeholder: "cover" },
         { name: "imagePosition", label: "Image position", placeholder: "center center" },
-        { name: "body", label: "Body", type: "textarea", required: true, full: true, help: "Leave one blank line between paragraphs." }
+        { name: "body", label: "Body", type: "textarea", required: true, full: true, editor: true, help: "Leave one blank line between paragraphs." }
       ],
       parseBody: parsePlainBody,
       stringifyBody: stringifyPlainBody,
@@ -180,6 +185,9 @@
   saveActiveBtn.addEventListener("click", saveActiveSection);
   saveAllBtn.addEventListener("click", saveAllSections);
   downloadActiveBtn.addEventListener("click", downloadActiveSection);
+  if (loadActiveFileBtn) loadActiveFileBtn.addEventListener("click", loadActiveFileIntoEditor);
+  if (loadFilePcBtn) loadFilePcBtn.addEventListener("click", loadFileFromPc);
+  if (saveEditorFileBtn) saveEditorFileBtn.addEventListener("click", saveEditorFile);
   newEntryBtn.addEventListener("click", resetActiveForm);
   clearFormBtn.addEventListener("click", resetActiveForm);
   form.addEventListener("submit", saveEntryToWorkingList);
@@ -237,6 +245,7 @@
     renderSectionMeta();
     renderEntryList();
     renderForm();
+    syncEditorPathDefault();
   }
 
   function renderSectionMeta() {
@@ -339,7 +348,29 @@
       });
     });
 
+    formGrid.querySelectorAll("[data-editor-action]").forEach((button) => {
+      button.addEventListener("click", function () {
+        const action = button.getAttribute("data-editor-action");
+        const target = button.getAttribute("data-editor-target");
+        if (!action || !target) return;
+        const field = form.elements.namedItem(target);
+        if (!field || field.tagName !== "TEXTAREA") return;
+        applyEditorAction(field, action, config);
+        updatePreview(readFormDraft(config), config);
+        field.focus();
+      });
+    });
+
     updatePreview(readFormDraft(config), config);
+  }
+
+  function syncEditorPathDefault() {
+    if (!editorPathInput) return;
+    const config = getActiveConfig();
+    if (!editorPathInput.value || editorPathInput.dataset.auto === "true") {
+      editorPathInput.value = config.filePath;
+      editorPathInput.dataset.auto = "true";
+    }
   }
 
   function renderField(field, currentItem, config) {
@@ -356,8 +387,11 @@
     const assetButton = field.assetKind
       ? '<button class="btn btn-secondary" type="button" data-import-field="' + field.name + '" data-asset-kind="' + field.assetKind + '"' + (!supportsFileImport ? " disabled" : "") + '>Import from PC</button>'
       : "";
+    const editorToolbar = field.editor && isTextarea
+      ? buildEditorToolbar(field, config)
+      : "";
     const control = isTextarea
-      ? '<textarea class="textarea" id="' + inputId + '" name="' + field.name + '"' + required + placeholder + ">" + escapeHtml(value) + "</textarea>"
+      ? editorToolbar + '<textarea class="textarea" id="' + inputId + '" name="' + field.name + '"' + required + placeholder + ">" + escapeHtml(value) + "</textarea>"
       : isSelect
         ? '<select class="input" id="' + inputId + '" name="' + field.name + '"' + required + ">" + field.options.map((option) => {
             const optionValue = option && option.value ? option.value : "";
@@ -375,11 +409,134 @@
     ].join("");
   }
 
+  function buildEditorToolbar(field, config) {
+    const actions = [
+      { key: "paragraph", label: "Paragraph" },
+      { key: "line", label: "Line break" }
+    ];
+    if (config.key === "blogs" && field.name === "body") {
+      actions.push({ key: "quote", label: "Quote" });
+      actions.push({ key: "bullet", label: "Bullets" });
+    }
+    return [
+      '<div class="editor-toolbar" data-editor-toolbar>',
+      actions.map((action) => {
+        return '<button class="editor-btn" type="button" data-editor-action="' + action.key + '" data-editor-target="' + field.name + '">' + action.label + "</button>";
+      }).join(""),
+      "</div>"
+    ].join("");
+  }
+
+  function applyEditorAction(textarea, action, config) {
+    if (action === "paragraph") {
+      insertAtCursor(textarea, "\n\n");
+      return;
+    }
+    if (action === "line") {
+      insertAtCursor(textarea, "\n");
+      return;
+    }
+    if (action === "quote" && config.key === "blogs") {
+      prefixSelectionLines(textarea, "> ");
+      return;
+    }
+    if (action === "bullet" && config.key === "blogs") {
+      prefixSelectionLines(textarea, "- ");
+    }
+  }
+
+  function insertAtCursor(textarea, value) {
+    const start = textarea.selectionStart || 0;
+    const end = textarea.selectionEnd || 0;
+    const before = textarea.value.slice(0, start);
+    const after = textarea.value.slice(end);
+    textarea.value = before + value + after;
+    const cursor = start + value.length;
+    textarea.setSelectionRange(cursor, cursor);
+  }
+
+  function prefixSelectionLines(textarea, prefix) {
+    const value = textarea.value;
+    const start = textarea.selectionStart || 0;
+    const end = textarea.selectionEnd || 0;
+    const blockStart = value.lastIndexOf("\n", start - 1) + 1;
+    let blockEnd = value.indexOf("\n", end);
+    if (blockEnd === -1) blockEnd = value.length;
+    const block = value.slice(blockStart, blockEnd);
+    const updated = block.split("\n").map((line) => {
+      return line.trim() ? prefix + line : line;
+    }).join("\n");
+    textarea.value = value.slice(0, blockStart) + updated + value.slice(blockEnd);
+    textarea.setSelectionRange(blockStart, blockStart + updated.length);
+  }
+
   function populateForm(item, index) {
     const config = getActiveConfig();
     state.editIndex[config.key] = index;
     renderActiveType();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function loadActiveFileIntoEditor() {
+    const config = getActiveConfig();
+    if (!editorPathInput || !fileEditorText) return;
+    editorPathInput.value = config.filePath;
+    editorPathInput.dataset.auto = "true";
+    if (!state.directoryHandle) {
+      setStatus("Connect the site folder before loading files.", true);
+      return;
+    }
+    try {
+      const text = await readTextFile(state.directoryHandle, config.filePath);
+      fileEditorText.value = text;
+      setStatus("Loaded " + config.filePath + " into the editor.", false);
+    } catch (error) {
+      setStatus("Could not load file: " + (error && error.message ? error.message : "Unknown error"), true);
+    }
+  }
+
+  async function loadFileFromPc() {
+    if (!supportsFileImport) {
+      setStatus("This browser cannot open the local file picker. Use Edge or Chrome.", true);
+      return;
+    }
+    try {
+      const result = await window.showOpenFilePicker({ multiple: false });
+      const handle = result && result[0];
+      if (!handle) return;
+      const file = await handle.getFile();
+      const text = await file.text();
+      if (fileEditorText) {
+        fileEditorText.value = text;
+      }
+      if (editorPathInput) {
+        editorPathInput.value = editorPathInput.value || "assets/js/" + file.name;
+        editorPathInput.dataset.auto = "false";
+      }
+      setStatus("Loaded " + file.name + " from your PC. Set the target path then save to the site folder.", false);
+    } catch (error) {
+      if (error && error.name === "AbortError") return;
+      setStatus("Could not load file from PC: " + (error && error.message ? error.message : "Unknown error"), true);
+    }
+  }
+
+  async function saveEditorFile() {
+    if (!editorPathInput || !fileEditorText) return;
+    const path = String(editorPathInput.value || "").trim();
+    if (!path) {
+      setStatus("Enter a target path before saving (example: assets/js/news-data.js).", true);
+      return;
+    }
+    if (!state.directoryHandle) {
+      setStatus("Connect the site folder before saving files.", true);
+      return;
+    }
+    try {
+      await writeTextFile(state.directoryHandle, path, fileEditorText.value || "");
+      setStatus("Saved file to " + path + ".", false);
+    } catch (error) {
+      setStatus("Could not save file: " + (error && error.message ? error.message : "Unknown error"), true);
+    }
   }
 
   function resetActiveForm() {
@@ -582,6 +739,12 @@
     const writable = await fileHandle.createWritable();
     await writable.write(contents);
     await writable.close();
+  }
+
+  async function readTextFile(rootHandle, relativePath) {
+    const fileHandle = await getFileHandle(rootHandle, relativePath, false);
+    const file = await fileHandle.getFile();
+    return file.text();
   }
 
   async function writeBinaryFile(rootHandle, relativePath, file) {

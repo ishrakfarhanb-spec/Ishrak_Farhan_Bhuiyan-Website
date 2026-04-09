@@ -31,7 +31,8 @@
       heroTitle.textContent = hero.title;
     }
     if (heroSummary) {
-      heroSummary.textContent = hero.summary;
+      heroSummary.textContent = "";
+      heroSummary.hidden = true;
     }
     if (heroLink) {
       heroLink.setAttribute("href", hero.url || "news.html");
