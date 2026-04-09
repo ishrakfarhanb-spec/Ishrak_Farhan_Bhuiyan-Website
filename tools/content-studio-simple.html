@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Content Studio | Simple Upload</title>
+    <title>Content Studio | Simple Mode</title>
     <style>
       :root {
         color-scheme: light;
@@ -236,8 +236,8 @@
   <body>
     <div class="shell">
       <section class="card headline">
-        <h1>Simple Content Upload</h1>
-        <p>This is the easiest way to update your site. Pick the type, fill in the basics, drop your files, then save. No code, no VS Code.</p>
+        <h1>Simple Content Studio</h1>
+        <p>This is the quickest way to update your site. Pick the type, fill in the basics, drop your files, then save. No code, no VS Code.</p>
         <div class="toolbar">
           <button class="btn btn-secondary" id="connect-folder" type="button">Connect Site Folder</button>
           <button class="btn btn-primary" id="save-entry" type="button">Save Entry</button>
@@ -254,7 +254,7 @@
             <select id="type">
               <option value="blogs" selected>Blog</option>
               <option value="news">News</option>
-              <option value="updates">Update</option>
+              <option value="projects">Project</option>
             </select>
           </div>
         </div>
@@ -268,8 +268,8 @@
             <span>Announcements and milestones. Optional image.</span>
           </div>
           <div class="step">
-            <strong>Updates</strong>
-            <span>Short notes and quick updates. No attachments required.</span>
+            <strong>Projects</strong>
+            <span>Excel tools or PDF reports. Optional image for Excel projects.</span>
           </div>
         </div>
       </section>
@@ -294,11 +294,18 @@
               <label for="category">Category (Blogs only) *</label>
               <input id="category" name="category" type="text" placeholder="Design, Strategy, Personal">
             </div>
+            <div class="field full" id="project-category-field" style="display:none;">
+              <label for="project-category">Project type *</label>
+              <select id="project-category" name="project-category">
+                <option value="tools" selected>Excel Project</option>
+                <option value="reports">PDF Report</option>
+              </select>
+            </div>
             <div class="field full">
               <label for="summary">Summary *</label>
               <textarea id="summary" name="summary" required></textarea>
             </div>
-            <div class="field full">
+            <div class="field full" id="body-field">
               <label for="body">Body *</label>
               <textarea id="body" name="body" required></textarea>
             </div>
@@ -307,12 +314,13 @@
       </section>
 
       <section class="card">
-        <h2>Step 3: Drop Images Or PDFs</h2>
+        <h2>Step 3: Drop Files</h2>
         <div class="uploader" id="dropzone">
-          <p>Drag and drop an image or PDF here, or use the buttons below.</p>
+          <p>Drag and drop an image, PDF, or project file here, or use the buttons below.</p>
           <div class="toolbar">
             <button class="btn btn-secondary" id="pick-image" type="button">Pick Image</button>
             <button class="btn btn-secondary" id="pick-pdf" type="button">Pick PDF (Blogs)</button>
+            <button class="btn btn-secondary" id="pick-project-file" type="button">Pick Project File</button>
           </div>
           <div id="asset-status" class="status">No files uploaded yet.</div>
         </div>
@@ -330,7 +338,7 @@
 
     <script src="../assets/js/blogs-data.js"></script>
     <script src="../assets/js/news-data.js"></script>
-    <script src="../assets/js/updates-data.js"></script>
+    <script src="../assets/js/projects-data.js"></script>
     <script src="content-studio-simple.js"></script>
   </body>
 </html>

@@ -8,9 +8,14 @@
   const downloadBtn = document.getElementById("download-file");
   const pickImageBtn = document.getElementById("pick-image");
   const pickPdfBtn = document.getElementById("pick-pdf");
+  const pickProjectFileBtn = document.getElementById("pick-project-file");
   const dropzone = document.getElementById("dropzone");
   const recentList = document.getElementById("recent-list");
   const categoryField = document.getElementById("category-field");
+  const projectCategoryField = document.getElementById("project-category-field");
+  const projectCategorySelect = document.getElementById("project-category");
+  const bodyField = document.getElementById("body-field");
+  const bodyInput = document.getElementById("body");
 
   const supportsFolderAccess = typeof window.showDirectoryPicker === "function";
   const supportsFileImport = typeof window.showOpenFilePicker === "function";
@@ -30,22 +35,22 @@
       assetDirectories: { image: "assets/img/News" },
       required: ["title", "summary", "date", "body"]
     },
-    updates: {
-      label: "Update",
-      filePath: "assets/js/updates-data.js",
-      globalName: "siteUpdates",
-      assetDirectories: {},
-      required: ["title", "summary", "date", "body"]
+    projects: {
+      label: "Project",
+      filePath: "assets/js/projects-data.js",
+      globalName: "siteProjects",
+      assetDirectories: { image: "assets/img/Projects" },
+      required: ["title", "summary", "date"]
     }
   };
 
   const state = {
     directoryHandle: null,
-    assets: { image: "", pdf: "" },
+    assets: { image: "", pdf: "", projectFile: "" },
     data: {
       blogs: Array.isArray(window.siteBlogs) ? cloneDeep(window.siteBlogs) : [],
       news: Array.isArray(window.siteNews) ? cloneDeep(window.siteNews) : [],
-      updates: Array.isArray(window.siteUpdates) ? cloneDeep(window.siteUpdates) : []
+      projects: Array.isArray(window.siteProjects) ? cloneDeep(window.siteProjects) : []
     }
   };
 
@@ -54,7 +59,9 @@
   downloadBtn.addEventListener("click", downloadActiveFile);
   pickImageBtn.addEventListener("click", () => pickAsset("image"));
   pickPdfBtn.addEventListener("click", () => pickAsset("pdf"));
+  if (pickProjectFileBtn) pickProjectFileBtn.addEventListener("click", () => pickAsset("projectFile"));
   typeSelect.addEventListener("change", handleTypeChange);
+  if (projectCategorySelect) projectCategorySelect.addEventListener("change", handleTypeChange);
 
   if (dropzone) {
     dropzone.addEventListener("dragover", handleDragOver);
@@ -70,12 +77,32 @@
 
   function handleTypeChange() {
     const type = getActiveType();
-    state.assets = { image: "", pdf: "" };
+    state.assets = { image: "", pdf: "", projectFile: "" };
     if (categoryField) {
       categoryField.style.display = type === "blogs" ? "grid" : "none";
     }
-    pickPdfBtn.disabled = type !== "blogs";
-    assetStatusEl.textContent = "No files uploaded yet.";
+    if (projectCategoryField) {
+      projectCategoryField.style.display = type === "projects" ? "grid" : "none";
+    }
+    if (bodyField) {
+      bodyField.style.display = type === "projects" ? "none" : "grid";
+    }
+    if (bodyInput) {
+      bodyInput.required = type !== "projects";
+      if (type === "projects") bodyInput.value = "";
+    }
+    if (pickPdfBtn) {
+      pickPdfBtn.disabled = type !== "blogs";
+    }
+    if (pickProjectFileBtn) {
+      pickProjectFileBtn.disabled = type !== "projects";
+    }
+    if (pickImageBtn) {
+      pickImageBtn.disabled = type === "projects" && getProjectCategory() === "reports";
+    }
+    assetStatusEl.textContent = type === "projects"
+      ? "No files uploaded yet. Excel projects accept image + XLSX/XLS. Reports accept a PDF."
+      : "No files uploaded yet.";
     renderRecent();
   }
 
@@ -115,15 +142,13 @@
     }
     const type = getActiveType();
     const config = CONTENT_TYPES[type];
-    const targetDirectory = config.assetDirectories[kind];
+    const targetDirectory = resolveAssetDirectory(type, kind);
     if (!targetDirectory) {
       setStatus("This content type does not accept that file.", true);
       return;
     }
     try {
-      const types = kind === "pdf"
-        ? [{ description: "PDF files", accept: { "application/pdf": [".pdf"] } }]
-        : [{ description: "Images", accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] } }];
+      const types = getPickerTypes(type, kind);
       const result = await window.showOpenFilePicker({ multiple: false, types });
       const handle = result && result[0];
       if (!handle) return;
@@ -157,10 +182,15 @@
     const config = CONTENT_TYPES[type];
     for (const file of files) {
       const ext = getFileExtension(file.name);
-      if (isImageExt(ext) && config.assetDirectories.image) {
+      if (isImageExt(ext) && config.assetDirectories.image && !(type === "projects" && getProjectCategory() === "reports")) {
         await importAsset(file, "image", config.assetDirectories.image);
       } else if (ext === ".pdf" && config.assetDirectories.pdf) {
         await importAsset(file, "pdf", config.assetDirectories.pdf);
+      } else if (type === "projects" && isProjectFileExt(ext)) {
+        const targetDirectory = resolveAssetDirectory(type, "projectFile", ext);
+        if (targetDirectory) {
+          await importAsset(file, "projectFile", targetDirectory);
+        }
       }
     }
   }
@@ -179,13 +209,16 @@
     const config = CONTENT_TYPES[type];
     const entry = buildEntry(type);
     const missing = config.required.filter((field) => !entry[field]);
+    if (type === "projects" && !entry.file) {
+      missing.push("project file");
+    }
     if (missing.length) {
       setStatus("Missing required fields: " + missing.join(", "), true);
       return;
     }
 
     state.data[type].push(entry);
-    state.data[type] = sortByDateDesc(state.data[type]);
+    state.data[type] = sortEntries(type, state.data[type]);
     renderRecent();
 
     if (!state.directoryHandle) {
@@ -219,8 +252,7 @@
       kicker: getFieldValue("kicker"),
       summary: getFieldValue("summary"),
       date: getFieldValue("date"),
-      displayDate: formatDate(getFieldValue("date")),
-      body: parseBody(getFieldValue("body"))
+      displayDate: formatDate(getFieldValue("date"))
     };
 
     entry.id = slugify(entry.title || "entry");
@@ -228,9 +260,23 @@
     if (type === "blogs") {
       entry.author = "Ishrak Farhan";
       entry.category = getFieldValue("category");
+      entry.body = parseBody(getFieldValue("body"));
     }
 
-    if (state.assets.image) entry.image = state.assets.image;
+    if (type === "news") {
+      entry.body = parseBody(getFieldValue("body"));
+    }
+
+    if (type === "projects") {
+      entry.category = getProjectCategory();
+      entry.file = state.assets.projectFile;
+      if (entry.category === "tools") {
+        entry.image = state.assets.image || "assets/img/Projects/Excel.png";
+        entry.imageAlt = entry.title ? entry.title + " preview" : "Project preview";
+      }
+    }
+
+    if (type !== "projects" && state.assets.image) entry.image = state.assets.image;
     if (state.assets.pdf) entry.pdf = state.assets.pdf;
 
     return entry;
@@ -238,7 +284,7 @@
 
   function renderRecent() {
     const type = getActiveType();
-    const items = state.data[type].slice().sort((a, b) => Date.parse(b.date || 0) - Date.parse(a.date || 0)).slice(0, 3);
+    const items = sortEntries(type, state.data[type].slice()).slice(0, 3);
     if (!items.length) {
       recentList.innerHTML = "<div class=\"recent-card\">No entries yet.</div>";
       return;
@@ -255,7 +301,7 @@
 
   function buildFileContent(type) {
     const config = CONTENT_TYPES[type];
-    const items = sortByDateDesc(cloneDeep(state.data[type]));
+    const items = sortEntries(type, cloneDeep(state.data[type]));
     const header = [
       "// Managed by Content Studio (Simple Upload).",
       "window." + config.globalName + " = " + JSON.stringify(items, null, 2) + ";",
@@ -278,13 +324,22 @@
     return el ? String(el.value || "").trim() : "";
   }
 
+  function getProjectCategory() {
+    return getFieldValue("project-category") || "tools";
+  }
+
   function setStatus(message, isError) {
     statusEl.textContent = message;
     statusEl.classList.toggle("is-error", Boolean(isError));
   }
 
-  function sortByDateDesc(items) {
-    return items.sort((a, b) => Date.parse(b.date || 0) - Date.parse(a.date || 0));
+  function sortEntries(type, items) {
+    return items.sort((a, b) => {
+      if (type === "projects" && (a.category || "") !== (b.category || "")) {
+        return (a.category || "") === "tools" ? -1 : 1;
+      }
+      return Date.parse(b.date || 0) - Date.parse(a.date || 0);
+    });
   }
 
   function formatDate(value) {
@@ -300,6 +355,10 @@
   function getFileExtension(name) {
     const match = String(name || "").match(/(\.[^.]+)$/);
     return match ? match[1].toLowerCase() : "";
+  }
+
+  function isProjectFileExt(ext) {
+    return [".xlsx", ".xls", ".pdf"].includes(ext);
   }
 
   function isImageExt(ext) {
@@ -365,5 +424,35 @@
 
   function getErrorMessage(error) {
     return error && error.message ? error.message : "Unknown error";
+  }
+
+  function getPickerTypes(type, kind) {
+    if (kind === "pdf") {
+      return [{ description: "PDF files", accept: { "application/pdf": [".pdf"] } }];
+    }
+    if (kind === "projectFile") {
+      if (type === "projects" && getProjectCategory() === "reports") {
+        return [{ description: "PDF reports", accept: { "application/pdf": [".pdf"] } }];
+      }
+      return [{
+        description: "Excel files",
+        accept: {
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+          "application/vnd.ms-excel": [".xls"]
+        }
+      }];
+    }
+    return [{ description: "Images", accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] } }];
+  }
+
+  function resolveAssetDirectory(type, kind, extension) {
+    if (type === "projects" && kind === "projectFile") {
+      if (getProjectCategory() === "reports" || extension === ".pdf") {
+        return "assets/All Reports";
+      }
+      return "Excel_Projects";
+    }
+    const config = CONTENT_TYPES[type];
+    return config && config.assetDirectories ? config.assetDirectories[kind] : "";
   }
 })();
