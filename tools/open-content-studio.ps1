@@ -6,6 +6,23 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 
+function Get-PreferredBrowserPath {
+    $candidates = @(
+        "C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+        "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        "C:\Program Files\Google\Chrome\Application\chrome.exe",
+        "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    )
+
+    foreach ($candidate in $candidates) {
+        if (Test-Path -LiteralPath $candidate) {
+            return $candidate
+        }
+    }
+
+    return $null
+}
+
 function Get-AvailablePort {
     param(
         [int]$StartPort
@@ -88,7 +105,15 @@ Write-Host "Content Studio server running."
 Write-Host "Open in browser: $($prefix)tools/content-studio.html"
 Write-Host "Keep this window open while editing. Press Ctrl+C to stop the server."
 
-Start-Process "$($prefix)tools/content-studio.html" | Out-Null
+$targetUrl = "$($prefix)tools/content-studio.html"
+$preferredBrowser = Get-PreferredBrowserPath
+if ($preferredBrowser) {
+    Write-Host "Launching in: $preferredBrowser"
+    Start-Process -FilePath $preferredBrowser -ArgumentList $targetUrl | Out-Null
+} else {
+    Write-Host "Edge/Chrome not found. Falling back to the default browser."
+    Start-Process $targetUrl | Out-Null
+}
 
 try {
     while ($listener.IsListening) {

@@ -31,8 +31,9 @@
   const previewBody = document.getElementById("preview-body");
   const previewChips = document.getElementById("preview-chips");
 
-  const supportsFolderAccess = typeof window.showDirectoryPicker === "function";
-  const supportsFileImport = typeof window.showOpenFilePicker === "function";
+  const isSecureContextSupported = window.isSecureContext === true;
+  const supportsFolderAccess = isSecureContextSupported && typeof window.showDirectoryPicker === "function";
+  const supportsFileImport = isSecureContextSupported && typeof window.showOpenFilePicker === "function";
 
   const CONTENT_TYPES = {
     blogs: {
@@ -160,10 +161,16 @@
     state.data[key] = sortEntries(cloneDeep(CONTENT_TYPES[key].source), key);
   });
 
-  browserStatus.textContent = supportsFolderAccess ? "Direct save supported" : "Download-only mode";
+  browserStatus.textContent = supportsFolderAccess
+    ? "Direct save supported"
+    : !isSecureContextSupported
+      ? "Open through local launcher"
+      : "Download-only mode";
   footnote.textContent = supportsFolderAccess
     ? "Direct save and asset import work best in Edge or Chrome after opening this tool through the local launcher."
-    : "This browser cannot save directly into the site folder. Use Download active file instead, or open the studio in Edge or Chrome.";
+    : !isSecureContextSupported
+      ? "This page is not running in a secure local context. Start it with open-content-studio.cmd, then use Edge or Chrome."
+      : "This browser cannot save directly into the site folder. Use Edge or Chrome, or use Download active file instead.";
 
   renderTypeNav();
   renderActiveType();
