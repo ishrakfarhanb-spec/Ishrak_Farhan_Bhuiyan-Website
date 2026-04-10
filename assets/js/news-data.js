@@ -1,6 +1,34 @@
 // Managed by Content Studio (Simple Upload).
 window.siteNews = [
   {
+    "title": "Voice of Business 15th Issue Published",
+    "kicker": "Magazine",
+    "summary": "The 15th issue of Voice of Business Magazine stands as a meaningful milestone in the publication’s journey, reflecting both growth and maturity in its editorial vision. As Deputy Editor, I had the privilege of contributing closely to shaping this edition, ensuring that it not only upheld our standards but also delivered fresh, relevant, and impactful content to our readers.",
+    "date": "2026-02-26",
+    "displayDate": "Feb 26, 2026",
+    "id": "voice-of-business-15th-issue-published",
+    "body": [
+      "The 15th issue of Voice of Business Magazine stands as a meaningful milestone in the publication’s journey, reflecting both growth and maturity in its editorial vision. As Deputy Editor, I had the privilege of contributing closely to shaping this edition, ensuring that it not only upheld our standards but also delivered fresh, relevant, and impactful content to our readers.",
+      "This issue focused on highlighting emerging business trends, entrepreneurial resilience, and insightful perspectives from industry leaders. It was carefully curated to bridge the gap between knowledge and practical application, offering readers both inspiration and strategic understanding. Special attention was given to content quality, design consistency, and thematic coherence, making the publication both engaging and informative.",
+      "Being part of the editorial leadership for this issue was a rewarding experience, as it involved collaboration, critical decision-making, and a shared commitment to excellence. The 15th issue ultimately reflects the collective effort of a dedicated team and remains a proud achievement in my journey with Voice of Business Magazine."
+    ],
+    "image": "assets/img/News/voice-of-business-15th-issue-published.png"
+  },
+  {
+    "title": "Voice of Business 15th Issue Published",
+    "kicker": "Magazine",
+    "summary": "The 15th issue of Voice of Business Magazine stands as a meaningful milestone in the publication’s journey, reflecting both growth and maturity in its editorial vision. As Deputy Editor, I had the privilege of contributing closely to shaping this edition, ensuring that it not only upheld our standards but also delivered fresh, relevant, and impactful content to our readers.",
+    "date": "2026-02-26",
+    "displayDate": "Feb 26, 2026",
+    "id": "voice-of-business-15th-issue-published",
+    "body": [
+      "The 15th issue of Voice of Business Magazine stands as a meaningful milestone in the publication’s journey, reflecting both growth and maturity in its editorial vision. As Deputy Editor, I had the privilege of contributing closely to shaping this edition, ensuring that it not only upheld our standards but also delivered fresh, relevant, and impactful content to our readers.",
+      "This issue focused on highlighting emerging business trends, entrepreneurial resilience, and insightful perspectives from industry leaders. It was carefully curated to bridge the gap between knowledge and practical application, offering readers both inspiration and strategic understanding. Special attention was given to content quality, design consistency, and thematic coherence, making the publication both engaging and informative.",
+      "Being part of the editorial leadership for this issue was a rewarding experience, as it involved collaboration, critical decision-making, and a shared commitment to excellence. The 15th issue ultimately reflects the collective effort of a dedicated team and remains a proud achievement in my journey with Voice of Business Magazine."
+    ],
+    "image": "assets/img/News/voice-of-business-15th-issue-published.png"
+  },
+  {
     "title": "Stepping into MetLife Leadership Development Program (MLDP)",
     "kicker": "Career",
     "summary": "I am sincerely grateful to be a part of MetLife and its distinguished legacy.\nIt is a privilege to contribute to an organization renowned for integrity and excellence. I deeply appreciate the opportunity to grow and contribute within this remarkable community.",
