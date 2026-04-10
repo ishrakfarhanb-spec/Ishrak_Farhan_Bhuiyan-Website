@@ -4,10 +4,10 @@ Use the local content workflow when you want to add blogs, news, or projects fro
 
 This is the only content editor now. The older standalone blog and news editors have been removed.
 
-## Start the editor (simple mode)
+## Start the editor
 
 1. Double-click `open-content-studio.cmd`.
-2. Your browser will open `tools/content-studio-simple.html` through a local server.
+2. Your browser will open `tools/content-studio.html` through a local server.
 3. Click `Connect site folder` and choose this repo folder.
 
 ## Add content
@@ -27,6 +27,6 @@ This is the only content editor now. The older standalone blog and news editors 
 - Direct save works best in Microsoft Edge or Google Chrome because the editor uses the File System Access API.
 - If direct save is unavailable, use `Download file instead` and replace the matching file in `assets/js/`.
 
-## Advanced editor (optional)
+## Simple editor (optional)
 
-If you need the newer full editor for previews or batch editing, open `tools/content-studio.html` while the local server is running.
+If you ever need the smaller fallback form, open `tools/content-studio-simple.html` while the local server is running.

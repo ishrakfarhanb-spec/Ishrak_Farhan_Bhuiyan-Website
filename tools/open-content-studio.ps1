@@ -102,10 +102,10 @@ $listener.Prefixes.Add($prefix)
 $listener.Start()
 
 Write-Host "Content Studio server running."
-Write-Host "Open in browser: $($prefix)tools/content-studio-simple.html"
+Write-Host "Open in browser: $($prefix)tools/content-studio.html"
 Write-Host "Keep this window open while editing. Press Ctrl+C to stop the server."
 
-$targetUrl = "$($prefix)tools/content-studio-simple.html"
+$targetUrl = "$($prefix)tools/content-studio.html"
 $preferredBrowser = Get-PreferredBrowserPath
 if ($preferredBrowser) {
     Write-Host "Launching in: $preferredBrowser"
@@ -124,7 +124,7 @@ try {
         try {
             $relativePath = [System.Uri]::UnescapeDataString($request.Url.AbsolutePath.TrimStart("/"))
             if ([string]::IsNullOrWhiteSpace($relativePath)) {
-                Write-Redirect -Response $response -Location "/tools/content-studio-simple.html"
+                Write-Redirect -Response $response -Location "/tools/content-studio.html"
                 continue
             }
 
