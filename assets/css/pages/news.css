@@ -12,6 +12,18 @@
   max-width: 56ch;
 }
 
+.news-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.news-toolbar .search-status {
+  justify-self: end;
+  text-align: right;
+}
+
 .page-title {
   margin: 0;
   font-size: clamp(2.25rem, 5vw, 2.8rem);
@@ -384,6 +396,13 @@ body.news-detail-open {
 }
 
 @media (max-width: 960px) {
+  .news-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .news-toolbar .search-status {
+    justify-self: start;
+    text-align: left;
+  }
   .news-featured {
     grid-template-columns: 1fr;
     --featured-text-align: left;

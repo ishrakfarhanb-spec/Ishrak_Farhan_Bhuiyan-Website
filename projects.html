@@ -45,7 +45,17 @@
     <div data-include="header"></div>
     <main id="main" class="section projects-page">
       <div class="wrap">
-        <h1>Projects</h1>
+        <header class="page-head flow">
+          <h1>Projects</h1>
+          <p class="muted">Search across dashboards, Excel tools, and academic reports.</p>
+        </header>
+        <div class="catalog-toolbar" aria-label="Project search">
+          <label class="search-field" for="projects-search">
+            <span class="search-label">Search projects</span>
+            <input id="projects-search" name="projects-search" type="search" placeholder="Search by title, summary, category, or file" autocomplete="off" />
+          </label>
+          <p class="search-status" id="projects-search-status" aria-live="polite"></p>
+        </div>
         <div class="filters">
           <button class="btn btn-small is-active" data-filter="all">All</button>
           <button class="btn btn-small" data-filter="tools">Excel</button>

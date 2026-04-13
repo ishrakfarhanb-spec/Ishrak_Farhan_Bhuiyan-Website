@@ -52,7 +52,13 @@
         </header>
         <section class="blog-hero" id="blog-hero" aria-live="polite"></section>
 
-        <div class="blog-toolbar" id="blog-toolbar" aria-label="Blog sorting">
+        <div class="blog-toolbar" id="blog-toolbar" aria-label="Blog search, filtering, and sorting">
+          <label class="search-field" for="blog-search">
+            <span class="search-label">Search blogs</span>
+            <input id="blog-search" name="blog-search" type="search" placeholder="Search titles, topics, tags, or ideas" autocomplete="off" />
+          </label>
+          <div class="chips" id="blog-filters" role="tablist" aria-label="Blog categories"></div>
+          <p class="search-status" id="blog-search-status" aria-live="polite"></p>
           <label class="sort" for="blog-sort">
             <span>Sort by</span>
             <select id="blog-sort" name="blog-sort">

@@ -370,12 +370,13 @@
 }
 
 /* Toolbar */
-.blog-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin: .75rem 0 1rem; flex-wrap: wrap; }
+.blog-toolbar { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr) auto auto; align-items: end; gap: .75rem 1rem; margin: .75rem 0 1rem; }
 .chips { display: flex; gap: .5rem; flex-wrap: wrap; }
 .chip { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: .4rem .7rem; border-radius: 999px; cursor: pointer; }
 .chip.is-active { background: var(--border); }
 .sort { display: inline-flex; gap: .5rem; align-items: center; }
 .sort select { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: .35rem .5rem; border-radius: .5rem; }
+.blog-toolbar .search-status { justify-self: end; text-align: right; }
 
 @media (max-width: 1100px) {
   .blog-hero-inner {
@@ -400,11 +401,15 @@
 
 @media (max-width: 720px) {
   .blog-toolbar {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     align-items: stretch;
   }
   .blog-toolbar .chips {
     justify-content: flex-start;
+  }
+  .blog-toolbar .search-status {
+    justify-self: start;
+    text-align: left;
   }
   .sort {
     justify-content: space-between;

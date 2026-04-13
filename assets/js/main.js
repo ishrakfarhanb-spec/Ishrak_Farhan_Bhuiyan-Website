@@ -30,6 +30,60 @@
       return isNaN(timestamp) ? 0 : timestamp;
     };
   }
+  if (!siteUtils.getSearchTerms) {
+    siteUtils.getSearchTerms = function (value) {
+      return String(value || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .split(/\s+/)
+        .map(function (term) { return term.trim(); })
+        .filter(Boolean);
+    };
+  }
+  if (!siteUtils.matchesSearch) {
+    siteUtils.matchesSearch = function (values, query) {
+      var terms = siteUtils.getSearchTerms(query);
+      if (!terms.length) return true;
+      var haystack = (Array.isArray(values) ? values : [values])
+        .join(' ')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+      return terms.every(function (term) {
+        return haystack.indexOf(term) !== -1;
+      });
+    };
+  }
+  if (!siteUtils.highlightText) {
+    siteUtils.highlightText = function (value, query) {
+      var text = String(value || '');
+      var terms = Array.from(new Set(siteUtils.getSearchTerms(query)));
+      if (!text || !terms.length) return siteUtils.escapeHtml(text);
+
+      var escapedTerms = terms
+        .map(function (term) {
+          return term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        })
+        .sort(function (a, b) { return b.length - a.length; });
+
+      if (!escapedTerms.length) return siteUtils.escapeHtml(text);
+
+      var regex = new RegExp('(' + escapedTerms.join('|') + ')', 'ig');
+      var result = '';
+      var lastIndex = 0;
+      var match;
+
+      while ((match = regex.exec(text)) !== null) {
+        result += siteUtils.escapeHtml(text.slice(lastIndex, match.index));
+        result += '<mark class="search-hit">' + siteUtils.escapeHtml(match[0]) + '</mark>';
+        lastIndex = match.index + match[0].length;
+      }
+
+      result += siteUtils.escapeHtml(text.slice(lastIndex));
+      return result;
+    };
+  }
 
   var LOADER_LABEL_KEY = 'site-loader-label';
 
@@ -59,6 +113,9 @@
       /* ignore storage errors */
     }
   }
+  if (!siteUtils.safeStorageGet) siteUtils.safeStorageGet = safeStorageGet;
+  if (!siteUtils.safeStorageSet) siteUtils.safeStorageSet = safeStorageSet;
+  if (!siteUtils.safeStorageRemove) siteUtils.safeStorageRemove = safeStorageRemove;
 
   function initSiteLoader() {
     var root = window;
@@ -1108,6 +1165,10 @@
               card.style.display = (currentFilter === 'all' || tags.includes(currentFilter)) ? '' : 'none';
             });
           });
+
+          if (typeof window.handleProjectFilter === 'function') {
+            window.handleProjectFilter(currentFilter);
+          }
         });
       });
     }

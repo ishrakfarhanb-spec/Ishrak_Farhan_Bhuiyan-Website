@@ -1,31 +1,10 @@
-﻿;(function () {
+;(function () {
   var utils = window.siteUtils || {};
   var escapeHtml = utils.escapeHtml || fallbackEscapeHtml;
   var formatDate = utils.formatDate || fallbackFormatDate;
   var toTimestamp = utils.toTimestamp || fallbackToTimestamp;
-
-  var safeGet = (utils.safeStorageGet || function (storage, key) {
-    if (!storage || typeof storage.getItem !== 'function') return null;
-    try { return storage.getItem(key); } catch (err) { return null; }
-  });
-  var safeSet = (utils.safeStorageSet || function (storage, key, value) {
-    if (!storage || typeof storage.setItem !== 'function') return;
-    try { storage.setItem(key, value); } catch (err) { /* ignore */ }
-  });
-  var safeRemove = (utils.safeStorageRemove || function (storage, key) {
-    if (!storage || typeof storage.removeItem !== 'function') return;
-    try { storage.removeItem(key); } catch (err) { /* ignore */ }
-  });
-
-  function safeSessionGet(key) {
-    return safeGet(window.sessionStorage, key);
-  }
-  function safeSessionSet(key, value) {
-    safeSet(window.sessionStorage, key, value);
-  }
-  function safeSessionRemove(key) {
-    safeRemove(window.sessionStorage, key);
-  }
+  var highlightText = utils.highlightText || function (value) { return escapeHtml(value || ''); };
+  var matchesSearch = utils.matchesSearch || function () { return true; };
 
   var posts = Array.isArray(window.siteBlogs) ? window.siteBlogs.slice() : [];
   if (!posts.length) {
@@ -40,36 +19,58 @@
     return toTimestamp(b.date) - toTimestamp(a.date);
   });
 
-  var state = { filter: 'all', sort: 'newest' };
+  var state = { filter: 'all', sort: 'newest', search: '' };
 
   var heroEl = document.getElementById('blog-hero');
-  if (heroEl) renderHero(posts[0], heroEl);
-
   var filtersEl = document.getElementById('blog-filters');
+  var sortSelect = document.getElementById('blog-sort');
+  var searchInput = document.getElementById('blog-search');
+  var statusEl = document.getElementById('blog-search-status');
+
   if (filtersEl) renderFilters(posts, filtersEl, state);
 
-  var sortSelect = document.getElementById('blog-sort');
   if (sortSelect) {
     sortSelect.addEventListener('change', function () {
       state.sort = sortSelect.value || 'newest';
-      renderGrid(posts, state);
+      renderAll();
     });
   }
 
-  renderGrid(posts, state);
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      state.search = searchInput.value || '';
+      renderAll();
+    });
+  }
+
+  renderAll();
+
+  function renderAll() {
+    var list = getFilteredPosts();
+    if (heroEl) renderHero(list[0], heroEl);
+    renderGrid(list);
+    updateStatus(list.length);
+  }
 
   function renderHero(item, container) {
-    if (!item) return;
+    if (!item) {
+      container.innerHTML = '';
+      container.hidden = true;
+      return;
+    }
+
+    container.hidden = false;
     var themeClass = document.documentElement.getAttribute('data-theme') === 'dark' ? 'theme-dark' : 'theme-light';
     var heroAction = item.pdf
       ? '      <a class="btn btn-primary" href="' + escapeHtml(item.pdf) + '" target="_blank" rel="noopener">Read story</a>'
       : '';
+
     container.innerHTML = [
       '<div class="blog-hero-inner ' + themeClass + '">',
       '  <div>',
       item.heroBadge ? '    <span class="badge">' + escapeHtml(item.heroBadge) + '</span>' : '',
-      '    <h2 class="hero-title">' + escapeHtml(item.title) + '</h2>',
-      '    <p class="muted">' + escapeHtml(item.summary || '') + '</p>',
+      '    <h2 class="hero-title">' + highlightText(item.title, state.search) + '</h2>',
+      '    <p class="muted">' + highlightText(item.summary || '', state.search) + '</p>',
       '    <div class="hero-actions">',
       heroAction,
       '    </div>',
@@ -79,6 +80,7 @@
       '  </div>',
       '</div>'
     ].join('');
+
     var inner = container.querySelector('.blog-hero-inner');
     if (inner) {
       if (item.image) {
@@ -111,27 +113,17 @@
         chip.classList.add('is-active');
         chip.setAttribute('aria-selected', 'true');
         current.filter = chip.getAttribute('data-filter') || 'all';
-        renderGrid(posts, current);
+        renderAll();
       });
     });
   }
 
-  function renderGrid(items, current) {
+  function renderGrid(list) {
     var grid = document.getElementById('blogs-grid');
     if (!grid) return;
 
-    var list = items.filter(function (post) {
-      if (!current.filter || current.filter === 'all') return true;
-      return (post.category || '').trim().toLowerCase() === current.filter;
-    });
-
-    list.sort(function (a, b) {
-      var diff = toTimestamp(b.date) - toTimestamp(a.date);
-      return current.sort === 'oldest' ? -diff : diff;
-    });
-
     if (!list.length) {
-      grid.innerHTML = '<p class="muted">No posts match this filter.</p>';
+      grid.innerHTML = '<p class="muted search-empty">No blog posts matched your search.</p>';
       return;
     }
 
@@ -145,10 +137,10 @@
         item.image ? '    <img data-src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.imageAlt || item.title) + '" class="lazy" width="800" height="450" />' : '',
         '  </div>',
         '  <div class="card-body">',
-        item.kicker ? '    <span class="eyebrow">' + escapeHtml(item.kicker) + '</span>' : '',
-        '    <h3 class="card-title">' + escapeHtml(item.title) + '</h3>',
+        item.kicker ? '    <span class="eyebrow">' + highlightText(item.kicker, state.search) + '</span>' : '',
+        '    <h3 class="card-title">' + highlightText(item.title, state.search) + '</h3>',
         '    <p class="muted">' + escapeHtml(item.displayDate || formatDate(item.date)) + '</p>',
-        item.summary ? '    <p>' + escapeHtml(item.summary) + '</p>' : '',
+        item.summary ? '    <p>' + highlightText(item.summary, state.search) + '</p>' : '',
         cta ? '    ' + cta : '',
         '  </div>',
         '</article>'
@@ -159,6 +151,49 @@
 
     bindGridInteractions(grid);
   }
+
+  function getFilteredPosts() {
+    var list = posts.filter(function (post) {
+      var matchesCategory = !state.filter || state.filter === 'all'
+        ? true
+        : (post.category || '').trim().toLowerCase() === state.filter;
+      return matchesCategory && matchesSearch(getSearchFields(post), state.search);
+    });
+
+    list.sort(function (a, b) {
+      var diff = toTimestamp(b.date) - toTimestamp(a.date);
+      return state.sort === 'oldest' ? -diff : diff;
+    });
+
+    return list;
+  }
+
+  function getSearchFields(post) {
+    return [
+      post.title,
+      post.kicker,
+      post.summary,
+      post.author,
+      post.category,
+      Array.isArray(post.tags) ? post.tags.join(' ') : '',
+      Array.isArray(post.body) ? post.body.join(' ') : ''
+    ];
+  }
+
+  function updateStatus(total) {
+    if (!statusEl) return;
+    if (!total) {
+      statusEl.textContent = state.search
+        ? 'No blogs matched "' + state.search.trim() + '".'
+        : 'No blogs matched the active filter.';
+      return;
+    }
+    var label = total === 1 ? 'post' : 'posts';
+    statusEl.textContent = state.search
+      ? total + ' ' + label + ' for "' + state.search.trim() + '".'
+      : total + ' ' + label + ' shown.';
+  }
+
   function bindGridInteractions(container) {
     if (!container) return;
     if (container.dataset.blogBound === 'true') return;
