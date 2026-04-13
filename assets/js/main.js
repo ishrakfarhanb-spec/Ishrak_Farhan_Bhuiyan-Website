@@ -1112,7 +1112,7 @@
       });
     }
 
-    // Interactive tiles â†’ highlight corresponding right-side info card
+    // Interactive tiles -> highlight corresponding right-side info card
     document.querySelectorAll('.xp-split .tile').forEach(function (tile) {
       if (tile.dataset.bound) return;
       function findBrandEl() {
