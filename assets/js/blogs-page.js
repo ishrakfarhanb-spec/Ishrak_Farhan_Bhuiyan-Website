@@ -70,7 +70,6 @@
       '  <div>',
       item.heroBadge ? '    <span class="badge">' + escapeHtml(item.heroBadge) + '</span>' : '',
       '    <h2 class="hero-title">' + highlightText(item.title, state.search) + '</h2>',
-      '    <p class="muted">' + highlightText(item.summary || '', state.search) + '</p>',
       '    <div class="hero-actions">',
       heroAction,
       '    </div>',
