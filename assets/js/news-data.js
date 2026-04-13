@@ -16,6 +16,20 @@ window.siteNews = [
     ]
   },
   {
+    "title": "Being Chosen as Chief Editor of Voice of Business (16th Cabinet)",
+    "kicker": "Announcement",
+    "summary": "Truly elated to step into the role of Chief Editor of Voice of Business.",
+    "date": "2026-02-26",
+    "displayDate": "Feb 26, 2026",
+    "id": "being-chosen-as-chief-editor-of-voice-of-business-16th-cabinet",
+    "body": [
+      "Truly elated to step into the role of Chief Editor of Voice of Business. This achievement is deeply meaningful to me, not just as a title, but as the culmination of a long journey defined by dedication, growth, and relentless effort.",
+      "I joined the club back in 2022 as an executive, taking my first steps with a passion to learn and contribute. Since then, the journey has been nothing short of transformative. From overcoming challenges to embracing responsibilities, every experience has shaped me into who I am today. The late nights, the teamwork, the setbacks, and the small wins, all of it has led to this moment.",
+      "I’m incredibly grateful that my efforts within the club have paid off. Looking forward to carrying this responsibility forward and taking *Voice of Business* to even greater heights."
+    ],
+    "image": "assets/img/News/being-chosen-as-chief-editor-of-voice-of-business-16th-cabinet.jpg"
+  },
+  {
     "title": "Stepping into MetLife Leadership Development Program (MLDP)",
     "id": "11",
     "kicker": "Career",

@@ -965,8 +965,9 @@
 }
 
 [data-news-latest] .card-media {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  display: grid;
 }
 
 [data-news-latest] .card-media img {
@@ -974,6 +975,78 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+#latest-blogs .card-body,
+[data-news-latest] .card-body,
+[data-home-projects] .card-body,
+[data-home-reports] .card-body {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+}
+
+#latest-blogs .card-body,
+[data-news-latest] .card-body {
+  grid-template-rows: auto minmax(calc(1.35em * 3), auto) auto minmax(calc(1.65em * 4), 1fr) auto;
+}
+
+[data-home-projects] .card-body,
+[data-home-reports] .card-body {
+  grid-template-rows: minmax(calc(1.35em * 3), auto) minmax(calc(1.6em * 3), 1fr) auto;
+}
+
+#latest-blogs .card-title,
+[data-news-latest] .card-title {
+  margin: 0;
+  min-block-size: calc(1.35em * 3);
+}
+
+[data-home-projects] .card-title,
+[data-home-reports] .card-title {
+  margin: 0;
+  min-block-size: calc(1.35em * 3);
+}
+
+#latest-blogs .muted,
+[data-news-latest] .muted {
+  margin: 0;
+}
+
+[data-home-projects] .muted,
+[data-home-reports] .muted {
+  margin: 0;
+  font-size: calc(1rem - 1pt);
+  line-height: 1.6;
+  min-block-size: calc(1.6em * 3);
+  text-align: justify;
+}
+
+#latest-blogs .card-body > p:not(.muted),
+[data-news-latest] .card-body > p:not(.muted) {
+  margin: 0;
+  font-size: calc(1rem - 1pt);
+  line-height: 1.65;
+  min-block-size: calc(1.65em * 4);
+  text-align: justify;
+}
+
+#latest-blogs .muted,
+[data-news-latest] .muted {
+  text-align: justify;
+}
+
+#latest-blogs .card-body .btn,
+#latest-blogs .card-body .btn-link-arrow,
+[data-news-latest] .card-body .btn,
+[data-news-latest] .card-body .btn-link-arrow,
+[data-home-projects] .card-body .btn,
+[data-home-projects] .card-body .btn-link-arrow,
+[data-home-reports] .card-body .btn,
+[data-home-reports] .card-body .btn-link-arrow {
+  margin-top: 0;
+  justify-self: start;
+  align-self: end;
 }
 
 /* Portrait background variant for home hero */

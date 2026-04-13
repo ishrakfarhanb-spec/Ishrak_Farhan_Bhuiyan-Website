@@ -65,8 +65,8 @@
     img.className = "lazy";
     img.setAttribute("data-src", item.image);
     img.setAttribute("alt", item.imageAlt || item.title);
-    img.setAttribute("width", "800");
-    img.setAttribute("height", "450");
+    img.setAttribute("width", "1080");
+    img.setAttribute("height", "1080");
     media.appendChild(img);
 
     const body = document.createElement("div");
