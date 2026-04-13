@@ -110,7 +110,7 @@
     }
 
     var link = document.createElement('a');
-    link.className = 'btn btn-primary btn-small';
+    link.className = 'btn btn-primary btn-small' + (item.category === 'reports' ? ' btn-report' : '');
     link.href = buildHref(item);
     if (item.category === 'tools') {
       link.setAttribute('download', '');

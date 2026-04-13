@@ -115,6 +115,14 @@
   border-color: var(--brand);
 }
 
+.project-group .card .btn.btn-report:hover,
+.project-group .card .btn.btn-report:focus-visible {
+  background: #c81e3a;
+  color: #ffffff;
+  border-color: #c81e3a;
+  box-shadow: 0 14px 26px rgba(200, 30, 58, .24);
+}
+
 .project-group .card .btn:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--brand), #ffffff 35%);
   outline-offset: 3px;
