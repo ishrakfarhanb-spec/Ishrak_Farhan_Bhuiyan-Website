@@ -794,18 +794,22 @@
     if (!typeTargets.length) return;
     var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var typingTimers = [];
+    var typingFrame = null;
 
     function clearTypingTimers() {
       while (typingTimers.length) {
         window.clearTimeout(typingTimers.pop());
+      }
+      if (typingFrame !== null) {
+        window.cancelAnimationFrame(typingFrame);
+        typingFrame = null;
       }
     }
 
     function setFullText() {
       Array.prototype.forEach.call(typeTargets, function (target) {
         var line = target.closest('.hero-title-line--typed');
-        target.textContent = '';
-        appendCharacters(target, target.getAttribute('data-typewriter-text') || '');
+        target.textContent = target.getAttribute('data-typewriter-text') || '';
         if (line) {
           line.classList.remove('is-typing');
           line.classList.add('is-typed');
@@ -816,7 +820,6 @@
     function resetTypedText() {
       Array.prototype.forEach.call(typeTargets, function (target) {
         var line = target.closest('.hero-title-line--typed');
-        clearTarget(target);
         target.textContent = '';
         if (line) {
           line.classList.remove('is-typing');
@@ -825,58 +828,37 @@
       });
     }
 
-    function clearTarget(target) {
-      if (!target) return;
-      while (target.firstChild) {
-        target.removeChild(target.firstChild);
-      }
-    }
-
-    function appendCharacters(target, text) {
-      var fragment = document.createDocumentFragment();
-      String(text || '').split('').forEach(function (char) {
-        var span = document.createElement('span');
-        span.className = 'hero-title-char';
-        span.textContent = char;
-        if (prefersReducedMotion) {
-          span.style.animation = 'none';
-          span.style.opacity = '1';
-          span.style.transform = 'none';
-          span.style.filter = 'none';
-        }
-        fragment.appendChild(span);
-      });
-      target.appendChild(fragment);
-    }
-
-    function appendCharacter(target, char) {
-      var span = document.createElement('span');
-      span.className = 'hero-title-char';
-      span.textContent = char;
-      target.appendChild(span);
-    }
-
     function typeLine(index) {
       if (index >= typeTargets.length) return;
 
       var target = typeTargets[index];
       var line = target.closest('.hero-title-line--typed');
       var text = target.getAttribute('data-typewriter-text') || '';
-      var charIndex = 0;
+      var lastCount = 0;
+      var startTime = null;
+      var charDelay = index === 0 ? 92 : 84;
+      var linePause = index === 0 ? 320 : 160;
 
       if (line) {
         line.classList.add('is-typing');
         line.classList.remove('is-typed');
       }
 
-      function tick() {
-        appendCharacter(target, text.charAt(charIndex));
-        charIndex += 1;
+      function step(timestamp) {
+        if (startTime === null) startTime = timestamp;
+        var elapsed = timestamp - startTime;
+        var nextCount = Math.min(text.length, Math.floor(elapsed / charDelay) + 1);
 
-        if (charIndex < text.length) {
-          typingTimers.push(window.setTimeout(tick, charIndex === 1 ? 155 : 108));
+        if (nextCount !== lastCount) {
+          target.textContent = text.slice(0, nextCount);
+          lastCount = nextCount;
+        }
+
+        if (lastCount < text.length) {
+          typingFrame = window.requestAnimationFrame(step);
           return;
         }
+        typingFrame = null;
 
         if (line) {
           line.classList.remove('is-typing');
@@ -884,10 +866,15 @@
         }
         typingTimers.push(window.setTimeout(function () {
           typeLine(index + 1);
-        }, index === 0 ? 360 : 160));
+        }, linePause));
       }
 
-      typingTimers.push(window.setTimeout(tick, index === 0 ? 140 : 110));
+      typingTimers.push(window.setTimeout(function () {
+        target.textContent = '';
+        lastCount = 0;
+        startTime = null;
+        typingFrame = window.requestAnimationFrame(step);
+      }, index === 0 ? 180 : 110));
     }
 
     function activateSignature() {
