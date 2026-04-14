@@ -32,7 +32,7 @@
 
   function createCard(post) {
     var article = document.createElement('article');
-    article.className = 'card';
+    article.className = 'card home-blog-card';
     article.setAttribute('data-animate-item', '');
 
     var media = document.createElement('div');
@@ -70,6 +70,7 @@
 
     if (post.summary) {
       var summary = document.createElement('p');
+      summary.className = 'card-summary';
       summary.textContent = post.summary;
       body.appendChild(summary);
     }

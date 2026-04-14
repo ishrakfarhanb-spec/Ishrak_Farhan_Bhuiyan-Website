@@ -52,7 +52,7 @@
 
   function createNewsCard(item) {
     const article = document.createElement("article");
-    article.className = "card news-card";
+    article.className = "card news-card home-news-card";
     article.setAttribute("data-animate-item", "");
     const destination = item.url || "news.html";
     article.setAttribute("role", "link");
@@ -93,6 +93,7 @@
 
     if (item.summary) {
       const summary = document.createElement("p");
+      summary.className = "card-summary";
       summary.textContent = item.summary;
       body.appendChild(summary);
     }

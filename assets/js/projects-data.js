@@ -8,6 +8,7 @@ window.siteProjects = [
     "date": "2026-04-09",
     "displayDate": "Apr 9, 2026",
     "summary": "Dashboard tracking churn drivers, revenue impact, and risk segments across subscribers.",
+    "impact": "Surfaces the highest-risk subscriber segments before revenue erosion compounds.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Bangladesh Telecom Churn Revenue Risk Dashboard preview",
     "file": "Excel_Projects/Bangladesh%20Telecom%20Churn%20Revenue%20Risk%20Dashboard.xlsx"
@@ -19,6 +20,7 @@ window.siteProjects = [
     "date": "2026-04-08",
     "displayDate": "Apr 8, 2026",
     "summary": "Dashboard tracking default rates, exposure, and delinquency segments for loan portfolios.",
+    "impact": "Highlights exposure clusters that need earlier intervention and tighter monitoring.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Bank Loan Default Risk Dashboard preview",
     "file": "Excel_Projects/Bank%20Loan%20Default%20Risk%20Dashboard.xlsx"
@@ -30,6 +32,7 @@ window.siteProjects = [
     "date": "2026-04-07",
     "displayDate": "Apr 7, 2026",
     "summary": "Excel tool to score institutional credit risk with automated rating output.",
+    "impact": "Cuts manual scoring friction by turning credit inputs into instant rating output.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "ICRRS Rating Excel dashboard preview",
     "file": "Excel_Projects/ICRRS%20RATING.xlsx"
@@ -41,6 +44,7 @@ window.siteProjects = [
     "date": "2026-04-06",
     "displayDate": "Apr 6, 2026",
     "summary": "Track daily expenses with categories and monthly summary.",
+    "impact": "Makes spending leaks visible fast enough to correct them within the same month.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Excel Expense Tracker preview",
     "file": "Excel_Projects/expense-tracker.xlsx"
@@ -52,6 +56,7 @@ window.siteProjects = [
     "date": "2026-04-05",
     "displayDate": "Apr 5, 2026",
     "summary": "Plan income vs. expenses and track variance.",
+    "impact": "Gives a clean month-end variance check instead of waiting for surprises.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Monthly Budget Planner preview",
     "file": "Excel_Projects/monthly-budget-planner.xlsx"
@@ -63,6 +68,7 @@ window.siteProjects = [
     "date": "2026-04-04",
     "displayDate": "Apr 4, 2026",
     "summary": "Simple invoice with itemized lines and totals.",
+    "impact": "Reduces manual cleanup by packaging totals, line items, and formatting in one sheet.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Invoice Template preview",
     "file": "Excel_Projects/invoice-template.xlsx"
@@ -74,6 +80,7 @@ window.siteProjects = [
     "date": "2026-04-03",
     "displayDate": "Apr 3, 2026",
     "summary": "Milestones with start and end dates plus status tracking.",
+    "impact": "Turns schedule drift into something visible before deadlines are already missed.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Project Gantt Sheet preview",
     "file": "Excel_Projects/project-gantt.xlsx"
@@ -85,6 +92,7 @@ window.siteProjects = [
     "date": "2026-04-02",
     "displayDate": "Apr 2, 2026",
     "summary": "Calculate weighted averages across assignments.",
+    "impact": "Shows grade scenarios instantly so effort can shift where it matters most.",
     "image": "assets/img/Projects/Excel.png",
     "imageAlt": "Grade Calculator preview",
     "file": "Excel_Projects/grade-calculator.xlsx"

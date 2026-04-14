@@ -40,7 +40,7 @@
 
   function createCard(item) {
     var article = document.createElement("article");
-    article.className = "card";
+    article.className = item.category === "tools" ? "card home-project-card" : "card";
     article.setAttribute("data-tags", item.category || "");
     article.setAttribute("data-animate-item", "");
 
@@ -73,6 +73,14 @@
       body.appendChild(summary);
     }
 
+    var impactText = buildImpactText(item);
+    if (item.category === "tools" && impactText) {
+      var impact = document.createElement("p");
+      impact.className = "card-impact";
+      impact.textContent = impactText;
+      body.appendChild(impact);
+    }
+
     var link = document.createElement("a");
     link.className = "btn btn-primary btn-small";
     link.href = buildHref(item);
@@ -84,6 +92,14 @@
 
     article.appendChild(body);
     return article;
+  }
+
+  function buildImpactText(item) {
+    if (!item) return "";
+    if (item.category !== "tools") return "";
+    if (item.impact) return item.impact;
+    if (item.summary) return item.summary;
+    return "";
   }
 
   function buildHref(item) {

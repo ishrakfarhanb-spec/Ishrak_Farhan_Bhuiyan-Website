@@ -787,6 +787,144 @@
     button.dataset.bound = 'true';
   }
 
+  function initHeroSignature() {
+    var hero = document.querySelector('.hero');
+    if (!hero) return;
+    var typeTargets = hero.querySelectorAll('[data-typewriter-text]');
+    if (!typeTargets.length) return;
+    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var typingTimers = [];
+
+    function clearTypingTimers() {
+      while (typingTimers.length) {
+        window.clearTimeout(typingTimers.pop());
+      }
+    }
+
+    function setFullText() {
+      Array.prototype.forEach.call(typeTargets, function (target) {
+        var line = target.closest('.hero-title-line--typed');
+        target.textContent = '';
+        appendCharacters(target, target.getAttribute('data-typewriter-text') || '');
+        if (line) {
+          line.classList.remove('is-typing');
+          line.classList.add('is-typed');
+        }
+      });
+    }
+
+    function resetTypedText() {
+      Array.prototype.forEach.call(typeTargets, function (target) {
+        var line = target.closest('.hero-title-line--typed');
+        clearTarget(target);
+        target.textContent = '';
+        if (line) {
+          line.classList.remove('is-typing');
+          line.classList.remove('is-typed');
+        }
+      });
+    }
+
+    function clearTarget(target) {
+      if (!target) return;
+      while (target.firstChild) {
+        target.removeChild(target.firstChild);
+      }
+    }
+
+    function appendCharacters(target, text) {
+      var fragment = document.createDocumentFragment();
+      String(text || '').split('').forEach(function (char) {
+        var span = document.createElement('span');
+        span.className = 'hero-title-char';
+        span.textContent = char;
+        if (prefersReducedMotion) {
+          span.style.animation = 'none';
+          span.style.opacity = '1';
+          span.style.transform = 'none';
+          span.style.filter = 'none';
+        }
+        fragment.appendChild(span);
+      });
+      target.appendChild(fragment);
+    }
+
+    function appendCharacter(target, char) {
+      var span = document.createElement('span');
+      span.className = 'hero-title-char';
+      span.textContent = char;
+      target.appendChild(span);
+    }
+
+    function typeLine(index) {
+      if (index >= typeTargets.length) return;
+
+      var target = typeTargets[index];
+      var line = target.closest('.hero-title-line--typed');
+      var text = target.getAttribute('data-typewriter-text') || '';
+      var charIndex = 0;
+
+      if (line) {
+        line.classList.add('is-typing');
+        line.classList.remove('is-typed');
+      }
+
+      function tick() {
+        appendCharacter(target, text.charAt(charIndex));
+        charIndex += 1;
+
+        if (charIndex < text.length) {
+          typingTimers.push(window.setTimeout(tick, charIndex === 1 ? 155 : 108));
+          return;
+        }
+
+        if (line) {
+          line.classList.remove('is-typing');
+          line.classList.add('is-typed');
+        }
+        typingTimers.push(window.setTimeout(function () {
+          typeLine(index + 1);
+        }, index === 0 ? 360 : 160));
+      }
+
+      typingTimers.push(window.setTimeout(tick, index === 0 ? 140 : 110));
+    }
+
+    function activateSignature() {
+      if (hero.dataset.signatureStarted === 'true') return;
+      hero.dataset.signatureStarted = 'true';
+      window.requestAnimationFrame(function () {
+        hero.classList.add('is-signature-ready');
+        if (prefersReducedMotion) {
+          setFullText();
+          return;
+        }
+        clearTypingTimers();
+        resetTypedText();
+        typeLine(0);
+      });
+    }
+
+    var loader = document.querySelector('.site-loader');
+    if (!loader || loader.classList.contains('is-leaving')) {
+      activateSignature();
+      return;
+    }
+
+    if (hero.dataset.signatureBound === 'true') return;
+    hero.dataset.signatureBound = 'true';
+
+    var release = function () {
+      activateSignature();
+      window.removeEventListener('site-loader:leaving', release);
+      window.removeEventListener('site-loader:done', release);
+    };
+
+    window.addEventListener('site-loader:leaving', release, { once: true });
+    window.addEventListener('site-loader:done', release, { once: true });
+    window.setTimeout(release, 3600);
+  }
+
   function initUI() {
     const root = document.documentElement;
     const saved = safeStorageGet(localStorage, 'theme');
@@ -819,6 +957,7 @@
       window.addEventListener('load', scheduleLogoMarquee);
     }
     syncLogoMarquee();
+    initHeroSignature();
 
     // Theme toggle handled by assets/js/theme.js to match Blogs site
     const btn = document.querySelector('.nav-toggle');
