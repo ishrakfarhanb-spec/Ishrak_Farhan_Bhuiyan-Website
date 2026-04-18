@@ -1202,8 +1202,9 @@
 
 :root[data-theme="dark"] .hero .cta-row .btn.btn-ghost:hover,
 :root[data-theme="dark"] .hero .cta-row .btn.btn-ghost:focus-visible {
-  background: rgba(255, 255, 255, .12);
-  color: #111;
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
 }
 
 :root[data-theme="dark"] .section-chapter,
