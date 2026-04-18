@@ -789,6 +789,19 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
   outline-offset: 4px;
 }
 
+.theme-toggle.theme-toggle-floating {
+  width: 78px;
+  height: 36px;
+  padding: 0 10px;
+}
+
+.theme-toggle.theme-toggle-floating::after {
+  top: 3px;
+  left: 3px;
+  width: 28px;
+  height: 28px;
+}
+
 .theme-toggle__icon {
   position: absolute;
   right: 18px;
@@ -802,6 +815,12 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
   background-size: contain;
   pointer-events: none;
   transition: opacity .35s ease;
+}
+
+.theme-toggle.theme-toggle-floating .theme-toggle__icon {
+  right: 13px;
+  width: 16px;
+  height: 16px;
 }
 
 .theme-toggle__icon--sun {
@@ -823,6 +842,10 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
   --toggle-shift: 52px;
 }
 
+:root[data-theme="dark"] .theme-toggle.theme-toggle-floating {
+  --toggle-shift: 42px;
+}
+
 :root[data-theme="dark"] .theme-toggle__icon--sun {
   opacity: 0;
 }
@@ -830,6 +853,10 @@ h3 { font-size: clamp(1.125rem, 2.5vw, 1.25rem); }
 :root[data-theme="dark"] .theme-toggle__icon {
   right: auto;
   left: 18px;
+}
+
+:root[data-theme="dark"] .theme-toggle.theme-toggle-floating .theme-toggle__icon {
+  left: 13px;
 }
 
 :root[data-theme="dark"] .theme-toggle__icon--moon {

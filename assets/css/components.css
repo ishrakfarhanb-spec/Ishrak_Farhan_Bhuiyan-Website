@@ -448,15 +448,9 @@ body.page-enter.is-transitioning .page-transition {
 /* Floating theme toggle (matches slider control) */
 .theme-toggle-floating {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
+  right: max(12px, env(safe-area-inset-right, 0px) + 12px);
+  bottom: max(12px, env(safe-area-inset-bottom, 0px) + 12px);
   z-index: 1000;
-}
-
-@media (max-width: 600px) {
-  .theme-toggle-floating {
-    bottom: 72px;
-  }
 }
 
 /* Follow CTA */
