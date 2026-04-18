@@ -764,6 +764,18 @@
           setState(false);
         });
       }
+      return result;
+    }
+
+    function attemptAutoplay() {
+      if (audio.dataset.autoplayAttempted === 'true') return;
+      audio.dataset.autoplayAttempted = 'true';
+      var result = playAudio();
+      if (result && typeof result.catch === 'function') {
+        result.catch(function () {
+          setState(false);
+        });
+      }
     }
 
     button.addEventListener('click', function () {
@@ -784,111 +796,25 @@
     setState(!audio.paused);
     updateProgress();
     bindProgressDrag();
+    if (audio.autoplay) {
+      if (document.readyState === 'complete') {
+        window.setTimeout(attemptAutoplay, 0);
+      } else {
+        window.addEventListener('load', attemptAutoplay, { once: true });
+      }
+    }
     button.dataset.bound = 'true';
   }
 
   function initHeroSignature() {
     var hero = document.querySelector('.hero');
     if (!hero) return;
-    var typeTargets = hero.querySelectorAll('[data-typewriter-text]');
-    if (!typeTargets.length) return;
-    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var typingTimers = [];
-    var typingFrame = null;
-
-    function clearTypingTimers() {
-      while (typingTimers.length) {
-        window.clearTimeout(typingTimers.pop());
-      }
-      if (typingFrame !== null) {
-        window.cancelAnimationFrame(typingFrame);
-        typingFrame = null;
-      }
-    }
-
-    function setFullText() {
-      Array.prototype.forEach.call(typeTargets, function (target) {
-        var line = target.closest('.hero-title-line--typed');
-        target.textContent = target.getAttribute('data-typewriter-text') || '';
-        if (line) {
-          line.classList.remove('is-typing');
-          line.classList.add('is-typed');
-        }
-      });
-    }
-
-    function resetTypedText() {
-      Array.prototype.forEach.call(typeTargets, function (target) {
-        var line = target.closest('.hero-title-line--typed');
-        target.textContent = '';
-        if (line) {
-          line.classList.remove('is-typing');
-          line.classList.remove('is-typed');
-        }
-      });
-    }
-
-    function typeLine(index) {
-      if (index >= typeTargets.length) return;
-
-      var target = typeTargets[index];
-      var line = target.closest('.hero-title-line--typed');
-      var text = target.getAttribute('data-typewriter-text') || '';
-      var lastCount = 0;
-      var startTime = null;
-      var charDelay = index === 0 ? 92 : 84;
-      var linePause = index === 0 ? 320 : 160;
-
-      if (line) {
-        line.classList.add('is-typing');
-        line.classList.remove('is-typed');
-      }
-
-      function step(timestamp) {
-        if (startTime === null) startTime = timestamp;
-        var elapsed = timestamp - startTime;
-        var nextCount = Math.min(text.length, Math.floor(elapsed / charDelay) + 1);
-
-        if (nextCount !== lastCount) {
-          target.textContent = text.slice(0, nextCount);
-          lastCount = nextCount;
-        }
-
-        if (lastCount < text.length) {
-          typingFrame = window.requestAnimationFrame(step);
-          return;
-        }
-        typingFrame = null;
-
-        if (line) {
-          line.classList.remove('is-typing');
-          line.classList.add('is-typed');
-        }
-        typingTimers.push(window.setTimeout(function () {
-          typeLine(index + 1);
-        }, linePause));
-      }
-
-      typingTimers.push(window.setTimeout(function () {
-        target.textContent = '';
-        lastCount = 0;
-        startTime = null;
-        typingFrame = window.requestAnimationFrame(step);
-      }, index === 0 ? 180 : 110));
-    }
 
     function activateSignature() {
       if (hero.dataset.signatureStarted === 'true') return;
       hero.dataset.signatureStarted = 'true';
       window.requestAnimationFrame(function () {
         hero.classList.add('is-signature-ready');
-        if (prefersReducedMotion) {
-          setFullText();
-          return;
-        }
-        clearTypingTimers();
-        resetTypedText();
-        typeLine(0);
       });
     }
 
